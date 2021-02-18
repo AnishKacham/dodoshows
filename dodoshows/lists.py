@@ -28,7 +28,7 @@ def addList():
     return None
 
 
-@users_blueprint.route("/<list_id>", methods=["PUT"])
+@lists_blueprint.route("/<list_id>", methods=["PUT"])
 @jwt_required
 def updateUserList(list_id):
 
@@ -54,7 +54,7 @@ def updateUserList(list_id):
     return None
 
 
-@users_blueprint.route("/<list_id>/<movie_id>", methods=["POST"])
+@lists_blueprint.route("/<list_id>/<movie_id>", methods=["POST"])
 @jwt_required
 def addListEntry(list_id, movie_id):
 
@@ -91,7 +91,7 @@ def addListEntry(list_id, movie_id):
     return None
 
 
-@users_blueprint.route("/<list_id>/<movie_id>", methods=["DELETE"])
+@lists_blueprint.route("/<list_id>/<movie_id>", methods=["DELETE"])
 @jwt_required
 def deleteListEntry(list_id, movie_id):
 
