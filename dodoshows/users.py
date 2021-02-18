@@ -34,16 +34,25 @@ def getUser(user_id):
         [user_id],
     )
     result = cur.fetchone()
-    cur.execute(
-        """SELECT movie.movie_id, movie.movie_title, watch_status, score, review
-            FROM rating
-            INNER JOIN movie ON rating.movie_id = movie.movie_id
-            WHERE user_id = %s""",
-        [user_id],
-    )
-    result["movies"] = cur.fetchall()
     cur.close()
     return jsonify(result)
+
+
+@users_blueprint.route("/<user_id>/lists")
+def getUserLists(user_id):
+    cur = mysql.connection.cursor()
+    cur.execute(
+        """SELECT entry.list_id, user_list.list_name, movie.movie_id, movie.movie_title, rating.watch_status, rating.score
+            FROM entry
+            INNER JOIN user_list ON entry.list_id = user_list.list_id
+            INNER JOIN rating ON user_list.user_id = rating.user_id
+            INNER JOIN movie ON rating.movie_id = movie.movie_id
+            WHERE user_list.user_id = %s""",
+        [user_id],
+    )
+    results = cur.fetchall()
+    cur.close()
+    return jsonify(results)
 
 
 @users_blueprint.route("/<user_id>", methods=["POST"])
