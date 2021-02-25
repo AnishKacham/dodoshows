@@ -3,10 +3,12 @@ from flask import jsonify, request, Blueprint
 from flask_jwt_extended import (
     get_jwt_identity,
     jwt_required,
+    jwt_optional,
     create_access_token,
 )
 from dodoshows import mysql
 from .shows import shows_blueprint
+from .auth import validatePayment
 
 seats_blueprint = Blueprint("seats", __name__, url_prefix="/seats")
 
@@ -37,7 +39,7 @@ def getTheatreSeats(theatre_id):
     return jsonify(results)
 
 
-@shows_blueprint("/<show_id>/seats")
+@shows_blueprint.route("/<show_id>/seats")
 def getShowSeats(show_id):
     cur = mysql.connection.cursor()
     cur.execute(
@@ -51,7 +53,7 @@ def getShowSeats(show_id):
     return jsonify(results)
 
 
-@shows_blueprint("/<show_id>/book")
+@shows_blueprint.route("/<show_id>/book")
 @jwt_optional
 def bookTickets(show_id):
     # Receive payment details and cross-verify and only if transaction was successful, proceed to book the tickets
@@ -91,7 +93,7 @@ def bookTickets(show_id):
                     VALUES (%s, %s)""",
                 [ticket_code, seat],
             )
-        
+
         cur.execute(
             """SELECT theatre.*, show.movie_id, movie.movie_title
                 FROM show

@@ -78,6 +78,7 @@ def addShow():
             VALUES (DEFAULT, %s, %s, %s, %s)""",
         [movie_id, theatre_id, date_time, ticket_price],
     )
+    show_id = cur.lastrowid
     cur.execute(
         """SELECT seat_code
             FROM seat
