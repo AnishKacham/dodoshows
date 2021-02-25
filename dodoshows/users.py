@@ -2,6 +2,7 @@ from flask import jsonify, request, Blueprint
 from flask_jwt_extended import (
     get_jwt_identity,
     jwt_required,
+    jwt_optional,
     create_access_token,
 )
 from dodoshows import mysql
@@ -39,17 +40,31 @@ def getUser(user_id):
 
 
 @users_blueprint.route("/<user_id>/lists")
+@jwt_optional
 def getUserLists(user_id):
     cur = mysql.connection.cursor()
-    cur.execute(
-        """SELECT entry.list_id, user_list.list_name, movie.movie_id, movie.movie_title, rating.watch_status, rating.score
-            FROM entry
-            INNER JOIN user_list ON entry.list_id = user_list.list_id
-            INNER JOIN rating ON user_list.user_id = rating.user_id
-            INNER JOIN movie ON rating.movie_id = movie.movie_id
-            WHERE user_list.user_id = %s""",
-        [user_id],
-    )
+    if user_id == get_jwt_identity():
+        cur.execute(
+            """SELECT entry.list_id, user_list.list_name, user_list.is_private, movie.movie_id, movie.movie_title, rating.watch_status, rating.score, rating.review
+                FROM entry
+                INNER JOIN user_list ON entry.list_id = user_list.list_id
+                INNER JOIN movie ON entry.movie_id = movie.movie_id
+                INNER JOIN rating ON user_list.user_id = rating.user_id
+                                    AND entry.movie_id = rating.movie_id
+                WHERE user_list.user_id = %s""",
+            [user_id],
+        )
+    else:
+        cur.execute(
+            """SELECT entry.list_id, user_list.list_name, user_list.is_private, movie.movie_id, movie.movie_title, rating.watch_status, rating.score, rating.review
+                FROM entry
+                INNER JOIN user_list ON entry.list_id = user_list.list_id
+                INNER JOIN movie ON entry.movie_id = movie.movie_id
+                INNER JOIN rating ON user_list.user_id = rating.user_id
+                                    AND entry.movie_id = rating.movie_id
+                WHERE user_list.user_id = %s AND user_list.is_private = 0""",
+            [user_id],
+        )
     results = cur.fetchall()
     cur.close()
     return jsonify(results)

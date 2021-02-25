@@ -13,6 +13,7 @@ from dodoshows.users import users_blueprint
 from dodoshows.lists import lists_blueprint
 from dodoshows.auth import auth_blueprint
 from dodoshows.shows import shows_blueprint
+from dodoshows.seats import seats_blueprint
 
 
 def create_app():
@@ -36,6 +37,7 @@ def create_app():
     app.register_blueprint(lists_blueprint)
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(shows_blueprint)
+    app.register_blueprint(seats_blueprint)
 
     return app
 

@@ -16,12 +16,13 @@ def addList():
     user_id = get_jwt_identity()
     if user_id:
         list_name = request.json["list_name"]
+        is_private = request.json["is_private"]
 
         cur = mysql.connection.cursor()
         cur.execute(
-            """INSERT INTO userlist
-                VALUES (DEFAULT, %s, %s)""",
-            [user_id, list_name],
+            """INSERT INTO user_list
+                VALUES (DEFAULT, %s, %s, %s)""",
+            [user_id, list_name, is_private],
         )
         mysql.connection.commit()
         cur.close()
@@ -43,11 +44,12 @@ def updateUserList(list_id):
         )
         if cur.fetchone()["user_id"] == user_id:
             list_name = request.json["list_name"]
+            is_private = request.json["is_private"]
             cur.execute(
                 """UPDATE user_list
-                    SET list_name = %s
+                    SET list_name = %s AND is_private = %s
                     WHERE list_id = %s""",
-                [list_name, list_id],
+                [list_name, is_private, list_id],
             )
             mysql.connection.commit()
         cur.close()

@@ -78,6 +78,19 @@ def addShow():
             VALUES (DEFAULT, %s, %s, %s, %s)""",
         [movie_id, theatre_id, date_time, ticket_price],
     )
+    cur.execute(
+        """SELECT seat_code
+            FROM seat
+            WHERE theatre_id = %s
+        """
+    )
+    seats = cur.fetchall()
+    for seat in seats:
+        cur.execute(
+            """INSERT INTO show_seat
+            VALUES (%s, %s, 0)""",
+            [show_id, seat["seat_code"]],
+        )
     mysql.connection.commit()
     cur.close()
     return None
@@ -97,15 +110,14 @@ def updateMovie(show_id):
         return {"error": "not authorized"}
 
     movie_id = request.json["movie_id"]
-    theatre_id = request.json["theatre_id"]
     date_time = request.json["date_time"]
     ticket_price = request.json["ticket_price"]
 
     cur.execute(
         """UPDATE show
-            SET movie_id = %s, theatre_id = %s, date_time = %s, ticket_price = %s
+            SET movie_id = %s, date_time = %s, ticket_price = %s
             WHERE show_id = %s""",
-        [movie_id, theatre_id, date_time, ticket_price, show_id],
+        [movie_id, date_time, ticket_price, show_id],
     )
     mysql.connection.commit()
     cur.close()
