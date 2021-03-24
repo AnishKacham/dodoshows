@@ -55,7 +55,7 @@ def getShowSeats(show_id):
 
 @shows_blueprint.route("/<show_id>/book")
 @jwt_optional
-def bookTickets(show_id):
+def bookTicket(show_id):
     # Receive payment details and cross-verify and only if transaction was successful, proceed to book the tickets
     if validatePayment(request.json["paymentDeets"]):
         user_id = get_jwt_identity()

@@ -4,7 +4,7 @@ from dodoshows import mysql
 search_blueprint = Blueprint("search", __name__, url_prefix="/search")
 
 
-@search_blueprint.route("/movies")
+@search_blueprint.route("/movies", methods=["POST"])
 def searchMovies():
     title = request.json["title"]
     genres = request.json["genres"]
@@ -59,7 +59,7 @@ def searchMovies():
     return jsonify(results)
 
 
-@search_blueprint.route("/people")
+@search_blueprint.route("/people", methods=["POST"])
 def searchPeople():
     person = "%" + request.json["person"] + "%"
     cur = mysql.connection.cursor()
@@ -75,7 +75,7 @@ def searchPeople():
     return jsonify(results)
 
 
-@search_blueprint.route("/cities")
+@search_blueprint.route("/cities", methods=["POST"])
 def searchCities():
     city = "%" + request.json["city"] + "%"
     cur = mysql.connection.cursor()
@@ -91,7 +91,7 @@ def searchCities():
     return jsonify(results)
 
 
-@search_blueprint.route("/users")
+@search_blueprint.route("/users", methods=["POST"])
 def searchUsers():
     user = "%" + request.json["user"] + "%"
     cur = mysql.connection.cursor()
