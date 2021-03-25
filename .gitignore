@@ -1,2 +1,3 @@
 .env
 *.pyc
+HomePage/node_modules/**
