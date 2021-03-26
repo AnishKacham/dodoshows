@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS, cross_origin
 from dotenv import load_dotenv, find_dotenv
 import os
 
 mysql = MySQL()
 jwt = JWTManager()
+cors = CORS()
 
 from dodoshows.search import search_blueprint
 from dodoshows.movies import movies_blueprint
@@ -27,9 +29,11 @@ def create_app():
     app.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
     app.config["MYSQL_CURSORCLASS"] = "DictCursor"
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_KEY")
+    app.config["CORS_HEADERS"] = "Content-Type"
 
     mysql.init_app(app)
     jwt.init_app(app)
+    cors.init_app(app)
 
     app.register_blueprint(search_blueprint)
     app.register_blueprint(movies_blueprint)
