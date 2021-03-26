@@ -3,42 +3,31 @@ import "../styles/HomePage.css";
 import styled from "styled-components";
 import React, { Component } from "react";
 import Movies from "../components/movies";
+import SideBar from "../components/sideBar";
+import TopBar from "../components/topBar";
+import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 
 var people = ["127"];
 
 class HomePage extends Component {
-
   render() {
-    return <Movies/>
+    return (
+      <>
+        <Container fluid>
+          <TopBar />
+          <br></br>
+          <Row>
+            <Col xs={2} id="sidebar-wrapper">
+              <SideBar />
+            </Col>
+            <Col xs={10} id="page-content-wrapper">
+              <Movies />
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
   }
-  
-  // state = {
-  //   movies: []
-  // }
-
-  // constructor() {
-  //   super();
-  //   this.fetchMovies();
-  // }
-
-  // fetchMovies() {
-  //   fetch("http://localhost:5000/movies/", {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-type": "application/json; charset=UTF-8",
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       this.state.movies = json;
-  //       console.log(this.state.movies);
-  //     });
-  // }
-
-  // arrangeMovies() {
-    
-  // }
-
   // ShowUserMenu() {
   //   document.getElementById("UserOptions").classList.toggle("show");
   // }
