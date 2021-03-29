@@ -10,14 +10,14 @@ class MovieDetailed extends Component {
     movie_length: this.props.movie.movie_length,
     pg_rating: this.props.movie.pg_rating,
     avg_rating: this.props.movie.avg_rating,
-    genres: this.props.movie.genres,
-    people: this.props.movie.people
+    genres: this.props.genres,
+    people: this.props.people
   };
 
   render() {
     return (
       <div>
-          {this.state.title}
+          {this.state.people.map(person => <div>{person.person_name}</div>)}
       </div>
     );
   }

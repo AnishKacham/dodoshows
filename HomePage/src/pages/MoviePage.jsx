@@ -7,12 +7,15 @@ import MovieDetailed from "../components/movieDetailed";
 class MoviePage extends Component {
   state = {
       movie: [],
+      people: [],
+      genres: []
     };
 
   constructor() {
     super();
-    this.fetchMovie(3);
+    this.fetchMovie(1);
   }
+
   render() {
     return (
       <>
@@ -24,7 +27,7 @@ class MoviePage extends Component {
               <SideBar />
             </Col>
             <Col xs={10} id="page-content-wrapper">
-              {this.state.movie.movie_id}
+                <MovieDetailed movie={this.state.movie} people={this.state.people} genres={this.state.genres}/>
             </Col>
           </Row>
         </Container>
@@ -39,10 +42,11 @@ class MoviePage extends Component {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-      .then((response) => response.json())
+      .then(response => response.json())
       .then((json) => {
-        this.setState({ movie: json });
-        console.log(this.state.movie);
+        this.setState({movie:json});
+        this.setState({people:json.people});
+        this.setState({genres: json.genres});
       });
   }
 }
