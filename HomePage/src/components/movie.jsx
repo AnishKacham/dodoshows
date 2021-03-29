@@ -12,6 +12,8 @@ class Movie extends Component {
     movie_length: this.props.movie.movie_length,
     pg_rating: this.props.movie.pg_rating,
     avg_rating: this.props.movie.avg_rating,
+    genres: this.props.movie.genres,
+    people: this.props.movie.people
   };
 
   render() {
@@ -20,8 +22,8 @@ class Movie extends Component {
         <Card border="secondary" style={{ width: '18rem', height: '25rem' }}>
         <Card.Img variant="top" src="holder.js/100px180" />
         <Card.Body>
-          <Card.Title>{this.props.movie.movie_title}</Card.Title>
-          <Card.Text>{this.props.movie.release_date}</Card.Text>
+          <Card.Title>{this.state.title}</Card.Title>
+          <Card.Text>{this.state.release_date}</Card.Text>
         </Card.Body>
       </Card>
     );

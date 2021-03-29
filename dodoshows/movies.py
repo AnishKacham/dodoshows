@@ -27,7 +27,6 @@ def getMovie(movie_id):
         [movie_id],
     )
     result = cur.fetchone()
-    print(result)
     cur.execute(
         """SELECT genre_name
             FROM genre
@@ -35,7 +34,6 @@ def getMovie(movie_id):
         [movie_id],
     )
     result["genres"] = cur.fetchall()
-    print(result)
     cur.execute(
         """SELECT person.person_name, importance, cast_or_crew, person_role
             FROM production

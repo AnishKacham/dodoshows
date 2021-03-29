@@ -8,6 +8,7 @@ class Movies extends Component {
 
   constructor() {
     super();
+    console.log("called");
     this.fetchMovies();
   }
 
