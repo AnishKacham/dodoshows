@@ -6,14 +6,11 @@ import MovieDetailed from "../components/movieDetailed";
 
 class MoviePage extends Component {
   state = {
-      movie: [],
-      people: [],
-      genres: []
+      movie_id: this.props.movie_id,
     };
 
-  constructor() {
-    super();
-    this.fetchMovie(1);
+  constructor(props) {
+    super(props);
   }
 
   render() {
@@ -27,27 +24,12 @@ class MoviePage extends Component {
               <SideBar />
             </Col>
             <Col xs={10} id="page-content-wrapper">
-                <MovieDetailed movie={this.state.movie} people={this.state.people} genres={this.state.genres}/>
+                <MovieDetailed movie_id={this.state.movie_id}/>
             </Col>
           </Row>
         </Container>
       </>
     );
-  }
-
-  fetchMovie(movie_id) {
-    fetch(`http://localhost:5000/movies/${movie_id}`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then(response => response.json())
-      .then((json) => {
-        this.setState({movie:json});
-        this.setState({people:json.people});
-        this.setState({genres: json.genres});
-      });
   }
 }
 

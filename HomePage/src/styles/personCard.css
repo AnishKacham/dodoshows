@@ -1,0 +1,28 @@
+.card {
+  border: none;
+  text-align: center;
+}
+
+.card-header {
+  background-color: white;
+  border-bottom: none;
+}
+
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  border-radius: 100px;
+}
+
+.card-body {
+  padding: 5px;
+}
+
+.card-text {
+  font-size: 15px;
+}
+
+.card-title {
+  font-size: 15px;
+  margin-bottom: none;
+}

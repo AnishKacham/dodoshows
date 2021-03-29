@@ -35,7 +35,7 @@ def getMovie(movie_id):
     )
     result["genres"] = cur.fetchall()
     cur.execute(
-        """SELECT person.person_name, importance, cast_or_crew, person_role
+        """SELECT person.person_id, person.person_name, importance, cast_or_crew, person_role
             FROM production
             INNER JOIN person ON production.person_id=person.person_id
             WHERE movie_id = %s""",

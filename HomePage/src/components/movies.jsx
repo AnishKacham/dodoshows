@@ -16,8 +16,8 @@ class Movies extends Component {
     return (
       <div className="d-flex align-content-stretch flex-wrap bd-highlight example-parent">
         {this.state.movies.map((movie) => (
-          <div className="p-2 bd-highlight col-example">
-            <Movie key={movie.movie_id} movie={movie} />
+          <div key={movie.movie_id} className="p-2 bd-highlight col-example">
+            <Movie movie={movie} />
           </div>
         ))}
       </div>

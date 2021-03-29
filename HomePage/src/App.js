@@ -16,9 +16,10 @@ function App() {
           <Route exact path="/">
             <HomePage />
           </Route>
-          <Route path="/movies">
-            <MoviePage movie_id={3} />
-          </Route>
+          <Route
+            path="/movies/:id"
+            render={({ match }) => <MoviePage movie_id={match.params.id} />}
+          />
         </Switch>
       </div>
     </Router>
