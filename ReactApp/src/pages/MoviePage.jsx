@@ -3,10 +3,11 @@ import SideBar from "../components/sideBar";
 import TopBar from "../components/topBar";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import MovieDetailed from "../components/movieDetailed";
+import { withRouter } from "react-router";
 
 class MoviePage extends Component {
   state = {
-      movie_id: this.props.movie_id,
+      movie_id: this.props.match.params.id,
     };
 
   constructor(props) {
@@ -23,7 +24,7 @@ class MoviePage extends Component {
             <Col xs={2} id="sidebar-wrapper">
               <SideBar />
             </Col>
-            <Col xs={10} id="page-content-wrapper">
+            <Col xs={10}>
                 <MovieDetailed movie_id={this.state.movie_id}/>
             </Col>
           </Row>
@@ -33,4 +34,4 @@ class MoviePage extends Component {
   }
 }
 
-export default MoviePage;
+export default withRouter(MoviePage);

@@ -16,7 +16,7 @@ def searchMovies():
         statement += " WHERE"
 
     if title:
-        statement += " movie_title LIKE %" + title + "%"
+        statement += " movie_title LIKE '%" + title + "%'"
         first = False
 
     if genres:

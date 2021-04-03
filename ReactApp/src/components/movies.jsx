@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
 import Movie from "./movie";
 
 class Movies extends Component {
@@ -8,7 +9,6 @@ class Movies extends Component {
 
   constructor() {
     super();
-    console.log("called");
     this.fetchMovies();
   }
 
@@ -16,8 +16,8 @@ class Movies extends Component {
     return (
       <div className="d-flex align-content-stretch flex-wrap bd-highlight example-parent">
         {this.state.movies.map((movie) => (
-          <div key={movie.movie_id} className="p-2 bd-highlight col-example">
-            <Movie movie={movie} />
+          <div key={movie.movie_id} className="p-2 bd-highlight col-example home-page-movie">
+            <Movie movie={movie}/>
           </div>
         ))}
       </div>
@@ -39,4 +39,4 @@ class Movies extends Component {
   }
 }
 
-export default Movies;
+export default withRouter(Movies);

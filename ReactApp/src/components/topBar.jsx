@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
 import {
   Navbar,
   NavDropdown,
@@ -7,22 +8,24 @@ import {
   Form,
   FormControl,
 } from "react-bootstrap";
+import SearchBar from "./searchBar";
 
 class TopBar extends Component {
   state = {
-      movie_title: "",
-      people: [],
-      genres: []
+    movie_title: "",
+    people: [],
+    genres: [],
   };
   render() {
     return (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href="#home">Dodo Shows</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
+            <SearchBar/>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -35,25 +38,11 @@ class TopBar extends Component {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Form inline onSubmit={this.submitHandler}>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={this.changeHandler}/>
-            <Button variant="outline-success" type="submit">
-              Search
-            </Button>
-          </Form>
+          
         </Navbar.Collapse>
       </Navbar>
     );
   }
-
-  changeHandler = (event) => {
-    this.setState({movie_title: event.target.value});
-  }
-
-  submitHandler = (event) => {
-    event.preventDefault();
-    alert(this.state.movie_title);
-  }
 }
 
-export default TopBar;
+export default withRouter(TopBar);

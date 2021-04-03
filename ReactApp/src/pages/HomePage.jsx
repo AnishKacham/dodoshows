@@ -1,15 +1,18 @@
 import search from "../images/search.svg";
 import "../styles/HomePage.css";
-import styled from "styled-components";
 import React, { Component } from "react";
 import Movies from "../components/movies";
 import SideBar from "../components/sideBar";
 import TopBar from "../components/topBar";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-
-var people = ["127"];
+import { withRouter } from "react-router";
 
 class HomePage extends Component {
+
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
   render() {
     return (
       <>
@@ -21,7 +24,9 @@ class HomePage extends Component {
               <SideBar />
             </Col>
             <Col xs={10} id="page-content-wrapper">
-              <Movies />
+              <Container>
+                <Movies/>
+              </Container>
             </Col>
           </Row>
         </Container>
@@ -114,4 +119,4 @@ class HomePage extends Component {
   //   );
   // }
 }
-export default HomePage;
+export default withRouter(HomePage);

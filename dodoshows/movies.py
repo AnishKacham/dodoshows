@@ -28,7 +28,7 @@ def getMovie(movie_id):
     )
     result = cur.fetchone()
     cur.execute(
-        """SELECT genre_name
+        """SELECT genre_id, genre_name
             FROM genre
             WHERE genre_id IN (SELECT genre_id FROM movie_genre WHERE movie_id = %s)""",
         [movie_id],
@@ -38,7 +38,8 @@ def getMovie(movie_id):
         """SELECT person.person_id, person.person_name, importance, cast_or_crew, person_role
             FROM production
             INNER JOIN person ON production.person_id=person.person_id
-            WHERE movie_id = %s""",
+            WHERE movie_id = %s
+            ORDER BY importance""",
         [movie_id],
     )
     result["people"] = cur.fetchall()

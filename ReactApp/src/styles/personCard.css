@@ -3,26 +3,26 @@
   text-align: center;
 }
 
-.card-header {
+.person .card-header {
   background-color: white;
   border-bottom: none;
 }
 
-.card-img,
-.card-img-top,
-.card-img-bottom {
+.person .card-img,
+.person .card-img-top,
+.person .card-img-bottom {
   border-radius: 100px;
 }
 
-.card-body {
+.person .card-body {
   padding: 5px;
 }
 
-.card-text {
+.person .card-text {
   font-size: 15px;
 }
 
-.card-title {
+.person .card-title {
   font-size: 15px;
   margin-bottom: none;
 }
