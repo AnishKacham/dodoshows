@@ -8,11 +8,33 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { withRouter } from "react-router";
 
 class HomePage extends Component {
+  state = {
+    movies: [],
+  };
 
   constructor(props) {
     super(props);
-    console.log(this.props);
+    console.log(props);
+    if (props.location.state) {
+      this.state = { movies: props.location.state.movies };
+      console.log(this.state);
+    } else this.fetchMovies();
   }
+
+  fetchMovies = () => {
+    fetch("http://localhost:5000/movies/", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({ movies: json });
+        console.log(this.state.movies);
+      });
+  };
+
   render() {
     return (
       <>
@@ -25,7 +47,7 @@ class HomePage extends Component {
             </Col>
             <Col xs={10} id="page-content-wrapper">
               <Container>
-                <Movies/>
+                <Movies movies={this.state.movies} />
               </Container>
             </Col>
           </Row>

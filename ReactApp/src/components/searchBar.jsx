@@ -27,20 +27,20 @@ class SearchBar extends Component {
     if (this.state.typingTimeout) {
       clearTimeout(this.state.typingTimeout);
     }
+    this.setState({
+      movie: {
+        title: `${event.target.value}`,
+        genres: this.state.movie.genres,
+        people: this.state.movie.people,
+      },
+    });
     if (event.target.value) {
-      this.setState({
-        movie: {
-          title: `${event.target.value}`,
-          genres: this.state.movie.genres,
-          people: this.state.movie.people,
-        },
-      });
       this.state.typingTimeout = setTimeout(this.timedSearch, 700);
     }
   };
 
   timedSearch = () => {
-    this.searchMovie()
+    this.searchMovie(this.state.movie)
       .then((response) => response.json())
       .then((json) => {
         this.setState({ results: json });
@@ -58,10 +58,10 @@ class SearchBar extends Component {
       });
   };
 
-  searchMovie = () => {
+  searchMovie = (movie) => {
     return fetch("http://localhost:5000/search/movies", {
       method: "POST",
-      body: JSON.stringify(this.state.movie),
+      body: JSON.stringify(movie),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -70,7 +70,14 @@ class SearchBar extends Component {
 
   submitHandler = (event) => {
     event.preventDefault();
-    alert(this.state.movie.movie_title);
+    this.searchMovie(this.state.movie)
+      .then((response) => response.json())
+      .then((json) => {
+        this.props.history.push({
+          pathname: '/',
+          state: {movies: json}
+        });
+      });
   };
 
   render() {
