@@ -20,7 +20,7 @@ def checkLoggedIn():
         logged_in = True
         cur = mysql.connection.cursor()
         cur.execute(
-            "SELECT user_id, username, city_id, city_name FROM user INNER JOIN city ON (user.city_id = city.city_id) WHERE user_id = %s",
+            "SELECT user_id, username, city.city_id, city.city_name FROM user INNER JOIN city ON (user.city_id = city.city_id) WHERE user_id = %s",
             [user_id],
         )
         details = cur.fetchone()
@@ -68,9 +68,10 @@ def doLogin():
     cur = mysql.connection.cursor()
 
     cur.execute("SELECT user_id, password FROM user WHERE username = %s", [username])
+    if not cur.rowcount:
+        return {"error": "No such username exists"}
     result = cur.fetchone()
     cur.close()
-    print(result["password"])
     if result["password"] != password:
         return {"error": "wrong credentials"}
 

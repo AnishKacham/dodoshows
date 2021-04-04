@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
+import LoginPage from "./pages/LoginPage";
 
 const Routing = () => {
 
@@ -28,6 +29,13 @@ const Routing = () => {
             path="/movies/:id"
             render={() => (
               <MoviePage />
+            )}
+          />
+          <Route
+            exact
+            path="/login"
+            render={() => (
+              <LoginPage />
             )}
           />
         </Switch>
