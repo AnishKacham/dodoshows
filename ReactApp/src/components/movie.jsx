@@ -9,7 +9,9 @@ class Movie extends Component {
   state = {
     id: this.props.movie.movie_id,
     title: this.props.movie.movie_title,
+    description: this.props.movie.movie_description,
     release_date: this.props.movie.release_date,
+    movie_length: this.props.movie.movie_length,
     pg_rating: this.props.movie.pg_rating,
     avg_rating: this.props.movie.avg_rating,
     clicked: false,
@@ -56,15 +58,15 @@ class Movie extends Component {
 function parseDate(string) {
   var arr = string.split(" ");
   var number = arr[1];
-  var idkWhatThisIsCalled = "";
+  var order_suffix = "";
   var month = arr[2];
   var year = arr[3];
-  if (number.charAt(1) == "1") idkWhatThisIsCalled = "st";
-  else if (number.charAt(1) == "2") idkWhatThisIsCalled = "nd";
-  else if (number.charAt(1) == "3") idkWhatThisIsCalled = "rd";
-  else idkWhatThisIsCalled = "th";
+  if (number.charAt(1) == "1") order_suffix = "st";
+  else if (number.charAt(1) == "2") order_suffix = "nd";
+  else if (number.charAt(1) == "3") order_suffix = "rd";
+  else order_suffix = "th";
   if (number.charAt(0) == "0") number = number.charAt(1);
-  return number + idkWhatThisIsCalled + " " + month + " " + year;
+  return number + order_suffix + " " + month + " " + year;
 }
 
 function capitalizeFirstLetter(string) {

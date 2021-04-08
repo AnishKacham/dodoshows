@@ -10,6 +10,8 @@ import {
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
 import LoginPage from "./pages/LoginPage";
+import ShowsPage from "./pages/ShowsPage";
+import SeatsPage from "./pages/SeatsPage";
 
 const Routing = () => {
 
@@ -36,6 +38,20 @@ const Routing = () => {
             path="/login"
             render={() => (
               <LoginPage />
+            )}
+          />
+          <Route
+            exact
+            path="/shows/:id/seats"
+            render={() => (
+              <SeatsPage />
+            )}
+          />
+          <Route
+            exact
+            path="/movies/:id/shows"
+            render={() => (
+              <ShowsPage/>
             )}
           />
         </Switch>

@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { NavDropdown } from "react-bootstrap";
 import { withRouter } from "react-router";
 
+
 class TitleSearchResults extends Component {
   constructor(props) {
     super(props);

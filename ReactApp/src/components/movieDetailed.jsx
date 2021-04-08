@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Card, Image, Container, Row, Col } from "react-bootstrap";
+import Button from 'react-bootstrap/Button';
 import ReactStars from "react-stars";
 import "../styles/personCard.css";
+import { withRouter } from "react-router";
+
 
 class MovieDetailed extends Component {
   state = {
@@ -50,6 +53,13 @@ class MovieDetailed extends Component {
             <h1 className="display-4">{this.state.movie.movie_title}</h1>
             {this.state.genres.map((genre) => <div key={genre.genre_id}>{capitalizeFirstLetter(genre.genre_name)}</div>)}
             {this.state.movie.movie_description}
+            <br/><br/><br/><br/>
+
+            <Button variant="danger" size='lg' onClick={() => {
+          this.props.history.push({pathname:`/movies/${this.state.movie.movie_id}/shows`, state:{movie_id:this.state.movie.movie_id}});
+          console.log(this.state.movie.movie_id);
+        }} block>Book</Button>
+
           </Col>
         </Row>
         <div className="d-flex align-content-stretch flex-wrap bd-highlight example-parent person">
@@ -103,4 +113,4 @@ function parseRoles(string) {
   return result;
 }
 
-export default MovieDetailed;
+export default withRouter(MovieDetailed);
