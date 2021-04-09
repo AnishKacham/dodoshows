@@ -1,6 +1,10 @@
 .select{
     background-color: green;
 }
+
+.booked{
+    background-color: red;
+}
 p.seattitle{
   
     font-size: 40px;
@@ -13,3 +17,4 @@ p.screen{
     text-align: center;
     font-size: 30px;
 }
+

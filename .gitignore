@@ -2,3 +2,12 @@
 *.pyc
 ReactApp/node_modules/**
 node_modules
+bin
+include
+lib
+lib64
+pyvenv.cfg
+lib/python3.8/site-packges
+share/python-wheels
+.vscode
+

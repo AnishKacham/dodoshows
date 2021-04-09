@@ -12,6 +12,7 @@ import MoviePage from "./pages/MoviePage";
 import LoginPage from "./pages/LoginPage";
 import ShowsPage from "./pages/ShowsPage";
 import SeatsPage from "./pages/SeatsPage";
+import BookingPage from "./pages/BookingPage";
 
 const Routing = () => {
 
@@ -45,6 +46,13 @@ const Routing = () => {
             path="/shows/:id/seats"
             render={() => (
               <SeatsPage />
+            )}
+          />
+          <Route
+            exact
+            path="/shows/:id/book"
+            render={() => (
+              <BookingPage />
             )}
           />
           <Route
