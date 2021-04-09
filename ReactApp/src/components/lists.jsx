@@ -3,7 +3,8 @@ import { withRouter } from "react-router";
 import UserContext from "../contexts/userContext";
 import List from "./list";
 import { Table, Button, Col, Row, FormControl, Form } from "react-bootstrap";
-import { MDBInput } from "mdbreact";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock, faSort } from "@fortawesome/free-solid-svg-icons";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import AddList, { Dialogue } from "../components/addList";
 
@@ -14,7 +15,6 @@ class Lists extends Component {
     ratings: [],
     lists: this.props.lists,
     selected_all: this.props.selected_all,
-    selected_list: this.props.selected_list,
     showWatched: true,
     showUnwatched: true,
     searchString: "",
@@ -167,17 +167,19 @@ class Lists extends Component {
                   </th>
                   <th>
                     Score
-                    <i
-                      className="fa fa-fw fa-sort"
+                    <FontAwesomeIcon
+                      style={{ marginLeft: "5px" }}
+                      icon={faSort}
                       onClick={() => this.toggleSort(1)}
-                    ></i>
+                    />
                   </th>
                   <th>
                     Watch Status
-                    <i
-                      className="fa fa-fw fa-sort"
+                    <FontAwesomeIcon
+                      style={{ marginLeft: "5px" }}
+                      icon={faSort}
                       onClick={() => this.toggleSort(2)}
-                    ></i>
+                    />
                   </th>
                 </tr>
               </thead>
@@ -188,7 +190,7 @@ class Lists extends Component {
                     ? this.state.entries
                         .filter(
                           (entry) =>
-                            entry.list_id == this.state.selected_list.list_id
+                            entry.list_id == this.props.selected_list.list_id
                         )
                         .filter((entry) => {
                           if (this.state.showWatched && entry.watch_status == 1)
@@ -249,7 +251,7 @@ class Lists extends Component {
             <Button
               style={{ display: this.state.selected_all ? "none" : "block" }}
               onClick={() =>
-                this.props.showEntryDialogue(this.state.selected_list)
+                this.props.showEntryDialogue(this.props.selected_list)
               }
             >
               Add new entry
@@ -266,38 +268,34 @@ class Lists extends Component {
               </Button>
               <br></br>
               <br></br>
-              {this.state.lists.map((list) =>
-                list.list_id == this.state.selected_list.list_id &&
-                !this.state.selected_all ? (
-                  <Button
-                    key={list.list_id}
-                    className="btn-success"
-                    style={{ marginBottom: "3px" }}
-                    onClick={() => {
-                      this.setState({
-                        selected_list: list,
-                        selected_all: false,
-                      });
-                      this.props.changeSelected(list);
-                    }}
-                  >
-                    {list.list_name}
-                  </Button>
-                ) : (
-                  <Button
-                    key={list.list_id}
-                    style={{ marginBottom: "3px" }}
-                    onClick={() => {
-                      this.setState({
-                        selected_list: list,
-                        selected_all: false,
-                      });
-                    }}
-                  >
-                    {list.list_name}
-                  </Button>
-                )
-              )}
+              {this.state.lists.map((list) => (
+                <Button
+                  key={list.list_id}
+                  className={
+                    list.list_id == this.props.selected_list.list_id &&
+                    !this.state.selected_all
+                      ? "btn-success"
+                      : "btn-primary"
+                  }
+                  style={{ marginBottom: "3px" }}
+                  onClick={() => {
+                    this.setState({
+                      selected_all: false,
+                    });
+                    this.props.changeSelected(list);
+                  }}
+                >
+                  {list.is_private ? (
+                    <FontAwesomeIcon
+                      style={{ marginRight: "5px" }}
+                      icon={faLock}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  {list.list_name}
+                </Button>
+              ))}
               <br></br>
               <br></br>
               <AddList onClick={this.props.showListDialogue} />

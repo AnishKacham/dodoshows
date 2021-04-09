@@ -22,7 +22,7 @@ class ListsPage extends Component {
   state = {
     showList: false,
     showEntry: false,
-    lists: [],
+    lists: [{ list_id: 0, list_name: "", is_private: 0 }],
     selected_list: {},
     refreshEntries: true,
     selected_all: true,
@@ -52,14 +52,12 @@ class ListsPage extends Component {
       : this.setState({ refreshEntries: true, selected_all: false });
   };
   reloadLists = () => {
-    this.fetchLists().then(() => {
-      this.setState({ selected_all: false });
-    });
+    this.fetchLists();
   };
 
   componentDidMount = () => {
     this.fetchLists();
-  }
+  };
 
   fetchLists = () => {
     fetch(`http://localhost:5000/users/${this.props.match.params.id}/lists`, {
@@ -83,17 +81,21 @@ class ListsPage extends Component {
           localStorage.setItem("lastLoc", `${this.props.location.pathname}`);
           this.props.history.push("/login");
         } else {
-          if (Object.keys(this.state.selected_list).length === 0) {
+          if (
+            Object.keys(this.state.selected_list).length === 0 &&
+            json.length
+          ) {
             console.log(Object.keys(this.state.selected_list).length);
             console.log("1");
+            console.log(json);
             this.setState({ lists: json, selected_list: json[0] });
           } else {
             console.log(Object.keys(this.state.selected_list).length);
             this.setState({ lists: json });
           }
         }
-      }).then(() => {
-        console.log(this.props.location.state)
+      })
+      .then(() => {
         if (this.props.location.state)
           this.setState({
             selected_list: this.props.location.state.selected_list,
@@ -127,7 +129,7 @@ class ListsPage extends Component {
                   lists={this.state.lists}
                   selected_list={this.state.selected_list}
                   changeSelected={(list) => {
-                    this.setState({ elected_list: list });
+                    this.setState({ selected_list: list });
                   }}
                   selected_all={this.state.selected_all}
                   showListDialogue={this.showListDialogue}

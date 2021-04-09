@@ -1,7 +1,7 @@
 import search from "../images/search.svg";
 import "../styles/HomePage.css";
 import React, { Component } from "react";
-import UserContext from '../contexts/userContext'
+import UserContext from "../contexts/userContext";
 import Movies from "../components/movies";
 import SideBar from "../components/sideBar";
 import TopBar from "../components/topBar";
@@ -9,8 +9,8 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { withRouter } from "react-router";
 
 class HomePage extends Component {
-  static contextType = UserContext
-  
+  static contextType = UserContext;
+
   state = {
     movies: [],
   };

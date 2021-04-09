@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
 import LoginPage from "./pages/LoginPage";
 import ListsPage from "./pages/ListsPage";
+import SignupPage from "./pages/SignupPage";
 
 import UserContext, { UserProvider } from "./contexts/userContext";
 
@@ -14,9 +15,22 @@ const Routing = () => {
       <div className="App">
         <Switch>
           <Route exact path="/" render={() => <HomePage />} />
-          <Route exact path="/movies/:id" render={(props) => <MoviePage key={props.match.params.id}{...props}/>} />
-          <Route exact path="/users/:id/lists" render={() => <ListsPage />} />
+          <Route
+            exact
+            path="/movies/:id"
+            render={(props) => (
+              <MoviePage key={props.match.params.id} {...props} />
+            )}
+          />
+          <Route
+            exact
+            path="/users/:id/lists"
+            render={(props) => (
+              <ListsPage key={props.match.params.id} {...props} />
+            )}
+          />
           <Route exact path="/login" render={() => <LoginPage />} />
+          <Route exact path="/signup" render={() => <SignupPage />} />
         </Switch>
       </div>
     </Router>
@@ -28,7 +42,7 @@ function getDetails() {
     method: "GET",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
-      "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
   });
 }
@@ -43,8 +57,8 @@ class App extends Component {
 
   logout = () => {
     localStorage.clear();
-    this.setState({user: {}});
-  }
+    this.setState({ user: {} });
+  };
 
   login = () => {
     getDetails()
@@ -60,13 +74,13 @@ class App extends Component {
             },
           });
           console.log(this.state.user);
-        }
-        else this.setState({
-          user: {}
-        });
+        } else
+          this.setState({
+            user: {},
+          });
         console.log(json);
       });
-  }
+  };
 
   componentDidMount() {
     this.login();
@@ -75,8 +89,8 @@ class App extends Component {
     const value = {
       user: this.state.user,
       logoutUser: this.logout,
-      loginUser: this.login
-    }
+      loginUser: this.login,
+    };
     return (
       <UserContext.Provider value={value}>
         <Routing />

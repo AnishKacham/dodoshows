@@ -71,7 +71,7 @@ const EntryDialogue = (props) => {
         <Modal.Title>Add Entry to list "{props.list.list_name}"</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <SearchBar entryDialogue={true} sendMovie={getMovie} />
+        <SearchBar entryDialogue={true} sendResult={getMovie} />
         {movies.map((movie) => (
           <Button
             style={{ margin: "10px" }}

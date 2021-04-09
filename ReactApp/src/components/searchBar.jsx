@@ -9,9 +9,11 @@ import {
   FormControl,
 } from "react-bootstrap";
 import TitleSearchResults from "./titleSearchResults";
+import movie from "./movie";
 
 class SearchBar extends Component {
   state = {
+    city: "",
     movie: { title: "", genres: [], people: [] },
     results: [],
     typingTimout: 0,
@@ -26,41 +28,88 @@ class SearchBar extends Component {
     if (this.state.typingTimeout) {
       clearTimeout(this.state.typingTimeout);
     }
-    this.setState({
-      movie: {
-        title: `${event.target.value}`,
-        genres: this.state.movie.genres,
-        people: this.state.movie.people,
-      },
-    });
+    if (this.props.type && this.props.type == "city") {
+      this.setState({ city: event.target.value });
+    } else {
+      this.setState({
+        movie: {
+          title: `${event.target.value}`,
+          genres: this.state.movie.genres,
+          people: this.state.movie.people,
+        },
+      });
+    }
     if (event.target.value) {
       this.state.typingTimeout = setTimeout(this.timedSearch, 700);
     }
   };
 
   timedSearch = () => {
-    this.searchMovie(this.state.movie)
-      .then((response) => response.json())
-      .then((json) => {
-        this.setState({ results: json });
-        return json;
-      })
-      .then((results) => {
-        if (results.length) {
-          this.setState({
-            dropdownClasses: "show dropdown-menu",
-          });
-        } else
-          this.setState({
-            dropdownClasses: "dropdown-menu",
-          });
-      });
+    if (this.props.type == "city") {
+      this.searchCities(this.state.city)
+        .then((response) => response.json())
+        .then((json) => {
+          let results = [];
+          json.map(
+            (city, i) =>
+              (results[i] = { id: city.city_id, name: city.city_name })
+          );
+          console.log(results);
+          this.setState({ results: results });
+          return json;
+        })
+        .then((results) => {
+          if (results.length) {
+            this.setState({
+              dropdownClasses: "show dropdown-menu",
+            });
+          } else
+            this.setState({
+              dropdownClasses: "dropdown-menu",
+            });
+        });
+    } else {
+      this.searchMovie(this.state.movie)
+        .then((response) => response.json())
+        .then((json) => {
+          let results = [];
+          json.map(
+            (movie, i) =>
+              (results[i] = { id: movie.movie_id, name: movie.movie_title })
+          );
+          console.log(results);
+          this.setState({ results: results });
+          return json;
+        })
+        .then((results) => {
+          if (results.length) {
+            this.setState({
+              dropdownClasses: "show dropdown-menu",
+            });
+          } else
+            this.setState({
+              dropdownClasses: "dropdown-menu",
+            });
+        });
+    }
   };
 
   searchMovie = (movie) => {
     return fetch("http://localhost:5000/search/movies", {
       method: "POST",
       body: JSON.stringify(movie),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+  };
+
+  searchCities = (city) => {
+    return fetch("http://localhost:5000/search/cities", {
+      method: "POST",
+      body: JSON.stringify({
+        city: city,
+      }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -86,7 +135,7 @@ class SearchBar extends Component {
 
   clickHandler = (movie_id, movie_title) => {
     this.clickedOutside(true);
-    this.props.sendMovie(movie_id, movie_title);
+    this.props.sendResult(movie_id, movie_title);
   };
 
   render() {
@@ -100,11 +149,14 @@ class SearchBar extends Component {
           >
             <FormControl
               type="text"
-              placeholder="Search for a movie..."
+              placeholder={
+                this.props.type ? this.props.type : "Search for a movie..."
+              }
               className="mr-sm-2"
               onChange={this.changeName}
             />
             <TitleSearchResults
+              type={this.props.type}
               onClick={this.clickHandler}
               entryDialogue={this.props.entryDialogue}
               dropdownClasses={this.state.dropdownClasses}

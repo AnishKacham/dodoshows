@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/HomePage.css";
-import "../styles/movieCard.css"
+import "../styles/movieCard.css";
 import ReactStars from "react-stars";
 import { withRouter } from "react-router";
 
@@ -22,7 +22,8 @@ class Movie extends Component {
 
   render() {
     return (
-      <Card className="movie"
+      <Card
+        className="movie"
         tag="a"
         onClick={() => {
           this.props.history.push(`/movies/${this.state.id}`);
@@ -37,7 +38,7 @@ class Movie extends Component {
         />
         <Card.ImgOverlay>
           <ReactStars
-          className = "home-star-rating"
+            className="home-star-rating"
             count={5}
             size={18}
             color2={"#ffd700"}

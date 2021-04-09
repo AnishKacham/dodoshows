@@ -14,7 +14,8 @@ import {
   Button,
 } from "react-bootstrap";
 import { Rating } from "@material-ui/lab";
-import ReactStars from "react-stars";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 import UserContext from "../contexts/userContext";
 import "../styles/personCard.css";
 import lists from "./lists";
@@ -176,6 +177,15 @@ const FullRating = (props) => {
                         })
                       }
                     >
+                      {" "}
+                      {list.is_private ? (
+                        <FontAwesomeIcon
+                          style={{ marginRight: "5px" }}
+                          icon={faLock}
+                        />
+                      ) : (
+                        <></>
+                      )}
                       {list.list_name}
                     </Button>
                   ))
@@ -283,6 +293,57 @@ const FullRating = (props) => {
   return <></>;
 };
 
+const OthersRatings = (props) => {
+  let [ratings, setRatings] = useState([]);
+  let [onlyfriends, setOnlyFriends] = useState(false);
+  useEffect(() => {
+    console.log(props);
+    fetchRatings();
+  }, []);
+
+  const fetchRatings = () => {
+    console.log(props);
+    fetch(`http://localhost:5000/movies/${props.movie_id}/ratings`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        if (json && Object.keys(json).length && !json.msg) {
+          setRatings(json);
+        }
+      });
+  };
+
+  return (
+    <>
+      {ratings.map((rating) => (
+        <Card key={rating.user_id} style={{ marginBottom: "50px" }}>
+          <Card.Header>{rating.username}</Card.Header>
+          <Card.Body>
+            <blockquote className="blockquote mb-0">
+              <p> "{rating.review}" </p>
+              <Card.Subtitle>
+                <Rating
+                  name="read-only"
+                  value={rating.score}
+                  max={10}
+                  precision={1}
+                  size="small"
+                  readOnly
+                />
+              </Card.Subtitle>
+            </blockquote>
+          </Card.Body>
+        </Card>
+      ))}
+    </>
+  );
+};
+
 class MovieDetailed extends Component {
   static contextType = UserContext;
 
@@ -325,7 +386,7 @@ class MovieDetailed extends Component {
           <Col>
             <Image
               src="https://i.insider.com/5ca3d2b892c8866e8b4618d9?width=750&format=jpeg&auto=webp"
-              style={{ width: "auto", height: "500px" }}
+              style={{ width: "350px", height: "calc(350px * (40/27))" }}
               thumbnail
             />
             <div style={{ overflow: "hidden", position: "relative" }}>
@@ -386,6 +447,7 @@ class MovieDetailed extends Component {
             </div>
           ))}
         </div>
+        <OthersRatings movie_id={this.state.movie_id} />
       </Container>
     );
   }

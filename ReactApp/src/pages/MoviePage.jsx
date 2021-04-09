@@ -7,8 +7,8 @@ import { withRouter } from "react-router";
 
 class MoviePage extends Component {
   state = {
-      movie_id: this.props.match.params.id,
-    };
+    movie_id: this.props.match.params.id,
+  };
 
   constructor(props) {
     super(props);
@@ -26,7 +26,7 @@ class MoviePage extends Component {
               <SideBar />
             </Col>
             <Col xs={10}>
-                <MovieDetailed movie_id={this.state.movie_id}/>
+              <MovieDetailed movie_id={this.state.movie_id} />
             </Col>
           </Row>
         </Container>
