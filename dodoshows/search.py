@@ -52,6 +52,7 @@ def searchMovies():
                     + str(person)
                     + ")"
                 )
+    statement += " ORDER BY release_date DESC "
 
     print(statement)
     cur = mysql.connection.cursor()

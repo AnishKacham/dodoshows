@@ -19,9 +19,8 @@ class SearchBar extends Component {
   };
 
   clickedOutside = (bool) => {
-    if(bool)
-    this.setState({dropdownClasses: "dropdown-menu"});
-  }
+    if (bool) this.setState({ dropdownClasses: "dropdown-menu" });
+  };
 
   changeName = (event) => {
     if (this.state.typingTimeout) {
@@ -70,34 +69,74 @@ class SearchBar extends Component {
 
   submitHandler = (event) => {
     event.preventDefault();
-    this.searchMovie(this.state.movie)
-      .then((response) => response.json())
-      .then((json) => {
-        this.props.history.push({
-          pathname: '/',
-          state: {movies: json}
+    if (!this.props.entryDialogue) {
+      this.searchMovie(this.state.movie)
+        .then((response) => response.json())
+        .then((json) => {
+          this.props.history.push({
+            pathname: "/",
+            state: { movies: json },
+          });
+        })
+        .then(() => {
+          window.location.reload(false);
         });
-      });
+    }
+  };
+
+  clickHandler = (movie_id, movie_title) => {
+    this.clickedOutside(true);
+    this.props.sendMovie(movie_id, movie_title);
   };
 
   render() {
     return (
-      <Form inline onSubmit={this.submitHandler} className="nav-item dropdown">
-        <FormControl
-          type="text"
-          placeholder="Search"
-          className="mr-sm-2"
-          onChange={this.changeName}
-        />
-        <Button variant="outline-success" type="submit">
-          Search
-        </Button>
-        <TitleSearchResults
-          dropdownClasses={this.state.dropdownClasses}
-          results={this.state.results}
-          clickedOutside={this.clickedOutside}
-        />
-      </Form>
+      <>
+        {this.props.entryDialogue ? (
+          <Form
+            inline
+            onSubmit={this.submitHandler}
+            className="nav-item dropdown"
+          >
+            <FormControl
+              type="text"
+              placeholder="Search for a movie..."
+              className="mr-sm-2"
+              onChange={this.changeName}
+            />
+            <TitleSearchResults
+              onClick={this.clickHandler}
+              entryDialogue={this.props.entryDialogue}
+              dropdownClasses={this.state.dropdownClasses}
+              results={this.state.results}
+              clickedOutside={this.clickedOutside}
+            />
+          </Form>
+        ) : (
+          <Form
+            inline
+            onSubmit={this.submitHandler}
+            className="nav-item dropdown"
+          >
+            <FormControl
+              type="text"
+              placeholder="Search"
+              className="mr-sm-2"
+              onChange={this.changeName}
+            />
+            <Button variant="outline-success" type="submit">
+              Search
+            </Button>
+            <TitleSearchResults
+              onClick={this.clickHandler}
+              entryDialogue={this.props.entryDialogue}
+              dropdownClasses={this.state.dropdownClasses}
+              results={this.state.results}
+              clickedOutside={this.clickedOutside}
+            />
+          </Form>
+        )}
+      </>
     );
   }
 }

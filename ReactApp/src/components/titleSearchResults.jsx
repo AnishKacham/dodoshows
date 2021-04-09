@@ -34,7 +34,12 @@ class TitleSearchResults extends Component {
           <NavDropdown.Item
             key={result.movie_id}
             onClick={() => {
-              this.props.history.push(`/movies/${result.movie_id}`);
+              if(this.props.entryDialogue) {
+                this.props.onClick(result.movie_id, result.movie_title);
+              }
+              else {
+                this.props.history.push(`/movies/${result.movie_id}`);
+              }
             }}
           >
             {result.movie_title}

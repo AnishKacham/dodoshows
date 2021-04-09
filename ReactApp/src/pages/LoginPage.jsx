@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import { withRouter } from "react-router";
+import UserContext from "../contexts/userContext";
 
 class LoginPage extends Component {
+  static contextType = UserContext;
+
   state = {
     username: "",
     password: "",
@@ -33,7 +36,9 @@ class LoginPage extends Component {
         if (json.error) alert(json.error);
         else {
           localStorage.setItem("jwt", json.jwt);
-          this.props.history.push("/");
+          this.context.loginUser();
+          console.log(localStorage.getItem("lastLoc"));
+          this.props.history.push(localStorage.getItem("lastLoc")? localStorage.getItem("lastLoc"): "/");
         }
       });
   };
