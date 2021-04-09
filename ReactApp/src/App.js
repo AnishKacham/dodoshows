@@ -10,6 +10,7 @@ import {
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
 import LoginPage from "./pages/LoginPage";
+import UsersPage from "./pages/UsersPage"
 
 const Routing = () => {
 
@@ -38,6 +39,13 @@ const Routing = () => {
               <LoginPage />
             )}
           />
+          <Route
+            exact
+            path="/users"
+            render={() => (
+              <UsersPage/>
+            )}
+            />
         </Switch>
       </div>
     </Router>

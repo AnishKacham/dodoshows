@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import Movies from "../components/movies";
 import SideBar from "../components/sideBar";
 import TopBar from "../components/topBar";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Carousel,Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { withRouter } from "react-router";
 
 class HomePage extends Component {
