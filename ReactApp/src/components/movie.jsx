@@ -9,9 +9,7 @@ class Movie extends Component {
   state = {
     id: this.props.movie.movie_id,
     title: this.props.movie.movie_title,
-    description: this.props.movie.movie_description,
     release_date: this.props.movie.release_date,
-    movie_length: this.props.movie.movie_length,
     pg_rating: this.props.movie.pg_rating,
     avg_rating: this.props.movie.avg_rating,
     clicked: false,

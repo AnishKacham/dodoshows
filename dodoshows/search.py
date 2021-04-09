@@ -9,7 +9,9 @@ def searchMovies():
     title = request.json["title"]
     genres = request.json["genres"]
     people = request.json["people"]
-    statement = "SELECT movie_id, movie_title, avg_rating FROM movie"
+    statement = (
+        "SELECT movie_id, movie_title, avg_rating, release_date, pg_rating FROM movie"
+    )
     first = True
 
     if title or genres or people:
