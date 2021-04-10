@@ -6,15 +6,33 @@ import SearchBar from "./searchBar";
 
 const RatingDialogue = (props) => {
   const [movie, setMovie] = useState({});
+    const [hasSelectedMovie, setHasSelectedMovie] = useState(false);
 
   const getMovie = (movie_id, movie_title) => {
     console.log(movie_id);
     console.log(movie_title);
     setMovie({ movie_id: movie_id, movie_title: movie_title });
+    setHasSelectedMovie(true);
   };
   const closeBox = () => {
     setMovie({});
     props.closeDialogue();
+  };
+
+  const MovieDisplay = () => {
+    if (hasSelectedMovie) {
+      return (
+        <div>
+          <Button onClick={() => setHasSelectedMovie(false)} style={{marginBottom: "10px"}}>
+            {movie.movie_title}
+          </Button>
+        </div>
+      );
+    } else {
+      return (
+        <SearchBar entryDialogue={true} sendResult={getMovie} />
+      );
+    }
   };
 
   return (
@@ -23,21 +41,13 @@ const RatingDialogue = (props) => {
         <Modal.Title>Add a movie</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <SearchBar entryDialogue={true} sendResult={getMovie} />
-        {Object.keys(movie).length ? (
-          <Button style={{ margin: "10px" }} key={movie.movie_id}>
-            {movie.movie_title}
-          </Button>
-        ) : (
-          <></>
-        )}
-        <FullRating movie_id={1}/>
+        <MovieDisplay/>
+        {hasSelectedMovie?<FullRating key={movie.movie_id} movie_id={movie.movie_id} showList={false}/>:<></>}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={closeBox}>
           Close
         </Button>
-        <Button variant="primary">Add movie</Button>
       </Modal.Footer>
     </Modal>
   );

@@ -45,7 +45,7 @@ const FullRating = (props) => {
     console.log(user.user);
     console.log(props);
     fetchRating();
-    fetchLists();
+    if (props.showLists) fetchLists();
   }, [user]);
 
   const fetchRating = () => {
@@ -163,46 +163,7 @@ const FullRating = (props) => {
                 </Card.Footer>
               </Card>
             </Col>
-            <Col>
-              <div className="btn-group-justified btn-group-vertical">
-                <div style={{ marginBottom: "10px" }}>Present in lists:</div>
-                {lists.length ? (
-                  lists.map((list) => (
-                    <Button
-                      key={list.list_id}
-                      size="sm"
-                      style={{ marginBottom: "10px" }}
-                      onClick={() =>
-                        history.push({
-                          pathname: `/users/${user.user.user_id}/lists`,
-                          state: { selected_list: list },
-                        })
-                      }
-                    >
-                      {" "}
-                      {list.is_private ? (
-                        <FontAwesomeIcon
-                          style={{ marginRight: "5px" }}
-                          icon={faLock}
-                        />
-                      ) : (
-                        <></>
-                      )}
-                      {list.list_name}
-                    </Button>
-                  ))
-                ) : (
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    style={{ marginBottom: "10px" }}
-                    disabled
-                  >
-                    Not in any :(
-                  </Button>
-                )}
-              </div>
-            </Col>
+            {props.showLists ? <PresentInLists lists={lists} /> : <></>}
           </Row>
         );
       }
@@ -281,6 +242,7 @@ const FullRating = (props) => {
             >
               Cancel
             </Button>
+
             <Button
               variant="success"
               className="float-right"
@@ -295,6 +257,51 @@ const FullRating = (props) => {
     }
   }
   return <></>;
+};
+
+const PresentInLists = (props) => {
+  let user = useContext(UserContext);
+  let history = useHistory();
+
+  return (
+    <Col>
+      <div className="btn-group-justified btn-group-vertical">
+        <div style={{ marginBottom: "10px" }}>Present in lists:</div>
+        {props.lists.length ? (
+          props.lists.map((list) => (
+            <Button
+              key={list.list_id}
+              size="sm"
+              style={{ marginBottom: "10px" }}
+              onClick={() =>
+                history.push({
+                  pathname: `/users/${user.user.user_id}/lists`,
+                  state: { selected_list: list },
+                })
+              }
+            >
+              {" "}
+              {list.is_private ? (
+                <FontAwesomeIcon style={{ marginRight: "5px" }} icon={faLock} />
+              ) : (
+                <></>
+              )}
+              {list.list_name}
+            </Button>
+          ))
+        ) : (
+          <Button
+            size="sm"
+            variant="secondary"
+            style={{ marginBottom: "10px" }}
+            disabled
+          >
+            Not in any :(
+          </Button>
+        )}
+      </div>
+    </Col>
+  );
 };
 
 const OthersRatings = (props) => {
@@ -419,6 +426,7 @@ class MovieDetailed extends Component {
             <FullRating
               key={this.props.movie_id}
               movie_id={this.props.movie_id}
+              showLists={true}
             />
           </Col>
         </Row>
