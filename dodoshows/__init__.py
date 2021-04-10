@@ -9,6 +9,7 @@ mysql = MySQL()
 jwt = JWTManager()
 cors = CORS()
 
+
 from dodoshows.search import search_blueprint
 from dodoshows.movies import movies_blueprint
 from dodoshows.users import users_blueprint

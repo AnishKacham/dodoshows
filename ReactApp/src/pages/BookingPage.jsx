@@ -23,6 +23,7 @@ class BookingPage extends Component{
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
     })
       .then((response) => response.json())

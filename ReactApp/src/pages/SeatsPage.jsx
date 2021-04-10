@@ -73,6 +73,7 @@ class SeatsPage extends Component{
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        
       },
     })
       .then((response) => response.json())
