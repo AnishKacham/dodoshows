@@ -48,6 +48,23 @@ def getMovie(movie_id):
     return jsonify(result)
 
 
+@movies_blueprint.route("/<movie_id>/ratings")
+def getRatingsForMovie(movie_id):
+    print(movie_id)
+    cur = mysql.connection.cursor()
+    cur.execute(
+        """SELECT user.user_id, user.username, rating.movie_id, rating.watch_status, rating.score, rating.review
+            FROM rating
+            INNER JOIN user ON rating.user_id=user.user_id
+            WHERE rating.movie_id = %s AND rating.review IS NOT NULL""",
+        [movie_id],
+    )
+    result = cur.fetchall()
+    print(result)
+    cur.close()
+    return jsonify(result)
+
+
 @movies_blueprint.route("/", methods=["POST"])
 @jwt_required
 def addMovie():

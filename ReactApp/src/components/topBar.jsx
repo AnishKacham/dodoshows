@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
+import UserContext from "../contexts/userContext";
 import {
   Navbar,
   NavDropdown,
@@ -11,42 +12,22 @@ import {
 import SearchBar from "./searchBar";
 
 class TopBar extends Component {
-  state = {
-    logged_in: false,
-    username: "",
-  };
+  static contextType = UserContext;
+  state = {};
 
-  constructor(props) {
-    super(props);
-    this.getLogin();
+  constructor(props, context) {
+    super(props, context);
+    console.log(this.context);
   }
 
-  getLogin = () => {
-    fetch("http://localhost:5000/is-logged-in", {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.logged_in) {
-          this.setState({ logged_in: true });
-          this.setState({ username: json.details.username });
-        } else {
-          this.setState({ logged_in: false });
-        }
-        console.log(json);
-      });
-  };
-
   profileRender = () => {
-    if (!this.state.logged_in) {
+    if (!Object.keys(this.context.user).length) {
       return (
         <div>
           <Button
             onClick={() => {
+              console.log(this.props);
+              localStorage.setItem("lastLoc", this.props.location.pathname);
               this.props.history.push("/login");
             }}
           >
@@ -57,11 +38,11 @@ class TopBar extends Component {
     } else
       return (
         <div>
-          <Button>{this.state.username}</Button>{"  "}
+          <Button>{this.context.user.username}</Button>
+          {"  "}
           <Button
             onClick={() => {
-              localStorage.clear();
-              window.location.reload();
+              this.context.logoutUser();
             }}
           >
             Log out
@@ -73,13 +54,19 @@ class TopBar extends Component {
   render() {
     return (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand onClick={()=>{this.props.history.push("/")}}>Dodo Shows</Navbar.Brand>
+        <Navbar.Brand>Dodo Shows</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                this.props.history.push("/");
+              }}
+            >
+              Home
+            </Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
-            <SearchBar/>
+            <SearchBar entryDialogue={false} />
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
