@@ -26,3 +26,7 @@
   font-size: 15px;
   margin-bottom: none;
 }
+
+.user-rating label {
+  display: block;
+}

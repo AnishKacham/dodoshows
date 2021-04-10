@@ -13,8 +13,6 @@ class Lists extends Component {
   state = {
     entries: [],
     ratings: [],
-    lists: this.props.lists,
-    selected_all: this.props.selected_all,
     showWatched: true,
     showUnwatched: true,
     searchString: "",
@@ -113,7 +111,7 @@ class Lists extends Component {
   };
 
   render() {
-    console.log(this.state);
+    console.log(this.props);
     return (
       <>
         <Row>
@@ -186,7 +184,7 @@ class Lists extends Component {
               <List
                 key={this.state.sort}
                 items={
-                  !this.state.selected_all
+                  !this.props.selected_all
                     ? this.state.entries
                         .filter(
                           (entry) =>
@@ -249,39 +247,45 @@ class Lists extends Component {
               />
             </Table>
             <Button
-              style={{ display: this.state.selected_all ? "none" : "block" }}
+              style={{ display: this.props.selected_all ? "none" : "block" }}
               onClick={() =>
                 this.props.showEntryDialogue(this.props.selected_list)
               }
             >
-              Add new entry
+              + Add movie to this list
+            </Button>
+            <Button
+              style={{ display: this.props.selected_all ? "block" : "none" }}
+              onClick={() =>
+                this.props.showRatingDialogue()
+              }
+            >
+              + Add movie
             </Button>
           </Col>
           <Col>
             <div className="btn-group-justified btn-group-vertical">
               <Button
-                className={this.state.selected_all ? "btn-success" : null}
+                className={this.props.selected_all ? "btn-success" : null}
                 style={{ marginBottom: "20px" }}
-                onClick={() => this.setState({ selected_all: true })}
+                onClick={() => this.props.setSelectedAll(true)}
               >
                 All
               </Button>
               <br></br>
               <br></br>
-              {this.state.lists.map((list) => (
+              {this.props.lists.map((list) => (
                 <Button
                   key={list.list_id}
                   className={
                     list.list_id == this.props.selected_list.list_id &&
-                    !this.state.selected_all
+                    !this.props.selected_all
                       ? "btn-success"
                       : "btn-primary"
                   }
                   style={{ marginBottom: "3px" }}
                   onClick={() => {
-                    this.setState({
-                      selected_all: false,
-                    });
+                    this.props.setSelectedAll(false);
                     this.props.changeSelected(list);
                   }}
                 >

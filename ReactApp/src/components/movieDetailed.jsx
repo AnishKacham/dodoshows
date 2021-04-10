@@ -14,6 +14,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { Rating } from "@material-ui/lab";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import UserContext from "../contexts/userContext";
@@ -138,14 +139,15 @@ const FullRating = (props) => {
                 <ListGroup className="list-group-flush">
                   <ListGroupItem>
                     <Card.Text>
-                      Your score:
+                      Your score:<br></br>
                       <Rating
                         name="read-only"
-                        value={rating.score}
-                        max={10}
-                        precision={1}
+                        value={rating.score * 0.5}
+                        max={5}
+                        precision={0.5}
                         size="small"
                         readOnly
+                        emptyIcon={<StarBorderIcon fontSize="inherit" />}
                       />
                     </Card.Text>
                   </ListGroupItem>
@@ -236,17 +238,19 @@ const FullRating = (props) => {
           <ListGroup className="list-group-flush">
             <ListGroupItem>
               <Card.Text>
-                Your score:
+                Your score:<br></br>
                 <Rating
-                  name="read-only"
-                  value={newRating.score}
-                  max={10}
-                  precision={1}
+                  name="customized-empty"
+                  className="user-rating"
+                  value={newRating.score * 0.5}
+                  max={5}
+                  precision={0.5}
                   size="small"
+                  emptyIcon={<StarBorderIcon fontSize="inherit" />}
                   onChange={(event, newScore) => {
                     setNewRating((prevState) => ({
                       ...prevState,
-                      score: newScore,
+                      score: newScore * 2,
                     }));
                   }}
                 />
@@ -329,10 +333,11 @@ const OthersRatings = (props) => {
               <Card.Subtitle>
                 <Rating
                   name="read-only"
-                  value={rating.score}
-                  max={10}
-                  precision={1}
+                  value={rating.score * 0.5}
+                  max={5}
+                  precision={0.5}
                   size="small"
+                  emptyIcon={<StarBorderIcon fontSize="inherit" />}
                   readOnly
                 />
               </Card.Subtitle>
@@ -392,11 +397,12 @@ class MovieDetailed extends Component {
             <div style={{ overflow: "hidden", position: "relative" }}>
               <Rating
                 name="read-only"
-                value={this.state.movie.avg_rating * 1.0}
-                max={10}
+                value={this.state.movie.avg_rating * 0.5}
+                max={5}
                 precision={0.1}
                 size="large"
                 readOnly
+                emptyIcon={<StarBorderIcon fontSize="inherit" />}
               />
             </div>
           </Col>
@@ -468,4 +474,5 @@ function parseRoles(string) {
   return result;
 }
 
+export { FullRating };
 export default withRouter(MovieDetailed);

@@ -14,6 +14,7 @@ import Movies from "../components/movies";
 import SideBar from "../components/sideBar";
 import TopBar from "../components/topBar";
 import AddList, { ListDialogue } from "../components/addList";
+import RatingDialogue from "../components/ratingDialogue";
 import { EntryDialogue } from "../components/list";
 import { withRouter } from "react-router";
 import Lists from "../components/lists";
@@ -22,6 +23,7 @@ class ListsPage extends Component {
   state = {
     showList: false,
     showEntry: false,
+    showRating: false,
     lists: [{ list_id: 0, list_name: "", is_private: 0 }],
     selected_list: {},
     refreshEntries: true,
@@ -46,6 +48,13 @@ class ListsPage extends Component {
   closeEntryDialogue = () => {
     this.setState({ showEntry: false });
   };
+  showRatingDialogue = () => {
+    this.setState({ showRating: true });
+  };
+  closeRatingDialogue = () => {
+    this.setState({ showRating: false });
+  };
+
   reloadEntries = () => {
     this.state.refreshEntries
       ? this.setState({ refreshEntries: false, selected_all: false })
@@ -131,9 +140,11 @@ class ListsPage extends Component {
                   changeSelected={(list) => {
                     this.setState({ selected_list: list });
                   }}
+                  setSelectedAll={(bool)=>this.setState({selected_all: bool})}
                   selected_all={this.state.selected_all}
                   showListDialogue={this.showListDialogue}
                   showEntryDialogue={this.showEntryDialogue}
+                  showRatingDialogue={this.showRatingDialogue}
                 />
               </Container>
             </Col>
@@ -148,6 +159,11 @@ class ListsPage extends Component {
             list={this.state.selected_list}
             show={this.state.showEntry}
             closeDialogue={this.closeEntryDialogue}
+            reloadPage={this.reloadEntries}
+          />
+          <RatingDialogue
+            show={this.state.showRating}
+            closeDialogue={this.closeRatingDialogue}
             reloadPage={this.reloadEntries}
           />
         </Container>
