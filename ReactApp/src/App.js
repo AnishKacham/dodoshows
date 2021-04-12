@@ -9,6 +9,7 @@ import SeatsPage from "./pages/SeatsPage";
 import BookingPage from "./pages/BookingPage";
 import ListsPage from "./pages/ListsPage";
 import SignupPage from "./pages/SignupPage";
+import FriendsPage from "./pages/FriendsPage";
 
 import UserContext, { UserProvider } from "./contexts/userContext";
 
@@ -55,6 +56,7 @@ const Routing = () => {
           />
           <Route exact path="/login" render={() => <LoginPage />} />
           <Route exact path="/signup" render={() => <SignupPage />} />
+          <Route exact path="/friends" render={()=> <FriendsPage/>} />
         </Switch>
       </div>
     </Router>
