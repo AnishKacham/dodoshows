@@ -1,5 +1,5 @@
 import random
-from flask import jsonify, request, Blueprint,render_template
+from flask import Flask, jsonify, request, Blueprint, render_template, current_app as app
 from flask_jwt_extended import (
     get_jwt_identity,
     jwt_required,
@@ -8,20 +8,24 @@ from flask_jwt_extended import (
 )
 
 from dodoshows import mysql
+from dodoshows import mail
 from .shows import shows_blueprint
 from .auth import validatePayment
-from flask import Flask, request
-from flask_mail import Mail,Message
+from flask_mail import Message
 import qrcode
+import io
 import os
 
 def makeQR(s):
-    qr = qrcode.make(s[0])
-    qr.save('ticket_' + s[1]+ '.png')
+    qr = qrcode.make(s)
+    with io.BytesIO() as output:
+        qr.save(output, format="PNG")
+        contents = output.getvalue()
+        return contents
 
 
 
-seats_blueprint = Blueprint("seats", __name__, url_prefix="/seats")
+seats_blueprint = Blueprint("seats", __name__, url_prefix="/api/seats")
 
 
 @seats_blueprint.route("/")
@@ -110,7 +114,7 @@ def bookTicket(show_id):
             
         
         cur.execute(
-            """SELECT theatre.*, show_playing.movie_id, movie.movie_title
+            """SELECT theatre.*, show_playing.movie_id, movie.movie_title, movie.poster_url, show.date_time
                 FROM show_playing
                 INNER JOIN movie ON (show_playing.movie_id = movie.movie_id)
                 INNER JOIN theatre ON (show_playing.theatre_id = theatre.theatre_id)
@@ -121,38 +125,23 @@ def bookTicket(show_id):
         cur.execute(
             """SELECT email FROM user WHERE user_id = %s""",
             [user_id],
-        )
-        
+        )        
         user_email = cur.fetchone()['email']
-        print(user_email)
+        print(user_email)        
+        cur.close()
         
-        mysql.connection.close()
+        ticket_qr_bytes = makeQR(str({"ticket_id": ticket_id, "ticket_code": ticket_code}))
 
-        app = Flask(__name__)
-        
-        app.config.update(dict(
-    DEBUG = True,
-    MAIL_SERVER = 'smtp.gmail.com',
-    MAIL_PORT = 465,
-    MAIL_USE_TLS = False,
-    MAIL_USE_SSL = True,
-    MAIL_USERNAME = 'dodoshowsbooking@gmail.com',
-    MAIL_PASSWORD = 'PAGA6453',
-))
-        makeQR([str(ticket_code), str(ticket_id)])
-        mail = Mail(app)
-        mail.init_app(app)
-        ticket_qr = 'ticket_' + str(ticket_id) + '.png'
+        body = ""
+
         msg = Message("Movie Ticket",
-                  sender="dodoshowsbooking@gmail.com",
-                  recipients=[user_email])
-        os.system("cd ..")
-        os.system("mv "+ticket_qr+ " dodoshows")
-        #os.system("cd dodoshows")
-        with app.open_resource(ticket_qr) as fp:
-            msg.attach(ticket_qr, ticket_qr+"/png", fp.read())
+                  sender = os.getenv("MAIL_USERNAME"),
+                  recipients = [user_email])
+        msg.body = body
+        msg.attach("ticket.png", "image/png", ticket_qr_bytes)
         
         mail.send(msg)
-        os.system("cd dodoshows && rm "+ticket_qr)
        
         return jsonify(result)
+
+    return jsonify(error="Invalid Payment")

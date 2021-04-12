@@ -29,7 +29,7 @@ class ShowsPage extends Component{
     }*/
 
       fetchShows(movie_id){
-        fetch(`http://localhost:5000/movies/${movie_id}/shows`, {
+        fetch(`http://localhost:5000/api/movies/${movie_id}/shows`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

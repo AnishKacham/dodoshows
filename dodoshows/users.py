@@ -7,14 +7,14 @@ from flask_jwt_extended import (
 )
 from dodoshows import mysql
 
-users_blueprint = Blueprint("users", __name__, url_prefix="/users")
+users_blueprint = Blueprint("users", __name__, url_prefix="/api/users")
 
 
 @users_blueprint.route("/")
 def getAllUsers():
     cur = mysql.connection.cursor()
     cur.execute(
-        """SELECT user_id, username, city_name
+        """SELECT user_id, username, city_name, profile_url
             FROM user
             INNER JOIN city ON user.city_id = city.city_id
             LIMIT 50"""
@@ -28,7 +28,7 @@ def getAllUsers():
 def getUser(user_id):
     cur = mysql.connection.cursor()
     cur.execute(
-        """SELECT user_id, username, city.city_name
+        """SELECT user_id, username, city.city_name, profile_url
             FROM user
             INNER JOIN city ON user.city_id = city.city_id
             WHERE user_id = %s""",
@@ -38,6 +38,111 @@ def getUser(user_id):
     cur.close()
     return jsonify(result)
 
+@users_blueprint.route("/<user_id>/friends")
+@jwt_required
+def getUserFriends(user_id):
+    if str(user_id) == str(get_jwt_identity()):
+        results = {"Friends": [], "Incoming": [], "Outgoing": []}
+        cur = mysql.connection.cursor()
+        cur.execute(
+            """SELECT user.user_id, user.username, city.city_name, user.profile_url
+                FROM friendship
+                INNER JOIN user ON user.user_id = friendship.user_id2
+                INNER JOIN city ON user.city_id = city.city_id
+                WHERE friendship.user_id1 = %s AND friendship.status = 1""",
+            [user_id],
+        )
+        friends = cur.fetchall()
+        if (friends):
+            for friend in friends:
+                results["Friends"].append(friend)
+
+        cur.execute(
+            """SELECT user.user_id, user.username, city.city_name, user.profile_url
+                FROM friendship
+                INNER JOIN user ON user.user_id = friendship.user_id1
+                INNER JOIN city ON user.city_id = city.city_id
+                WHERE friendship.user_id2 = %s AND friendship.status = 1""",
+            [user_id],
+        )
+        print(results)
+
+        friends = cur.fetchall()
+        if (friends):
+            for friend in friends:
+                results["Friends"].append(friend)
+        print(results)
+        
+        cur.execute(
+            """SELECT user.user_id, user.username, city.city_name, user.profile_url
+                FROM friendship
+                INNER JOIN user ON user.user_id = friendship.user_id2
+                INNER JOIN city ON user.city_id = city.city_id
+                WHERE friendship.user_id1 = %s AND friendship.status = 0""",
+            [user_id],
+        )
+        results["Outgoing"] = cur.fetchall()
+        cur.execute(
+            """SELECT user.user_id, user.username, city.city_name, user.profile_url
+                FROM friendship
+                INNER JOIN user ON user.user_id = friendship.user_id1
+                INNER JOIN city ON user.city_id = city.city_id
+                WHERE friendship.user_id2 = %s AND friendship.status = 0""",
+            [user_id],
+        )
+        results["Incoming"] = cur.fetchall()
+        cur.close()
+        return jsonify(results)
+    return jsonify(error="Not authorized")
+
+@users_blueprint.route("/request/<user_id2>", methods=["POST"])
+@jwt_required
+def requestFriend(user_id2):
+    user_id1 = get_jwt_identity()
+    cur = mysql.connection.cursor()
+    cur.execute(
+        """INSERT INTO friendship
+            VALUES (%s, %s, 0)""",
+        [user_id1, user_id2],
+    )
+    mysql.connection.commit()
+    cur.close()
+    return ""
+
+@users_blueprint.route("/accept/<user_id1>", methods=["PUT"])
+@jwt_required
+def acceptFriend(user_id1):
+    user_id2 = get_jwt_identity()
+    cur = mysql.connection.cursor()
+    cur.execute(
+        """UPDATE friendship
+            SET status = 1
+            WHERE user_id1 = %s AND user_id2 = %s""",
+        [user_id1, user_id2],
+    )
+    mysql.connection.commit()
+    cur.close()
+    return ""
+
+@users_blueprint.route("/unfriend/<user_id_b>", methods=["DELETE"])
+@jwt_required
+def unfriend(user_id_b):
+    user_id_a = get_jwt_identity()
+    cur = mysql.connection.cursor()
+    cur.execute(
+        """DELETE from friendship
+            WHERE user_id1 = %s AND user_id2 = %s""",
+        [user_id_a, user_id_b],
+    )
+    mysql.connection.commit()
+    cur.execute(
+        """DELETE from friendship
+            WHERE user_id2 = %s AND user_id1 = %s""",
+        [user_id_a, user_id_b],
+    )
+    mysql.connection.commit()
+    cur.close()
+    return ""
 
 @users_blueprint.route("/<user_id>/entries")
 @jwt_optional

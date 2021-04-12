@@ -6,7 +6,7 @@ from flask_jwt_extended import (
 )
 from dodoshows import mysql
 
-movies_blueprint = Blueprint("movies", __name__, url_prefix="/movies")
+movies_blueprint = Blueprint("movies", __name__, url_prefix="/api/movies")
 
 
 @movies_blueprint.route("/")
@@ -27,25 +27,27 @@ def getMovie(movie_id):
         [movie_id],
     )
     result = cur.fetchone()
-    cur.execute(
-        """SELECT genre_id, genre_name
-            FROM genre
-            WHERE genre_id IN (SELECT genre_id FROM movie_genre WHERE movie_id = %s)""",
-        [movie_id],
-    )
-    result["genres"] = cur.fetchall()
-    cur.execute(
-        """SELECT person.person_id, person.person_name, importance, cast_or_crew, person_role
-            FROM production
-            INNER JOIN person ON production.person_id=person.person_id
-            WHERE movie_id = %s
-            ORDER BY importance""",
-        [movie_id],
-    )
-    result["people"] = cur.fetchall()
-    print(result)
-    cur.close()
-    return jsonify(result)
+    if result:
+        cur.execute(
+            """SELECT genre_id, genre_name
+                FROM genre
+                WHERE genre_id IN (SELECT genre_id FROM movie_genre WHERE movie_id = %s)""",
+            [movie_id],
+        )
+        result["genres"] = cur.fetchall()
+        cur.execute(
+            """SELECT person.person_id, person.person_name, importance, cast_or_crew, person_role, person.profile_url
+                FROM production
+                INNER JOIN person ON production.person_id=person.person_id
+                WHERE movie_id = %s
+                ORDER BY importance""",
+            [movie_id],
+        )
+        result["people"] = cur.fetchall()
+        print(result)
+        cur.close()
+        return jsonify(result)
+    return jsonify(error="No movie with such id")
 
 
 @movies_blueprint.route("/<movie_id>/ratings")
