@@ -30,6 +30,7 @@ def create_app():
     app.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
     app.config["MYSQL_CURSORCLASS"] = "DictCursor"
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_KEY")
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 24 * 60 * 60
     app.config["CORS_HEADERS"] = "Content-Type"
 
     mysql.init_app(app)

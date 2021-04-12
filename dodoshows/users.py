@@ -39,11 +39,11 @@ def getUser(user_id):
     return jsonify(result)
 
 
-@users_blueprint.route("/<user_id>/lists")
+@users_blueprint.route("/<user_id>/entries")
 @jwt_optional
-def getUserLists(user_id):
+def getUserEntries(user_id):
     cur = mysql.connection.cursor()
-    if user_id == get_jwt_identity():
+    if str(user_id) == str(get_jwt_identity()):
         cur.execute(
             """SELECT entry.list_id, user_list.list_name, user_list.is_private, movie.movie_id, movie.movie_title, rating.watch_status, rating.score, rating.review
                 FROM entry
@@ -70,6 +70,85 @@ def getUserLists(user_id):
     return jsonify(results)
 
 
+@users_blueprint.route("/<user_id>/movies/<movie_id>/lists")
+@jwt_optional
+def getUserListsForMovie(user_id, movie_id):
+    cur = mysql.connection.cursor()
+    if str(user_id) == str(get_jwt_identity()):
+        cur.execute(
+            """SELECT entry.list_id, user_list.list_name, user_list.is_private
+                FROM entry
+                INNER JOIN user_list ON entry.list_id = user_list.list_id
+                WHERE user_list.user_id = %s AND entry.movie_id = %s""",
+            [user_id, movie_id],
+        )
+    else:
+        cur.execute(
+            """SELECT entry.list_id, user_list.list_name, user_list.is_private
+                FROM entry
+                INNER JOIN user_list ON entry.list_id = user_list.list_id
+                WHERE user_list.user_id = %s AND entry.movie_id = %s AND user_list.is_private = 0""",
+            [user_id, movie_id],
+        )
+    results = cur.fetchall()
+    cur.close()
+    return jsonify(results)
+
+
+@users_blueprint.route("/<user_id>/lists")
+@jwt_optional
+def getUserLists(user_id):
+    cur = mysql.connection.cursor()
+    if str(user_id) == str(get_jwt_identity()):
+        cur.execute(
+            """SELECT list_id, list_name, is_private
+                FROM user_list
+                WHERE user_id = %s""",
+            [user_id],
+        )
+    else:
+        cur.execute(
+            """SELECT list_id, list_name, is_private
+                FROM user_list
+                WHERE user_id = %s AND is_private = 0""",
+            [user_id],
+        )
+    results = cur.fetchall()
+    cur.close()
+    return jsonify(results)
+
+
+@users_blueprint.route("/<user_id>/<movie_id>")
+def getRating(user_id, movie_id):
+    cur = mysql.connection.cursor()
+    cur.execute(
+        """SELECT *
+            FROM rating
+            WHERE user_id = %s AND movie_id = %s""",
+        [user_id, movie_id],
+    )
+    results = cur.fetchone()
+    print(results)
+    cur.close()
+    return jsonify(results)
+
+
+@users_blueprint.route("/<user_id>/ratings")
+def getRatingsForUser(user_id):
+    cur = mysql.connection.cursor()
+    cur.execute(
+        """SELECT rating.movie_id, rating.watch_status, rating.score, rating.review, movie.movie_title
+            FROM rating
+            INNER JOIN movie ON rating.movie_id = movie.movie_id
+            WHERE rating.user_id = %s""",
+        [user_id],
+    )
+    results = cur.fetchall()
+    print(results)
+    cur.close()
+    return jsonify(results)
+
+
 @users_blueprint.route("/<user_id>", methods=["POST"])
 @jwt_required
 def addRating(user_id):
@@ -84,12 +163,12 @@ def addRating(user_id):
     cur = mysql.connection.cursor()
     cur.execute(
         """INSERT INTO rating
-            VALUES (DEFAULT, %s, %s, %s, %s, %s)""",
+            VALUES (%s, %s, %s, %s, %s)""",
         [user_id, movie_id, watch_status, score, review],
     )
     mysql.connection.commit()
     cur.close()
-    return None
+    return ""
 
 
 @users_blueprint.route("/<user_id>/<movie_id>", methods=["DELETE"])
@@ -106,15 +185,15 @@ def deleteRating(user_id, movie_id):
     )
     mysql.connection.commit()
     cur.close()
-    return None
+    return ""
 
 
-@users_blueprint.route("/<user_id>/<movie_id>", methods=["PUT"])
+@users_blueprint.route("/<user_id>", methods=["PUT"])
 @jwt_required
-def updateRating(user_id, movie_id):
+def updateRating(user_id):
     if str(user_id) != str(get_jwt_identity()):
         return {"error": "not authorized"}
-
+    movie_id = request.json["movie_id"]
     watch_status = request.json["watch_status"]
     score = request.json["score"]
     review = request.json["review"]
@@ -128,7 +207,7 @@ def updateRating(user_id, movie_id):
     )
     mysql.connection.commit()
     cur.close()
-    return None
+    return ""
 
 
 @users_blueprint.route("/<user_id>/<movie_id>/watched", methods=["PUT"])
@@ -146,4 +225,4 @@ def setWatched(user_id, movie_id):
     )
     mysql.connection.commit()
     cur.close()
-    return None
+    return ""

@@ -33,12 +33,16 @@ class TitleSearchResults extends Component {
       <div ref={this.wrapperRef} className={this.props.dropdownClasses}>
         {this.props.results.slice(0, 10).map((result) => (
           <NavDropdown.Item
-            key={result.movie_id}
+            key={result.id}
             onClick={() => {
-              this.props.history.push(`/movies/${result.movie_id}`);
+              if (this.props.entryDialogue) {
+                this.props.onClick(result.id, result.name);
+              } else {
+                this.props.history.push(`/movies/${result.id}`);
+              }
             }}
           >
-            {result.movie_title}
+            {result.name}
           </NavDropdown.Item>
         ))}
       </div>
