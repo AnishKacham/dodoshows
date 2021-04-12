@@ -29,7 +29,7 @@ class SignupPage extends Component {
   };
 
   doSignup = () => {
-    fetch("http://localhost:5000/signup", {
+    fetch("http://localhost:5000/api/signup", {
       method: "POST",
       body: JSON.stringify({
         username: this.state.username,

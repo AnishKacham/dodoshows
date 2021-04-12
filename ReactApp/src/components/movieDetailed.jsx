@@ -53,7 +53,7 @@ const FullRating = (props) => {
     console.log(props);
     if (Object.keys(user.user).length)
       fetch(
-        `http://localhost:5000/users/${user.user.user_id}/${props.movie_id}`,
+        `http://localhost:5000/api/users/${user.user.user_id}/${props.movie_id}`,
         {
           method: "GET",
           headers: {
@@ -83,7 +83,7 @@ const FullRating = (props) => {
     console.log(props);
     if (Object.keys(user.user).length)
       fetch(
-        `http://localhost:5000/users/${user.user.user_id}/movies/${props.movie_id}/lists`,
+        `http://localhost:5000/api/users/${user.user.user_id}/movies/${props.movie_id}/lists`,
         {
           method: "GET",
           headers: {
@@ -103,7 +103,7 @@ const FullRating = (props) => {
 
   const submitRating = () => {
     console.log(newRating);
-    fetch(`http://localhost:5000/users/${user.user.user_id}`, {
+    fetch(`http://localhost:5000/api/users/${user.user.user_id}`, {
       method: ratingExists ? "PUT" : "POST",
       body: JSON.stringify(newRating),
       headers: {
@@ -314,7 +314,7 @@ const OthersRatings = (props) => {
 
   const fetchRatings = () => {
     console.log(props);
-    fetch(`http://localhost:5000/movies/${props.movie_id}/ratings`, {
+    fetch(`http://localhost:5000/api/movies/${props.movie_id}/ratings`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -374,7 +374,7 @@ class MovieDetailed extends Component {
   }
 
   fetchMovie(movie_id) {
-    fetch(`http://localhost:5000/movies/${movie_id}`, {
+    fetch(`http://localhost:5000/api/movies/${movie_id}`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -397,7 +397,7 @@ class MovieDetailed extends Component {
         <Row>
           <Col>
             <Image
-              src="https://i.insider.com/5ca3d2b892c8866e8b4618d9?width=750&format=jpeg&auto=webp"
+              src={this.state.movie.poster_url}
               style={{ width: "350px", height: "calc(350px * (40/27))" }}
               thumbnail
             />
@@ -423,6 +423,20 @@ class MovieDetailed extends Component {
             {this.state.movie.movie_description}
             <br></br>
             <br></br>
+            <Button
+              variant="danger"
+              style={{marginBottom: "30px"}}
+              onClick={() => {
+                this.props.history.push({
+                  pathname: `/movies/${this.state.movie.movie_id}/shows`,
+                  state: { movie_id: this.state.movie.movie_id },
+                });
+                console.log(this.state.movie.movie_id);
+              }}
+              block
+            >
+              Book
+            </Button>
             <FullRating
               key={this.props.movie_id}
               movie_id={this.props.movie_id}
@@ -445,7 +459,7 @@ class MovieDetailed extends Component {
                 </Card.Header>
                 <Card.Img
                   variant="top"
-                  src="https://pbs.twimg.com/profile_images/1209872683791343621/jyNHTtaD_400x400.jpg"
+                  src={person.profile_url}
                   className="img-fluid"
                   style={{ width: "auto", height: "150px" }}
                 />

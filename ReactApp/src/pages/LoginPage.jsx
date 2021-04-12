@@ -21,7 +21,7 @@ class LoginPage extends Component {
 
   doLogin = (event) => {
     event.preventDefault();
-    fetch("http://localhost:5000/login", {
+    fetch("http://localhost:5000/api/login", {
       method: "POST",
       body: JSON.stringify({
         username: this.state.username,

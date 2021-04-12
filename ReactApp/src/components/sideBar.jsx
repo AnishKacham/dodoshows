@@ -22,19 +22,22 @@ class SideBar extends Component {
           activeKey="/home"
           onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
         >
-          <div className="sidebar-sticky"></div>
-          <Nav.Item>
+            <div className="sidebar-sticky"></div>
+            <Nav.Item>
             <Nav.Link onClick={this.goToListPage}>Lists</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="link-1">Link</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="link-2">Link</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="disabled" disabled>
-              Disabled
+        <Nav.Item>
+            <Nav.Link href="/home">About Us</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+            <Nav.Link eventKey="link-1">Report Issue</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+            <Nav.Link eventKey="link-2">Donate</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+            <Nav.Link eventKey="link-3" disabled>
+            Merchandise
             </Nav.Link>
           </Nav.Item>
         </Nav>

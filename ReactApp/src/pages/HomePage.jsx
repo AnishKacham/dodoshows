@@ -25,7 +25,7 @@ class HomePage extends Component {
   }
 
   fetchMovies = () => {
-    fetch("http://localhost:5000/movies/", {
+    fetch("http://localhost:5000/api/movies/", {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

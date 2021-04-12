@@ -69,7 +69,7 @@ class ListsPage extends Component {
   };
 
   fetchLists = () => {
-    fetch(`http://localhost:5000/users/${this.props.match.params.id}/lists`, {
+    fetch(`http://localhost:5000/api/users/${this.props.match.params.id}/lists`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

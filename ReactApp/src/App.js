@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
 import LoginPage from "./pages/LoginPage";
+import ShowsPage from "./pages/ShowsPage";
+import SeatsPage from "./pages/SeatsPage";
+import BookingPage from "./pages/BookingPage";
 import ListsPage from "./pages/ListsPage";
 import SignupPage from "./pages/SignupPage";
 
@@ -29,6 +32,27 @@ const Routing = () => {
               <ListsPage key={props.match.params.id} {...props} />
             )}
           />
+          <Route
+            exact
+            path="/shows/:id/seats"
+            render={() => (
+              <SeatsPage />
+            )}
+          />
+          <Route
+            exact
+            path="/shows/:id/book"
+            render={() => (
+              <BookingPage />
+            )}
+          />
+          <Route
+            exact
+            path="/movies/:id/shows"
+            render={() => (
+              <ShowsPage/>
+            )}
+          />
           <Route exact path="/login" render={() => <LoginPage />} />
           <Route exact path="/signup" render={() => <SignupPage />} />
         </Switch>
@@ -38,7 +62,7 @@ const Routing = () => {
 };
 
 function getDetails() {
-  return fetch("http://localhost:5000/is-logged-in", {
+  return fetch("http://localhost:5000/api/is-logged-in", {
     method: "GET",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
