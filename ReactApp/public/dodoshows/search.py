@@ -1,7 +1,7 @@
 from flask import request, jsonify, Blueprint
 from dodoshows import mysql
 
-search_blueprint = Blueprint("search", __name__, url_prefix="/api/search")
+search_blueprint = Blueprint("search", __name__, url_prefix="/search")
 
 
 @search_blueprint.route("/movies", methods=["POST"])
@@ -10,7 +10,7 @@ def searchMovies():
     genres = request.json["genres"]
     people = request.json["people"]
     statement = (
-        "SELECT movie_id, movie_title, avg_rating, release_date, pg_rating, poster_url FROM movie"
+        "SELECT movie_id, movie_title, avg_rating, release_date, pg_rating FROM movie"
     )
     first = True
 
@@ -52,7 +52,6 @@ def searchMovies():
                     + str(person)
                     + ")"
                 )
-    statement += " ORDER BY release_date DESC "
 
     print(statement)
     cur = mysql.connection.cursor()

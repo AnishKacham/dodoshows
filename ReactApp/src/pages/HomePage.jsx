@@ -1,6 +1,7 @@
 import search from "../images/search.svg";
 import "../styles/HomePage.css";
 import React, { Component } from "react";
+import UserContext from "../contexts/userContext";
 import Movies from "../components/movies";
 import SideBar from "../components/sideBar";
 import TopBar from "../components/topBar";
@@ -8,13 +9,15 @@ import { Carousel,Container, Row, Col, Card, Form, Button } from "react-bootstra
 import { withRouter } from "react-router";
 
 class HomePage extends Component {
+  static contextType = UserContext;
+
   state = {
     movies: [],
   };
 
   constructor(props) {
     super(props);
-    console.log(props);
+    console.log(this);
     if (props.location.state) {
       this.state = { movies: props.location.state.movies };
       console.log(this.state);
@@ -22,7 +25,7 @@ class HomePage extends Component {
   }
 
   fetchMovies = () => {
-    fetch("http://localhost:5000/movies/", {
+    fetch("http://localhost:5000/api/movies/", {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

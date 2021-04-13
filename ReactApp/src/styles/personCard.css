@@ -1,4 +1,4 @@
-.card {
+.person .card {
   border: none;
   text-align: center;
 }
@@ -25,4 +25,8 @@
 .person .card-title {
   font-size: 15px;
   margin-bottom: none;
+}
+
+.user-rating label {
+  display: block;
 }

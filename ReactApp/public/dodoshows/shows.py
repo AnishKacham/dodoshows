@@ -6,7 +6,7 @@ from flask_jwt_extended import (
 )
 from dodoshows import mysql
 
-shows_blueprint = Blueprint("shows", __name__, url_prefix="/api/shows")
+shows_blueprint = Blueprint("shows", __name__, url_prefix="/shows")
 
 
 @shows_blueprint.route("/")

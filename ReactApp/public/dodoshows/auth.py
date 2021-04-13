@@ -2,7 +2,7 @@ from flask import jsonify, request, Blueprint
 from flask_jwt_extended import jwt_optional, get_jwt_identity, create_access_token
 from dodoshows import mysql
 
-auth_blueprint = Blueprint("auth", __name__, url_prefix="/api")
+auth_blueprint = Blueprint("auth", __name__)
 
 
 def validatePayment(paymentDeets):

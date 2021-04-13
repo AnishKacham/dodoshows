@@ -1,0 +1,20 @@
+.select{
+    background-color: green;
+}
+
+.booked{
+    background-color: red;
+}
+p.seattitle{
+  
+    font-size: 40px;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+    text-shadow: hotpink;
+    color:Green;
+}
+p.screen{
+    text-align: center;
+    font-size: 30px;
+}
+

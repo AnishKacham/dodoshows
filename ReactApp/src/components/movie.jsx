@@ -2,18 +2,11 @@ import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/HomePage.css";
+import "../styles/movieCard.css";
 import ReactStars from "react-stars";
 import { withRouter } from "react-router";
 
 class Movie extends Component {
-  state = {
-    id: this.props.movie.movie_id,
-    title: this.props.movie.movie_title,
-    release_date: this.props.movie.release_date,
-    pg_rating: this.props.movie.pg_rating,
-    avg_rating: this.props.movie.avg_rating,
-    clicked: false,
-  };
 
   constructor(props) {
     super(props);
@@ -22,31 +15,32 @@ class Movie extends Component {
   render() {
     return (
       <Card
+        className="movie"
         tag="a"
         onClick={() => {
-          this.props.history.push(`/movies/${this.state.id}`);
+          this.props.history.push(`/movies/${this.props.movie.movie_id}`);
         }}
-        border="secondary"
+        border="none"
         style={{ width: "250px", height: "470px" }}
       >
         <Card.Img
           variant="top"
-          src="https://i.insider.com/5ca3d2b892c8866e8b4618d9?width=750&format=jpeg&auto=webp"
+          src={this.props.movie.poster_url}
           style={{ width: "250px", height: "calc(250px * (40/27))" }}
         />
         <Card.ImgOverlay>
           <ReactStars
-          className = "home-star-rating"
+            className="home-star-rating"
             count={5}
             size={18}
             color2={"#ffd700"}
-            value={this.state.avg_rating * 0.5}
+            value={this.props.movie.avg_rating * 0.5}
             edit={false}
           />
         </Card.ImgOverlay>
         <Card.Body>
-          <Card.Title>{this.state.title}</Card.Title>
-          <Card.Text>{parseDate(this.state.release_date)}</Card.Text>
+          <Card.Title>{this.props.movie.movie_title}</Card.Title>
+          <Card.Text>{parseDate(this.props.movie.release_date)}</Card.Text>
         </Card.Body>
       </Card>
     );
@@ -56,15 +50,15 @@ class Movie extends Component {
 function parseDate(string) {
   var arr = string.split(" ");
   var number = arr[1];
-  var idkWhatThisIsCalled = "";
+  var order_suffix = "";
   var month = arr[2];
   var year = arr[3];
-  if (number.charAt(1) == "1") idkWhatThisIsCalled = "st";
-  else if (number.charAt(1) == "2") idkWhatThisIsCalled = "nd";
-  else if (number.charAt(1) == "3") idkWhatThisIsCalled = "rd";
-  else idkWhatThisIsCalled = "th";
+  if (number.charAt(1) == "1") order_suffix = "st";
+  else if (number.charAt(1) == "2") order_suffix = "nd";
+  else if (number.charAt(1) == "3") order_suffix = "rd";
+  else order_suffix = "th";
   if (number.charAt(0) == "0") number = number.charAt(1);
-  return number + idkWhatThisIsCalled + " " + month + " " + year;
+  return number + order_suffix + " " + month + " " + year;
 }
 
 function capitalizeFirstLetter(string) {
