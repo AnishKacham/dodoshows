@@ -114,7 +114,7 @@ def bookTicket(show_id):
             
         
         cur.execute(
-            """SELECT theatre.*, show_playing.movie_id, movie.movie_title, movie.poster_url, show.date_time
+            """SELECT theatre.*, show_playing.movie_id, movie.movie_title, movie.poster_url, show_playing.date_time
                 FROM show_playing
                 INNER JOIN movie ON (show_playing.movie_id = movie.movie_id)
                 INNER JOIN theatre ON (show_playing.theatre_id = theatre.theatre_id)
