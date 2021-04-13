@@ -47,7 +47,7 @@ def doSignup():
         return {"error": "email exists"}
 
     cur.execute(
-        "INSERT INTO user VALUES (DEFAULT, %s, %s, 1, %s, %s, 'USR')",
+        "INSERT INTO user VALUES (DEFAULT, %s, %s, 1, %s, %s, 'USR', NULL)",
         [username, email, password, city_id],
     )
     mysql.connection.commit()
