@@ -71,25 +71,25 @@ function FriendsPage(){
             {friends.map(friend=>{
                 return(
                     <Col key={friend.user_id} style={{maxWidth:"20rem"}}>
-                    <PersonCard personKey={friend.user_id} name={friend.username} status={friend.city_name} friendStat={2}/>
+                    <PersonCard personKey={friend.user_id} name={friend.username} city={friend.city_name} friendStat={2}/>
                     </Col>
                 )
             })}
             {outgoing.map(outgoingreq=>{
                 return(
                     <Col key={outgoingreq.user_id} style={{maxWidth:"20rem"}}>
-                    <PersonCard personKey={outgoingreq.user_id} name={outgoingreq.username} status={outgoingreq.city_name} friendStat={1}/>
+                    <PersonCard personKey={outgoingreq.user_id} name={outgoingreq.username} city={outgoingreq.city_name} friendStat={1}/>
                     </Col>
                 )
             })}
             {incoming.map(incomingreq=>{
                 return(
                     <Col key={incomingreq.user_id} style={{maxWidth:"20rem"}}>
-                    <PersonCard personKey={incomingreq.user_id} name={incomingreq.username} status={incomingreq.city_name} friendStat={3}/>
+                    <PersonCard personKey={incomingreq.user_id} name={incomingreq.username} city={incomingreq.city_name} friendStat={3}/>
                     </Col>
                 )
             })}
-            <Col>
+            {/* <Col>
             <PersonCard name="Kevon" status="super rixch" friendStat={0} style={{maxWidth:"13rem"}}/>
             </Col>
             <Col>
@@ -100,7 +100,7 @@ function FriendsPage(){
             </Col>
             <Col>
             <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
-            </Col>
+            </Col> */}
           </Row>
           {/* <Button variant="contained" color="primary">Material UI button?</Button> */}    
         </>
