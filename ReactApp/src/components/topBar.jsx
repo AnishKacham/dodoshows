@@ -10,6 +10,8 @@ import {
   FormControl,
 } from "react-bootstrap";
 import SearchBar from "./searchBar";
+import { Justify } from "react-bootstrap-icons";
+import { colors } from "@material-ui/core";
 
 class TopBar extends Component {
   static contextType = UserContext;
@@ -37,10 +39,11 @@ class TopBar extends Component {
       );
     } else
       return (
-        <div>
-          <Button>{this.context.user.username}</Button>
-          {"  "}
-          <Button
+        <div style={{display:"flex", justifyContent:"flex-start", color:"white"}}>
+          <Navbar.Brand>Hello {this.context.user.username}</Navbar.Brand>
+{/*           <Button>{this.context.user.username}</Button> */}
+          {'  '} 
+          <Button variant="primary"
             onClick={() => {
               this.context.logoutUser();
             }}
@@ -53,7 +56,7 @@ class TopBar extends Component {
 
   render() {
     return (
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="dark" variant="dark" expand='lg' sticky="top">
         <Navbar.Brand>Dodo Shows</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

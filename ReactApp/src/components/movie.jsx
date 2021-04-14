@@ -21,12 +21,12 @@ class Movie extends Component {
           this.props.history.push(`/movies/${this.props.movie.movie_id}`);
         }}
         border="none"
-        style={{ width: "250px", height: "470px" }}
+        style={{ width: "250px", minheight: "470px", border:"none", borderRadius:'15px', boxShadow:"5px 5px #DEE2E6"}}
       >
         <Card.Img
           variant="top"
           src={this.props.movie.poster_url}
-          style={{ width: "250px", height: "calc(250px * (40/27))" }}
+          style={{ /* width: "250px", */ height: "calc(250px * (40/27))" }}
         />
         <Card.ImgOverlay>
           <ReactStars

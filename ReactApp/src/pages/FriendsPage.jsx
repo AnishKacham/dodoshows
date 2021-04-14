@@ -61,45 +61,45 @@ function FriendsPage(){
     return(
         <>  
         <input accept="image/*" id="icon-button-file" type="file" onChange={(e)=>setImage(e.target.files[0])}/>
-        <Button onClick={uploadImage}>UPLOAD</Button>       
+        <Button variant="contained" onClick={uploadImage}>UPLOAD</Button> <br/><br/>      
         <TopBar/> 
         <br/>
-        <Row >
-            <Col id="sidebar-wrapper">
+        <Row style={{display:"flex",justifyContent:"flex-start"}}>
+            <Col id="sidebar-wrapper" style={{maxWidth:"13rem"}}>
               <SideBar />
             </Col>
             {friends.map(friend=>{
                 return(
-                    <Col key={friend.user_id}>
+                    <Col key={friend.user_id} style={{maxWidth:"20rem"}}>
                     <PersonCard personKey={friend.user_id} name={friend.username} status={friend.city_name} friendStat={2}/>
                     </Col>
                 )
             })}
             {outgoing.map(outgoingreq=>{
                 return(
-                    <Col key={outgoingreq.user_id}>
+                    <Col key={outgoingreq.user_id} style={{maxWidth:"20rem"}}>
                     <PersonCard personKey={outgoingreq.user_id} name={outgoingreq.username} status={outgoingreq.city_name} friendStat={1}/>
                     </Col>
                 )
             })}
             {incoming.map(incomingreq=>{
                 return(
-                    <Col key={incomingreq.user_id}>
+                    <Col key={incomingreq.user_id} style={{maxWidth:"20rem"}}>
                     <PersonCard personKey={incomingreq.user_id} name={incomingreq.username} status={incomingreq.city_name} friendStat={3}/>
                     </Col>
                 )
             })}
             <Col>
-            <PersonCard name="Kevon" status="super rixch" friendStat={0}/>
+            <PersonCard name="Kevon" status="super rixch" friendStat={0} style={{maxWidth:"13rem"}}/>
             </Col>
             <Col>
-            <PersonCard name="Kevon" status="super rixch" friendStat={1}/>
+            <PersonCard name="Kevon" status="super rixch" friendStat={1} style={{maxWidth:"13rem"}}/>
             </Col>
             <Col>
-            <PersonCard name="Kevon" status="super rixch" friendStat={2}/>
+            <PersonCard name="Kevon" status="super rixch" friendStat={2} style={{maxWidth:"13rem"}}/>
             </Col>
             <Col>
-            <PersonCard name="Kevon" status="super rixch" friendStat={3}/>
+            <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
             </Col>
           </Row>
           {/* <Button variant="contained" color="primary">Material UI button?</Button> */}    
