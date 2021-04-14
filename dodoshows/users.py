@@ -38,6 +38,21 @@ def getUser(user_id):
     cur.close()
     return jsonify(result)
 
+@users_blueprint.route("/<user_id>/update/profile", methods=["PUT"])
+@jwt_required
+def updateUserProfile(user_id):
+    user_id = get_jwt_identity()
+    profile_url = request.json["profile_url"]
+    cur = mysql.connection.cursor()
+    cur.execute(
+        """UPDATE user
+            SET profile_url = %s
+            WHERE user_id = %s""",
+        [profile_url, user_id],
+    )
+    cur.close()
+    return ""
+
 @users_blueprint.route("/<user_id>/friends")
 @jwt_required
 def getUserFriends(user_id):

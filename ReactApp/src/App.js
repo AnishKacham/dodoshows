@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
 import LoginPage from "./pages/LoginPage";
+import UsersPage from "./pages/UsersPage"
 import ShowsPage from "./pages/ShowsPage";
 import SeatsPage from "./pages/SeatsPage";
 import BookingPage from "./pages/BookingPage";
@@ -54,6 +55,13 @@ const Routing = () => {
               <ShowsPage/>
             )}
           />
+          <Route
+            exact
+            path="/users"
+            render={() => (
+              <UsersPage/>
+            )}
+            />
           <Route exact path="/login" render={() => <LoginPage />} />
           <Route exact path="/signup" render={() => <SignupPage />} />
           <Route exact path="/friends" render={()=> <FriendsPage/>} />
