@@ -3,7 +3,7 @@ import "../styles/HomePage.css";
 import PersonCard from "../components/PersonCard"
 import SideBar from "../components/sideBar";
 import TopBar from "../components/topBar";
-import { Form,InputGroup,CardDeck,Row,Col } from 'react-bootstrap';
+import { Form,InputGroup,CardDeck,Row,Col, Container } from 'react-bootstrap';
 import UserContext from "../contexts/userContext";
 import {Button} from '@material-ui/core';
 
@@ -59,7 +59,7 @@ function FriendsPage(){
         });
     }
     return(
-        <>  
+        <Container fluid>  
         <input accept="image/*" id="icon-button-file" type="file" onChange={(e)=>setImage(e.target.files[0])}/>
         <Button variant="contained" onClick={uploadImage}>UPLOAD</Button> <br/><br/>      
         <TopBar/> 
@@ -89,21 +89,21 @@ function FriendsPage(){
                     </Col>
                 )
             })}
-            <Col>
-            <PersonCard name="Kevon" status="super rixch" friendStat={0} style={{maxWidth:"13rem"}}/>
+            <Col style={{maxWidth:"20rem"}}>
+            <PersonCard name="Kevon" status="super rixch" friendStat={0}/>
             </Col>
-            <Col>
-            <PersonCard name="Kevon" status="super rixch" friendStat={1} style={{maxWidth:"13rem"}}/>
+            <Col style={{maxWidth:"20rem"}}>
+            <PersonCard name="Kevon" status="super rixch" friendStat={1}/>
             </Col>
-            <Col>
-            <PersonCard name="Kevon" status="super rixch" friendStat={2} style={{maxWidth:"13rem"}}/>
+            <Col style={{maxWidth:"20rem"}}>
+            <PersonCard name="Kevon" status="super rixch" friendStat={2}/>
             </Col>
-            <Col>
-            <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
+            <Col style={{maxWidth:"20rem"}}>
+            <PersonCard name="Kevon" status="super rixch" friendStat={3}/>
             </Col>
           </Row>
           {/* <Button variant="contained" color="primary">Material UI button?</Button> */}    
-        </>
+        </Container>
     );
 }
 export default FriendsPage;

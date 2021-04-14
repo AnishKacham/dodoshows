@@ -101,7 +101,7 @@ function PersonCard(props){
     }
     
     return(
-        <Container>
+        <Container fluid>
             <br/>
             <Card border={props.friendStat===2?'success':props.friendStat===1?'warning': props.friendStat===3?'danger':''} style={{ width: '12rem', borderWidth:'1.5px' ,border:'solid',boxShadow:'3px 3px', borderColor:'#DEE2E6', maxHeight:'20rem', borderRadius:'15px'}}>
                 <Card.Body>
