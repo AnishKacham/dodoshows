@@ -18,7 +18,8 @@ class SideBar extends Component {
     return (
       <>
         <Nav
-          className="col-md-12 d-none d-md-block bg-light sidebar"
+          className="col-md-12 d-none d-md-block bg-dark sidebar"
+          style={{minHeight:"900px"}}
           activeKey="/home"
           onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
         >
@@ -30,7 +31,7 @@ class SideBar extends Component {
             <Nav.Link href="/home">About Us</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-            <Nav.Link eventKey="link-1">Report Issue</Nav.Link>
+            <Nav.Link href="/friends" eventKey="link-1">Friends</Nav.Link>
         </Nav.Item>
         <Nav.Item>
             <Nav.Link eventKey="link-2">Donate</Nav.Link>

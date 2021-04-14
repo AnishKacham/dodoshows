@@ -79,7 +79,7 @@ function FriendsPage() {
             <TopBar />
             <br />
             <Row style={{ display: "flex", justifyContent: "flex-start" }}>
-                <Col id="sidebar-wrapper" style={{ maxWidth: "13rem" }}>
+                <Col xs={2} id="sidebar-wrapper">
                     <SideBar />
                 </Col>
                 {friends.map(friend => {

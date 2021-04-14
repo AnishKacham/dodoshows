@@ -18,15 +18,15 @@ class MoviePage extends Component {
   render() {
     return (
       <>
-        <Container fluid style={{maxWidth:"350px"}}> 
+        <Container fluid> 
           <TopBar />
           <br></br>
-          <Row style={{display:"flex",justifyContent:"flex-start"}}>
+          <Row>
             <Col xs={2} id="sidebar-wrapper">
               <SideBar />
             </Col>
-            <Col /* xs={10} */ style={{display:"flex",justifyContent:"flex-start", maxWidth:"350px"}}>
-              <MovieDetailed movie_id={this.state.movie_id} style={{maxWidth:"350px"}}/>
+            <Col xs={10}>
+              <MovieDetailed movie_id={this.state.movie_id}/>
             </Col>
           </Row>
         </Container>
