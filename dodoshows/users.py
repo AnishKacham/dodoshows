@@ -50,6 +50,7 @@ def updateUserProfile(user_id):
             WHERE user_id = %s""",
         [profile_url, user_id],
     )
+    mysql.connection.commit()
     cur.close()
     return ""
 

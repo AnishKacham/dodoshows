@@ -126,7 +126,7 @@ function PersonCard(props) {
       >
         <Card.Body>
           <Image
-            src="https://pbs.twimg.com/profile_images/1209872683791343621/jyNHTtaD_400x400.jpg"
+            src={props.pic}
             roundedCircle
             fluid
             thumbnail
