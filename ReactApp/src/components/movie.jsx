@@ -3,11 +3,11 @@ import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/HomePage.css";
 import "../styles/movieCard.css";
-import ReactStars from "react-stars";
+import { Rating } from "@material-ui/lab";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { withRouter } from "react-router";
 
 class Movie extends Component {
-
   constructor(props) {
     super(props);
   }
@@ -21,27 +21,35 @@ class Movie extends Component {
           this.props.history.push(`/movies/${this.props.movie.movie_id}`);
         }}
         border="none"
-        style={{ width: "250px", minheight: "470px", border:"none", borderRadius:'15px', boxShadow:"5px 5px #DEE2E6"}}
+        style={{
+          width: "250px",
+          minheight: "470px",
+          border: "none",
+          borderRadius: "15px",
+          boxShadow: "5px 5px #DEE2E6",
+        }}
       >
         <Card.Img
           variant="top"
           src={this.props.movie.poster_url}
           style={{ /* width: "250px", */ height: "calc(250px * (40/27))" }}
         />
-        <Card.ImgOverlay>
-          <ReactStars
-            className="home-star-rating"
-            count={5}
-            size={18}
-            color2={"#ffd700"}
-            value={this.props.movie.avg_rating * 0.5}
-            edit={false}
-          />
-        </Card.ImgOverlay>
+        <Card.ImgOverlay></Card.ImgOverlay>
         <Card.Body>
           <Card.Title>{this.props.movie.movie_title}</Card.Title>
           <Card.Text>{parseDate(this.props.movie.release_date)}</Card.Text>
         </Card.Body>
+        <Card.Footer>
+          <Rating
+            name="read-only"
+            value={this.props.movie.avg_rating * 0.5}
+            max={5}
+            precision={0.1}
+            size="small"
+            readOnly
+            emptyIcon={<StarBorderIcon fontSize="inherit" />}
+          />
+        </Card.Footer>
       </Card>
     );
   }
