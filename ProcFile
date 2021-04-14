@@ -1,2 +1,2 @@
-web: gunicorn dodoshows:app
+web: gunicorn "dodoshows:create_app()"
 web: gunicorn run:app
