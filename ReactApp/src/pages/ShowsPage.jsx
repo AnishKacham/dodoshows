@@ -43,6 +43,7 @@ class ShowsPage extends Component{
       });
       }
       render(){
+        if(this.state.shows.length){
           return (
        /* <form onSubmit={ this.onFormSubmit }>  
         <div className="form-group">
@@ -82,6 +83,20 @@ class ShowsPage extends Component{
  
       
           );
+      }
+      else{
+        return(
+          <div className="NoShows" style={{position: "absolute",top:"30%",marginLeft:"20%",marginRight:"20%",height:"40%",fontSize:"100px"}}>
+            Sorry ! There are no shows for this movie currently! You may return to the home page:
+            <br/><br/>
+            <Button variant="warning" size = "lg" block style={{fontSize:"30px"}}onClick={() => {
+                this.props.history.push("/");
+              }}>Back to Home</Button>
+              
+  
+          </div>
+        );
+      }
       }
 }
 export default withRouter(ShowsPage);
