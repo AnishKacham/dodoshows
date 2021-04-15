@@ -91,6 +91,7 @@ class App extends Component {
         if (json.logged_in) {
           this.setState({
             user: {
+              profile_url: json.details.profile_url,
               user_id: json.details.user_id,
               username: json.details.username,
               city_id: json.details.city_id,
