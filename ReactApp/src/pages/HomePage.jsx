@@ -40,8 +40,7 @@ class HomePage extends Component {
 
   render() {
     return (
-      <>
-        <Container fluid>
+        <div>
           <TopBar />
           {/* <br></br> */}
           <Row>
@@ -54,8 +53,8 @@ class HomePage extends Component {
               </Container>
             </Col>
           </Row>
-        </Container>
-      </>
+        </div>
+      
     );
   }
 }

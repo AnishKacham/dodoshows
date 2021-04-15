@@ -17,7 +17,7 @@ class SideBar extends Component {
 
   render() {
     return (
-      <div className="side-bar-wrapper" style={{position:"fixed", width:"12vw"}}>
+      <div className="side-bar-wrapper" style={{/* position:"fixed", */ position:"sticky",top:"0",width:"12vw"}}>
         <Nav
           className="col-md-12 d-none d-md-block bg-dark sidebar"
           style={{minHeight:"100vh"}}
