@@ -9,6 +9,7 @@ import SeatsPage from "./pages/SeatsPage";
 import BookingPage from "./pages/BookingPage";
 import ListsPage from "./pages/ListsPage";
 import SignupPage from "./pages/SignupPage";
+import AdvancedSearch from "./pages/AdvancedSearch";
 
 import UserContext, { UserProvider } from "./contexts/userContext";
 
@@ -44,6 +45,13 @@ const Routing = () => {
             path="/shows/:id/book"
             render={() => (
               <BookingPage />
+            )}
+          />
+          <Route
+            exact
+            path="/advancedSearch"
+            render={() => (
+              <AdvancedSearch />
             )}
           />
           <Route
