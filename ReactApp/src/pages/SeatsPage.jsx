@@ -98,8 +98,10 @@ class SeatsPage extends Component{
                   {this.state.seats.map((seats) =>
                   (
                       <Col key={seats.seat_code} >
+                           <br/>
                           {this.SeatCheck(seats.seat_code,seats.seat_status)}
-                          <br/><br/>
+                          <br/>
+                         
                       </Col>
                         
                       ))
