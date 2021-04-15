@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { Card, Image, Container, Row, Col, Button} from "react-bootstrap";
+import Box from '@material-ui/core/Box';
 import "../styles/SeatsPage.css";
+import { TableRow } from "@material-ui/core";
 
 var BookedSeats = []
 class SeatsPage extends Component{
@@ -37,12 +39,12 @@ class SeatsPage extends Component{
     SeatCheck=(code,status)=>{
         if(status==0){
             return(
-                <button style ={{width:"76px", height:"60px", backgroundColor:"red"}} id = {code} >{code}</button>
+                <button style ={{width:"76px", height:"60px", backgroundColor:"red", borderRadius:"20px", boxShadow:"3px 4px"}} id = {code} >{code}</button>
             );
         }
         else{
             return(
-                <button style ={{width:"76px", height:"60px"}} id = {code} onClick={()=>this.SeatSelect(code)}>{code}</button>
+                <button style ={{width:"76px", height:"60px", borderRadius:"20px",boxShadow:"3px 4px"}} id = {code} onClick={()=>this.SeatSelect(code)}>{code}</button>
             );
         }
     }
@@ -87,22 +89,28 @@ class SeatsPage extends Component{
           return(
               <>
               <br/>
-              <p className = "seattitle">Select Your Seats</p>
+              <p className = "seattitle">SELECT YOUR SEATS</p>
               
               <br/>
-              <div className="d-flex align-content-stretch flex-wrap">
+              <div class="container-xxl" style={{border:"10px solid black", marginLeft:"10px",marginRight:"10px",marginTop:"10px", backgroundColor:"grey"}}>
+
+                  <Row>
                   {this.state.seats.map((seats) =>
                   (
-                      <div key={seats.seat_code} >
+                      <Col key={seats.seat_code} >
+                           <br/>
                           {this.SeatCheck(seats.seat_code,seats.seat_status)}
-                      </div>
+                          <br/>
+                         
+                      </Col>
                         
                       ))
                    }
+                   </Row>
 
               </div>
               <hr size='30px' color="blue"/>
-              <p className = "screen">Screen here</p>
+              <p className = "screen">SCREEN HERE</p>
               <br/><br/>
               <br/><br/>
               <Button variant="success" 

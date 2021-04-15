@@ -356,6 +356,7 @@ const OthersRatings = (props) => {
   );
 };
 
+
 class MovieDetailed extends Component {
   static contextType = UserContext;
 
@@ -364,6 +365,7 @@ class MovieDetailed extends Component {
     movie: [],
     genres: [],
     people: [],
+    AdminFlag: 0
   };
 
   constructor(props, context) {
@@ -372,6 +374,26 @@ class MovieDetailed extends Component {
     console.log(this.props);
     console.log(context);
   }
+  AddShowsToggle = (movie_id, movie_name) => {
+    if(this.context.user.user_role === "ADM"){
+      return( <Button
+       variant="warning"
+       style={{marginBottom: "30px"}}
+       onClick={() => {
+         this.props.history.push({
+           pathname: `/shows/`,
+           state: { movie_id: movie_id, movie_name: movie_name },
+         });
+         console.log("In AddShowsToggle",this.state.movie.movie_id, this.state.movie.movie_title);
+       }}
+       block
+     >
+       Add Show [FOR ADMINS ONLY]
+     </Button>);
+  }
+ 
+   
+  };
 
   fetchMovie(movie_id) {
     fetch(`http://localhost:5000/api/movies/${movie_id}`, {
@@ -437,6 +459,7 @@ class MovieDetailed extends Component {
             >
               Book
             </Button>
+            {this.AddShowsToggle(this.state.movie.movie_id, this.state.movie.movie_title)}
             <FullRating
               key={this.props.movie_id}
               movie_id={this.props.movie_id}
