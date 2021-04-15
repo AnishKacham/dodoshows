@@ -9,7 +9,7 @@ var BookedSeats = []
 let sl = ['A','B','C','D','E','F','G'];
 var sn=[];
 var i;
-var SS=[]
+
 for(i=1;i<31;i++)sn.push(i);
 
 class SeatsPage extends Component{
@@ -19,7 +19,9 @@ class SeatsPage extends Component{
         super(props);
         this.state={
             show_id: this.props.location.state.show_id,
-            seats:[]
+            seats:[],
+            code_letters:[],
+            code_numbers:[]
         };
         this.fetchSeats(this.state.show_id);
     }
@@ -90,29 +92,37 @@ class SeatsPage extends Component{
       .then((json) => {
         json = this.SortSeats(json);
         this.setState({seats: json});
-        SS = json;
-        console.log("json:",json); // Gives proper sorted seats array
+        var i;
+        var j;
+        let l = new Set();
+        let n = new Set();
+        for(i=0;i<json.length;i++){
+           l.add(json[i].seat_code.charAt(0));
+           n.add(json[i].seat_code.slice(1));
+        }
+        this.setState({code_letters: Array.from(l),code_numbers:Array.from(n)});
+        console.log("code_letters:",this.state.code_letters); // Gives proper sorted seats array
       });
     }
     
       render(){
-          if(this.state.seats.length){
+          if(this.state.seats.length && this.state.code_letters.length && this.state.code_numbers.length){
           return(
               <>
               <br/>
               <p className = "seattitle">SELECT YOUR SEATS</p>
               
               <br/>
-              <div class="container-fluid" style={{border:"10px solid black", marginLeft:"100px",marginRight:"100px",backgroundColor:"grey"}}>
+              <div class="container-fluid" style={{border:"10px solid black",backgroundColor:"grey"}}>
               
-                  {sl.map((letters,index) =>
+                  {this.state.code_letters.map((letters,index) =>
                   ( <Row style={{flexWrap:"nowrap"}}>
                    
-                      {sn.map((numbers)=>(
+                      {this.state.code_numbers.map((numbers)=>(
                       <Col key={numbers} >
                            <br/>
                           {console.log("Check: ", this.state)}
-                          {this.SeatCheck(letters+numbers,this.state.seats[index*30 + parseInt(numbers)-1].seat_status)}
+                          {this.SeatCheck(letters+numbers,this.state.seats[index*this.state.code_numbers.length + parseInt(numbers)-1].seat_status)}
                           
                           <br/>
                          
