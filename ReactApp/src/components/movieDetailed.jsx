@@ -374,11 +374,7 @@ class MovieDetailed extends Component {
     console.log(this.props);
     console.log(context);
   }
-  AddShowsToggle = (movie_id) => {
-    console.log("FLAG:",this.state.AdminFlag);
-    if(this.state.AdminFlag==0){
-    this.context.loginUser();
-    console.log("Context inside AddShowsToggle: ", this.context.user);
+  AddShowsToggle = (movie_id, movie_name) => {
     if(this.context.user.user_role === "ADM"){
       return( <Button
        variant="warning"
@@ -386,16 +382,14 @@ class MovieDetailed extends Component {
        onClick={() => {
          this.props.history.push({
            pathname: `/shows/`,
-           state: { movie_id: movie_id },
+           state: { movie_id: movie_id, movie_name: movie_name },
          });
-         console.log("In AddShowsToggle",this.state.movie.movie_id);
+         console.log("In AddShowsToggle",this.state.movie.movie_id, this.state.movie.movie_title);
        }}
        block
      >
        Add Show [FOR ADMINS ONLY]
      </Button>);
-    }
-    this.setState({AdminFlag:1});
   }
  
    
@@ -465,7 +459,7 @@ class MovieDetailed extends Component {
             >
               Book
             </Button>
-            {this.AddShowsToggle(this.state.movie.movie_id)}
+            {this.AddShowsToggle(this.state.movie.movie_id, this.state.movie.movie_title)}
             <FullRating
               key={this.props.movie_id}
               movie_id={this.props.movie_id}
