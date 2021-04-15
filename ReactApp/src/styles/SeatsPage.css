@@ -6,15 +6,14 @@
     background-color: red;
 }
 p.seattitle{
-  
+    font-weight: 600 ;
     font-size: 40px;
-    font-family: "Times New Roman", Times, serif;
     text-align: center;
-    text-shadow: hotpink;
-    color:Green;
+    color:palevioletred;
 }
 p.screen{
     text-align: center;
-    font-size: 30px;
+    font-size: 40px;
+    font-weight: 400 ;
 }
 
