@@ -61,8 +61,9 @@ class ShowsPage extends Component{
        (<div
           key={show.show_id}
           className="d-flex flex-column bd-highlight mb-3"
+          style={{padding: "10px"}}
         >
-      <Card bg="dark" text = "light">
+      <Card bg="dark" text = "light" style={{height: "200px", width: "50%", borderRadius:"10px",marginRight: "25%",marginLeft: "25%"}}>
   <Card.Header as="h5" >Featured</Card.Header>
   <Card.Body>
     <Card.Title>{show.theatre_mall}</Card.Title>
