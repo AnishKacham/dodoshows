@@ -6,10 +6,12 @@ import TopBar from "../components/topBar";
 import { Form, InputGroup, CardDeck, Row, Col, Container } from 'react-bootstrap';
 import UserContext from "../contexts/userContext";
 import { Button } from '@material-ui/core';
+import ProfielPage from './ProfilePage';
+import '../styles/FriendsPage.css';
 
 function FriendsPage() {
     let user = useContext(UserContext);
-    const [image, setImage] = useState("")
+    const [image, setImage] = useState("");
     const [photoURL, setPhotoURL] = useState("");
     const [friends, setFriends] = useState([]);
     const [incoming, setIncoming] = useState([]);
@@ -73,15 +75,23 @@ function FriendsPage() {
             });
     }
     return (
-        <Container fluid>
-            <input accept="image/*" id="icon-button-file" type="file" onChange={(e) => setImage(e.target.files[0])} />
-            <Button variant="contained" onClick={uploadImage}>UPLOAD</Button> <br /><br />
+        <>
             <TopBar />
-            <br />
-            <Row style={{ display: "flex", justifyContent: "flex-start" }}>
-                <Col xs={2} id="sidebar-wrapper">
+            <div className="page-wrapper">
+                <div>
+                    <SideBar/>
+                </div>
+                <div className="sureal-content-wrapper">
+            <Row style={{ display: "flex", justifyContent: "flex-start" , width:"95%"}}>
+                {/* <Col xs={2} id="sidebar-wrapper">
                     <SideBar />
+                </Col> */}
+                <Row style={{width:"95%",marginLeft:"40px", marginTop:"40px"}}>
+                <Col xs={6}>
+                <ProfielPage/>
                 </Col>
+                </Row>
+                <Row style={{marginLeft:"40px",display:"flex",justifyContent:"flex-start"}}>
                 {friends.map(friend => {
                     return (
                         <Col key={friend.user_id} style={{ maxWidth: "20rem" }}>
@@ -103,8 +113,8 @@ function FriendsPage() {
                         </Col>
                     )
                 })}
-                {/* <Col>
-            <PersonCard name="Kevon" status="super rixch" friendStat={0} style={{maxWidth:"13rem"}}/>
+                <Col>
+            <PersonCard name="Kevon" status="super rixch" friendStat={0} style={{maxWidth:"20rem"}}/>
             </Col>
             <Col style={{maxWidth:"20rem"}}>
             <PersonCard name="Kevon" status="super rixch" friendStat={1}/>
@@ -114,10 +124,23 @@ function FriendsPage() {
             </Col>
             <Col>
             <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
-            </Col> */}
+            </Col>
+            <Col>
+            <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
+            </Col>
+            <Col>
+            <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
+            </Col>
+            <Col>
+            <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
+            </Col>
+            </Row>
             </Row>
             {/* <Button variant="contained" color="primary">Material UI button?</Button> */}
-        </Container>
+            </div>
+            </div>
+        </>
+        
     );
 }
 export default FriendsPage;
