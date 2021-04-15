@@ -37,12 +37,12 @@ class SeatsPage extends Component{
     SeatCheck=(code,status)=>{
         if(status==0){
             return(
-                <button style ={{width:"76px", height:"60px", backgroundColor:"red"}} id = {code} >{code}</button>
+                <button style ={{boxShadow: "3px 4px", margin:"5px", width:"76px", height:"60px",backgroundColor:"#f27878", borderRadius: "15px"}} id = {code} >{code}</button>
             );
         }
         else{
             return(
-                <button style ={{width:"76px", height:"60px"}} id = {code} onClick={()=>this.SeatSelect(code)}>{code}</button>
+                <button style ={{boxShadow: "3px 4px", margin:"5px", width:"76px", height:"60px", borderRadius: "15px"}} id = {code} onClick={()=>this.SeatSelect(code)}>{code}</button>
             );
         }
     }
@@ -87,10 +87,10 @@ class SeatsPage extends Component{
           return(
               <>
               <br/>
-              <p className = "seattitle">Select Your Seats</p>
+              <h1 className = "seattitle">Select Your Seats</h1>
               
               <br/>
-              <div className="d-flex align-content-stretch flex-wrap">
+              <div className="d-flex align-content-stretch flex-wrap" style={{marginLeft:"30px"}}>
                   {this.state.seats.map((seats) =>
                   (
                       <div key={seats.seat_code} >
