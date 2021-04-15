@@ -92,6 +92,7 @@ function FriendsPage() {
                 </Col>
                 </Row>
                 <Row style={{marginLeft:"40px",display:"flex",justifyContent:"flex-start"}}>
+                    <div className="friend-group">
                 {friends.map(friend => {
                     return (
                         <Col key={friend.user_id} style={{ maxWidth: "20rem" }}>
@@ -99,6 +100,8 @@ function FriendsPage() {
                         </Col>
                     )
                 })}
+                    </div>
+                    <div className="friend-group">
                 {outgoing.map(outgoingreq => {
                     return (
                         <Col key={outgoingreq.user_id} style={{ maxWidth: "20rem" }}>
@@ -106,6 +109,8 @@ function FriendsPage() {
                         </Col>
                     )
                 })}
+                </div>
+                <div className="friend-group">
                 {incoming.map(incomingreq => {
                     return (
                         <Col key={incomingreq.user_id} style={{ maxWidth: "20rem" }}>
@@ -113,7 +118,8 @@ function FriendsPage() {
                         </Col>
                     )
                 })}
-                <Col>
+                </div>
+            {/*     <Col>
             <PersonCard name="Kevon" status="super rixch" friendStat={0} style={{maxWidth:"20rem"}}/>
             </Col>
             <Col style={{maxWidth:"20rem"}}>
@@ -133,7 +139,7 @@ function FriendsPage() {
             </Col>
             <Col>
             <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
-            </Col>
+            </Col> */}
             </Row>
             </Row>
             {/* <Button variant="contained" color="primary">Material UI button?</Button> */}
