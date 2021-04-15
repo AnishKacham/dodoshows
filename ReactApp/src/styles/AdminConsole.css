@@ -9,14 +9,14 @@
 .Header{
     position:relative;
     text-align: center;
-    top:1px;
+    top:25%;
     color: red;
-    font-size: 30px;
+    font-size: 60px;
 }
 .AddZone{
     position: absolute;
     width: 40%;
-    height: 70%;
+    height: 50%;
     top: 20%;
     margin-left: 30%;
     margin-right: 30%;
@@ -29,5 +29,5 @@
     text-align: center;
     top: 5%;
     color: salmon;
-    font-size: 30px;
+    font-size: 50px;
 }

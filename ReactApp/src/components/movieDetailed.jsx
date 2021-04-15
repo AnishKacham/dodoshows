@@ -356,6 +356,7 @@ const OthersRatings = (props) => {
   );
 };
 
+
 class MovieDetailed extends Component {
   static contextType = UserContext;
 
@@ -364,6 +365,7 @@ class MovieDetailed extends Component {
     movie: [],
     genres: [],
     people: [],
+    AdminFlag: 0
   };
 
   constructor(props, context) {
@@ -373,6 +375,8 @@ class MovieDetailed extends Component {
     console.log(context);
   }
   AddShowsToggle = (movie_id) => {
+    console.log("FLAG:",this.state.AdminFlag);
+    if(this.state.AdminFlag==0){
     this.context.loginUser();
     console.log("Context inside AddShowsToggle: ", this.context.user);
     if(this.context.user.user_role === "ADM"){
@@ -391,6 +395,9 @@ class MovieDetailed extends Component {
        Add Show [FOR ADMINS ONLY]
      </Button>);
     }
+    this.setState({AdminFlag:1});
+  }
+ 
    
   };
 

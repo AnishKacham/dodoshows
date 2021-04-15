@@ -43,9 +43,9 @@ class AdminConsole extends Component{
     render(){
         return(
             <>
-            <div className="ConsoleHeader"> <Button variant = "success" size="sm" style={{position:"absolute",marginLeft:"30px",top:"30%"}} onClick={() => {
+            <div className="ConsoleHeader"> <Button variant = "success" size="lg" style={{position:"absolute",marginLeft:"30px",top:"30%"}} onClick={() => {
                 this.props.history.push("/");
-              }}>Back to Home</Button> <p className = "Header"> ADMIN CONSOLE</p> </div>
+              }}>Back to Home</Button> <p className = "Header">ADMIN CONSOLE</p> </div>
 
             <div className ="AddZone"> 
             <p className = "ConsoleTitle" ><u><b>SET SHOW DETAILS</b></u>  </p>
