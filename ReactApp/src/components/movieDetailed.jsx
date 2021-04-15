@@ -372,6 +372,27 @@ class MovieDetailed extends Component {
     console.log(this.props);
     console.log(context);
   }
+  AddShowsToggle = (movie_id) => {
+    this.context.loginUser();
+    console.log("Context inside AddShowsToggle: ", this.context.user);
+    if(this.context.user.user_role === "ADM"){
+      return( <Button
+       variant="warning"
+       style={{marginBottom: "30px"}}
+       onClick={() => {
+         this.props.history.push({
+           pathname: `/shows/`,
+           state: { movie_id: movie_id },
+         });
+         console.log("In AddShowsToggle",this.state.movie.movie_id);
+       }}
+       block
+     >
+       Add Show [FOR ADMINS ONLY]
+     </Button>);
+    }
+   
+  };
 
   fetchMovie(movie_id) {
     fetch(`http://localhost:5000/api/movies/${movie_id}`, {
@@ -437,6 +458,7 @@ class MovieDetailed extends Component {
             >
               Book
             </Button>
+            {this.AddShowsToggle(this.state.movie.movie_id)}
             <FullRating
               key={this.props.movie_id}
               movie_id={this.props.movie_id}

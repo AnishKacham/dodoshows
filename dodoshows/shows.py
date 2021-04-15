@@ -58,6 +58,7 @@ def getShow(show_id):
 
 
 @shows_blueprint.route("/", methods=["POST"])
+@jwt_required
 def addShow():
     cur = mysql.connection.cursor()
     cur.execute(
@@ -74,7 +75,7 @@ def addShow():
     ticket_price = request.json["ticket_price"]
 
     cur.execute(
-        """INSERT INTO show
+        """INSERT INTO show_playing
             VALUES (DEFAULT, %s, %s, %s, %s)""",
         [movie_id, theatre_id, date_time, ticket_price],
     )
@@ -83,7 +84,8 @@ def addShow():
         """SELECT seat_code
             FROM seat
             WHERE theatre_id = %s
-        """
+        """,
+        [theatre_id],
     )
     seats = cur.fetchall()
     for seat in seats:
