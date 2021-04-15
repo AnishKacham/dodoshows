@@ -20,7 +20,6 @@ class MoviePage extends Component {
       <>
         <Container fluid> 
           <TopBar />
-          <br></br>
           <Row>
             <Col xs={2} id="sidebar-wrapper">
               <SideBar />

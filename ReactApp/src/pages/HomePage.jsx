@@ -43,7 +43,7 @@ class HomePage extends Component {
       <>
         <Container fluid>
           <TopBar />
-          <br></br>
+          {/* <br></br> */}
           <Row>
             <Col xs={2} id="sidebar-wrapper">
               <SideBar />

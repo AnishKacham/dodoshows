@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Nav } from "react-bootstrap";
 import { withRouter } from "react-router";
 import UserContext from "../contexts/userContext";
+// import '../styles/sideBar.css';
 
 class SideBar extends Component {
   static contextType = UserContext;
@@ -16,10 +17,10 @@ class SideBar extends Component {
 
   render() {
     return (
-      <>
+      <div className="side-bar-wrapper" style={{position:"fixed", width:"12vw"}}>
         <Nav
           className="col-md-12 d-none d-md-block bg-dark sidebar"
-          style={{minHeight:"900px"}}
+          style={{minHeight:"100vh"}}
           activeKey="/home"
           onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
         >
@@ -42,7 +43,7 @@ class SideBar extends Component {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-      </>
+      </div>
     );
   }
 }
