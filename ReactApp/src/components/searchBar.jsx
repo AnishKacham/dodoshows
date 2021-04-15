@@ -6,8 +6,11 @@ import {
   Nav,
   Button,
   Form,
-  FormControl,
+  FormControl
 } from "react-bootstrap";
+import {
+  TextField
+} from "@material-ui/core";
 import TitleSearchResults from "./titleSearchResults";
 import movie from "./movie";
 
@@ -40,7 +43,7 @@ class SearchBar extends Component {
       });
     }
     if (event.target.value) {
-      this.state.typingTimeout = setTimeout(this.timedSearch, 700);
+      this.state.typingTimeout = setTimeout(this.timedSearch, 500);
     }
   };
 
@@ -146,15 +149,16 @@ class SearchBar extends Component {
             inline
             onSubmit={this.submitHandler}
             className="nav-item dropdown"
+            autocomplete="off"
           >
-            <FormControl
-              type="text"
-              placeholder={
-                this.props.type ? this.props.type : "Search for a movie..."
-              }
-              className="mr-sm-2"
-              onChange={this.changeName}
-            />
+            <TextField
+                  fullWidth
+                  label = {this.props.type ? this.props.type.charAt(0).toUpperCase() + this.props.type.slice(1) : "Search for a movie..."}
+                  name="username"
+                  size="small"
+                  variant="outlined"
+                  onChange={this.changeName}
+                />
             <TitleSearchResults
               type={this.props.type}
               onClick={this.clickHandler}

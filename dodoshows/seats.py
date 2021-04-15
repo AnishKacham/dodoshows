@@ -114,7 +114,7 @@ def bookTicket(show_id):
             
         
         cur.execute(
-            """SELECT theatre.*, show_playing.movie_id, movie.movie_title, movie.poster_url, show.date_time
+            """SELECT theatre.*, show_playing.movie_id, movie.movie_title, movie.poster_url, show_playing.date_time
                 FROM show_playing
                 INNER JOIN movie ON (show_playing.movie_id = movie.movie_id)
                 INNER JOIN theatre ON (show_playing.theatre_id = theatre.theatre_id)
@@ -122,6 +122,16 @@ def bookTicket(show_id):
             [show_id],
         )
         result = cur.fetchone()
+        MovieTitle=result["movie_title"]
+        Screen=result["theatre_name"]
+        TheatreAdd=result["theatre_address"]
+        TheatreMall=result["theatre_mall"]
+        DateTime=result["date_time"]
+        Seats = ""
+        for seat in seats:
+            Seats += seat+","
+        Seats = Seats[:-1]
+        print("Seats\n", Seats)
         cur.execute(
             """SELECT email FROM user WHERE user_id = %s""",
             [user_id],
@@ -132,7 +142,8 @@ def bookTicket(show_id):
         
         ticket_qr_bytes = makeQR(str({"ticket_id": ticket_id, "ticket_code": ticket_code}))
 
-        body = ""
+        body = f"MOVIE: {MovieTitle}\nSCREEN: {Screen}\nADDRESS: {TheatreAdd}\nMALL: {TheatreMall}\nTIMING: {DateTime}\nSEATS: {Seats}"
+        print("Mail body:\n",body)
 
         msg = Message("Movie Ticket",
                   sender = os.getenv("MAIL_USERNAME"),

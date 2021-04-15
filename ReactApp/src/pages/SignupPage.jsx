@@ -1,41 +1,124 @@
-import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
-import { withRouter } from "react-router";
 import SearchBar from "../components/searchBar";
+import React, { Component, useContext, useState, useEffect } from "react";
+import { Form } from "react-bootstrap";
+import {
+  FormControl,
+  FormHelperText,
+  Input,
+  InputLabel,
+  FormGroup,
+  Grid,
+  Snackbar,
+  TextField,
+  Container,
+  Typography,
+  Button,
+  Box,
+  IconButton,
+} from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { withRouter } from "react-router";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import UserContext from "../contexts/userContext";
 
-class SignupPage extends Component {
-  static contextType = UserContext;
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
-  state = {
-    username: "",
-    password: "",
-    email: "",
-    city_id: 0,
-    city_name: "",
-    has_selected_city: false,
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: theme.spacing(3),
+  },
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  toolbar: {
+    minHeight: 65,
+    alignItems: "flex-start",
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+    alignSelf: "center",
+  },
+}));
+
+const SignupPage = () => {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [errorAlert, setErrorAlert] = useState("");
+  let user = useContext(UserContext);
+
+  let history = useHistory();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [cityId, setCityId] = useState(0);
+  const [cityName, setCityName] = useState("");
+  const [hasSelectedCity, setHasSelectedCity] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
-  handleEmailChange = (event) => {
-    this.setState({ email: event.target.value });
+  const getCity = (city_id, city_name) => {
+    console.log(city_id, city_name);
+    setCityId(city_id);
+    setCityName(city_name);
+    setHasSelectedCity(true);
   };
 
-  handleUsernameChange = (event) => {
-    this.setState({ username: event.target.value });
+  const CityDisplay = () => {
+    if (hasSelectedCity) {
+      return (
+        <div>
+          <Button variant="contained">
+            {cityName}
+          </Button>
+          <IconButton aria-label="delete" onClick={() => setHasSelectedCity(false)}>
+            <DeleteIcon fontSize="small"/>
+          </IconButton>
+        </div>
+      );
+    } else {
+      return (
+        <SearchBar entryDialogue={true} sendResult={getCity} type="city" />
+      );
+    }
   };
 
-  handlePasswordChange = (event) => {
-    this.setState({ password: event.target.value });
-  };
+  const uploadFields = () => {
+    if (
+      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email
+      )
+    ) {
+      setErrorAlert("Your email is not valid!");
+      setOpen(true);
+      return;
+    }
 
-  doSignup = () => {
+    if (!hasSelectedCity) {
+      setErrorAlert("Please select a city from the given dropdown");
+      setOpen(true);
+      return;
+    }
     fetch("http://localhost:5000/api/signup", {
       method: "POST",
       body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-        email: this.state.email,
-        city_id: this.state.city_id,
+        username: username,
+        password: password,
+        email: email,
+        city_id: cityId,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -43,12 +126,14 @@ class SignupPage extends Component {
     })
       .then((response) => response.json())
       .then((json) => {
-        if (json.error) alert(json.error);
-        else {
+        if (json.error) {
+          setErrorAlert(json.error);
+          setOpen(true);
+        } else {
           localStorage.setItem("jwt", json.jwt);
-          this.context.loginUser();
+          user.loginUser();
           console.log(localStorage.getItem("lastLoc"));
-          this.props.history.push(
+          history.push(
             localStorage.getItem("lastLoc")
               ? localStorage.getItem("lastLoc")
               : "/"
@@ -56,72 +141,91 @@ class SignupPage extends Component {
         }
       });
   };
+  return (
+    <Container
+      className={classes.container}
+      maxWidth="xs"
+      container
+      align="center"
+    >
+      <Typography>
+        <Box fontWeight="fontWeightBold">Sign up</Box>
+      </Typography>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+        autocomplete="off"
+      >
+        <Grid container spacing={3} style={{ paddingTop: 40 }}>
+          <Grid item xs={12}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Username"
+                  name="username"
+                  size="small"
+                  variant="outlined"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Password"
+                  name="password"
+                  size="small"
+                  type="password"
+                  variant="outlined"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Email"
+                  name="email"
+                  size="small"
+                  variant="outlined"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <CityDisplay />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              color="primary"
+              fullWidth
+              type="submit"
+              variant="contained"
+              onClick={() => uploadFields()}
+            >
+              Sign up
+            </Button>
+          </Grid>
 
-  getCity = (city_id, city_name) => {
-    console.log(city_id, city_name);
-    this.setState({
-      city_id: city_id,
-      city_name: city_name,
-      has_selected_city: true,
-    });
-  };
-
-  cityDisplay = () => {
-    if (this.state.has_selected_city) {
-      return (
-        <div>
-          <Button onClick={() => this.setState({ has_selected_city: false })}>
-            {this.state.city_name}
-          </Button>
-        </div>
-      );
-    } else {
-      return (
-        <SearchBar entryDialogue={true} sendResult={this.getCity} type="city" />
-      );
-    }
-  };
-
-  render() {
-    return (
-      <>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            onChange={this.handleEmailChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="formBasicUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter username"
-            onChange={this.handleUsernameChange}
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            onChange={this.handlePasswordChange}
-          />
-        </Form.Group>
-        {this.cityDisplay()}
-        <Button
-          variant="primary"
-          type="submit"
-          style={{ marginTop: "20px" }}
-          onClick={() => this.doSignup()}
-        >
-          Submit
-        </Button>
-      </>
-    );
-  }
-}
+          <Grid item xs={12} align="center">
+            <Typography>
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                style={{ textDecoration: "none", color: "#3f50b5" }}
+              >
+                <Box fontWeight="fontWeightBold">Login</Box>
+              </Link>
+            </Typography>
+          </Grid>
+        </Grid>
+      </form>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert severity="error">{errorAlert}</Alert>
+      </Snackbar>
+    </Container>
+  );
+};
 
 export default withRouter(SignupPage);
