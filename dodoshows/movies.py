@@ -3,6 +3,7 @@ from flask_jwt_extended import (
     get_jwt_identity,
     jwt_required,
     create_access_token,
+    jwt_optional
 )
 from dodoshows import mysql
 
@@ -51,17 +52,33 @@ def getMovie(movie_id):
 
 
 @movies_blueprint.route("/<movie_id>/ratings")
+@jwt_optional
 def getRatingsForMovie(movie_id):
-    print(movie_id)
+    user_id = get_jwt_identity()
+    result = {"ratings": [], "friends": []}
     cur = mysql.connection.cursor()
     cur.execute(
         """SELECT user.user_id, user.username, rating.movie_id, rating.watch_status, rating.score, rating.review
             FROM rating
             INNER JOIN user ON rating.user_id=user.user_id
-            WHERE rating.movie_id = %s AND rating.review IS NOT NULL""",
+            WHERE rating.movie_id = %s AND rating.review IS NOT NULL AND rating.review != \"\"""",
         [movie_id],
     )
-    result = cur.fetchall()
+    result["ratings"] = cur.fetchall()
+    print("jwt identity: ")
+    print(user_id)
+    if user_id:
+        cur.execute(
+            """SELECT user_id2
+                FROM friendship
+                WHERE user_id1=%s
+                UNION
+                SELECT user_id1
+                FROM friendship
+                WHERE user_id2=%s""",
+            [user_id, user_id],
+        )
+        result["friends"] = cur.fetchall()
     print(result)
     cur.close()
     return jsonify(result)
