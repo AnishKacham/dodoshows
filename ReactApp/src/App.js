@@ -10,6 +10,8 @@ import BookingPage from "./pages/BookingPage";
 import ListsPage from "./pages/ListsPage";
 import SignupPage from "./pages/SignupPage";
 import FriendsPage from "./pages/FriendsPage";
+import AdminConsole from "./pages/AdminConsole";
+
 import UserContext, { UserProvider } from "./contexts/userContext";
 import ProfilePage from "./pages/ProfilePage";
 
@@ -54,6 +56,13 @@ const Routing = () => {
               <ShowsPage/>
             )}
           />
+          <Route
+            exact
+            path="/shows"
+            render={() => (
+              <AdminConsole/>
+            )}
+          />
           <Route exact path="/login" render={() => <LoginPage />} />
           <Route exact path="/signup" render={() => <SignupPage />} />
           <Route exact path="/friends" render={()=> <FriendsPage/>} />
@@ -94,6 +103,8 @@ class App extends Component {
         if (json.logged_in) {
           this.setState({
             user: {
+              profile_url: json.details.profile_url,
+              user_role: json.details.user_role,
               user_id: json.details.user_id,
               username: json.details.username,
               city_id: json.details.city_id,

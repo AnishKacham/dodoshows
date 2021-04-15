@@ -309,7 +309,8 @@ const PresentInLists = (props) => {
 
 const OthersRatings = (props) => {
   let [ratings, setRatings] = useState([]);
-  let [onlyfriends, setOnlyFriends] = useState(false);
+  let [friends, setFriends] = useState([]);
+  let [onlyFriends, setOnlyFriends] = useState(false);
   useEffect(() => {
     console.log(props);
     fetchRatings();
@@ -321,43 +322,71 @@ const OthersRatings = (props) => {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
     })
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
         if (json && Object.keys(json).length && !json.msg) {
-          setRatings(json);
+          setRatings(json.ratings);
+          setFriends(json.friends.map((friend) => friend.user_id2));
         }
       });
   };
 
   return (
     <>
-      {ratings.map((rating) => (
-        <Card key={rating.user_id} style={{ marginBottom: "50px" }}>
-          <Card.Header>{rating.username}</Card.Header>
-          <Card.Body>
-            <blockquote className="blockquote mb-0">
-              <p> "{rating.review}" </p>
-              <Card.Subtitle>
-                <Rating
-                  name="read-only"
-                  value={rating.score * 0.5}
-                  max={5}
-                  precision={0.5}
-                  size="small"
-                  emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                  readOnly
-                />
-              </Card.Subtitle>
-            </blockquote>
-          </Card.Body>
-        </Card>
-      ))}
+      <DropdownButton
+        style={{ marginBottom: "50px" }}
+        variant={onlyFriends ? "success" : "secondary"}
+        title={onlyFriends ? "Reviews from friends" : "Reviews from everyone"}
+      >
+        <Dropdown.Item
+          eventKey="1"
+          onClick={() =>
+            onlyFriends
+              ? setOnlyFriends(false)
+              : setOnlyFriends(true)
+          }
+        >
+          {!onlyFriends ? "Reviews from friends" : "Reviews from everyone"}
+        </Dropdown.Item>
+      </DropdownButton>
+      {ratings.length? ratings
+        .filter((rating) =>
+          onlyFriends ? friends.includes(rating.user_id) : true
+        )
+        .map((rating) => (
+          <Card key={rating.user_id} style={{ marginBottom: "50px" }}>
+            <Card.Header>{rating.username}</Card.Header>
+            <Card.Body>
+              <blockquote className="blockquote mb-0">
+                <p> "{rating.review}" </p>
+                <Card.Subtitle>
+                  <Rating
+                    name="read-only"
+                    value={rating.score * 0.5}
+                    max={5}
+                    precision={0.5}
+                    size="small"
+                    emptyIcon={<StarBorderIcon fontSize="inherit" />}
+                    readOnly
+                  />
+                </Card.Subtitle>
+              </blockquote>
+            </Card.Body>
+          </Card>
+        )):
+        <Card style={{ marginBottom: "50px" }}>
+            <Card.Body>
+                No reviews :(
+            </Card.Body>
+          </Card>}
     </>
   );
 };
+
 
 class MovieDetailed extends Component {
   static contextType = UserContext;
@@ -367,6 +396,7 @@ class MovieDetailed extends Component {
     movie: [],
     genres: [],
     people: [],
+    AdminFlag: 0
   };
 
   constructor(props, context) {
@@ -375,6 +405,26 @@ class MovieDetailed extends Component {
     console.log(this.props);
     console.log(context);
   }
+  AddShowsToggle = (movie_id, movie_name) => {
+    if(this.context.user.user_role === "ADM"){
+      return( <Button
+       variant="warning"
+       style={{marginBottom: "30px"}}
+       onClick={() => {
+         this.props.history.push({
+           pathname: `/shows/`,
+           state: { movie_id: movie_id, movie_name: movie_name },
+         });
+         console.log("In AddShowsToggle",this.state.movie.movie_id, this.state.movie.movie_title);
+       }}
+       block
+     >
+       Add Show [FOR ADMINS ONLY]
+     </Button>);
+  }
+ 
+   
+  };
 
   fetchMovie(movie_id) {
     fetch(`http://localhost:5000/api/movies/${movie_id}`, {
@@ -428,7 +478,7 @@ class MovieDetailed extends Component {
             <br></br>
             <Button
               variant="danger"
-              style={{marginBottom: "30px"}}
+              style={{ marginBottom: "30px" }}
               onClick={() => {
                 this.props.history.push({
                   pathname: `/movies/${this.state.movie.movie_id}/shows`,
@@ -440,6 +490,7 @@ class MovieDetailed extends Component {
             >
               Book
             </Button>
+            {this.AddShowsToggle(this.state.movie.movie_id, this.state.movie.movie_title)}
             <FullRating
               key={this.props.movie_id}
               movie_id={this.props.movie_id}

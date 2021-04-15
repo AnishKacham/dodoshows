@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_mysqldb import MySQL
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS, cross_origin
@@ -22,7 +22,7 @@ from dodoshows.seats import seats_blueprint
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__,static_folder='../ReactApp/build',static_url_path='')
 
     load_dotenv("/.env")
     app.config["MYSQL_USER"] = os.getenv("MYSQL_USER")
@@ -54,6 +54,10 @@ def create_app():
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(shows_blueprint)
     app.register_blueprint(seats_blueprint)
+
+    @app.route('/')
+    def serve():
+        return send_from_directory(app.static_folder, 'index.html')
 
     return app
 

@@ -38,14 +38,24 @@ class BookingPage extends Component{
     render(){
 
         return(
+     
             <div className="GPay">
                 <p className = "Thanks">Thank you! Please complete your booking by paying below. Make sure to receive your ticket! Enjoy</p>
-                <PaymentButton/>
-                <Button variant="success" size = "lg" onClick={()=> this.Book(this.state.BSeats,this.state.show_id)}>Send ticket</Button>
+                <Button variant="info" size = "lg" block>Payment Gateway</Button>
+                <br/>
+                <br/>
+               
+                <Button variant="success" size = "lg" onClick={()=> this.Book(this.state.BSeats,this.state.show_id)} block style={{boxShadow:"3px 4px"}}>Send ticket</Button>
+                <br/>
+                <br/>
+                <Button variant="warning" size = "lg" block onClick={() => {
+                this.props.history.push("/");
+              }}>Back to Home</Button>
+                <br/>
+                <br/>
                 <br/><br/><br/><br/>
-                
-                
             </div>
+           
           
         );
     }
