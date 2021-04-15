@@ -6,13 +6,21 @@ import "../styles/SeatsPage.css";
 import { TableRow } from "@material-ui/core";
 
 var BookedSeats = []
+let sl = ['A','B','C','D','E','F','G'];
+var sn=[];
+var i;
+var SS=[]
+for(i=1;i<31;i++)sn.push(i);
+
 class SeatsPage extends Component{
+    
     constructor(props){
+        
         super(props);
         this.state={
             show_id: this.props.location.state.show_id,
             seats:[]
-        }
+        };
         this.fetchSeats(this.state.show_id);
     }
     
@@ -49,7 +57,7 @@ class SeatsPage extends Component{
         }
     }
 
-    SortSeats=(a)=>{
+  SortSeats=(a)=>{
         let i;
         let j;
         for(i=0;i<a.length;i++){
@@ -70,7 +78,7 @@ class SeatsPage extends Component{
         return a;
     }
 
-    fetchSeats(show_id){
+    fetchSeats=(show_id)=>{
         fetch(`http://localhost:5000/api/shows/${show_id}/seats`, {
       method: "GET",
       headers: {
@@ -80,33 +88,41 @@ class SeatsPage extends Component{
     })
       .then((response) => response.json())
       .then((json) => {
-       this.setState({seats: this.SortSeats(json)})
-       console.log("Sorted seats:",this.SortSeats(json));
+        json = this.SortSeats(json);
+        this.setState({seats: json});
+        SS = json;
+        console.log("json:",json); // Gives proper sorted seats array
       });
     }
     
       render(){
+          if(this.state.seats.length){
           return(
               <>
               <br/>
               <p className = "seattitle">SELECT YOUR SEATS</p>
               
               <br/>
-              <div class="container-xxl" style={{border:"10px solid black", marginLeft:"10px",marginRight:"10px",marginTop:"10px", backgroundColor:"grey"}}>
-
-                  <Row>
-                  {this.state.seats.map((seats) =>
-                  (
-                      <Col key={seats.seat_code} >
+              <div class="container-fluid" style={{border:"10px solid black", marginLeft:"100px",marginRight:"100px",backgroundColor:"grey"}}>
+              
+                  {sl.map((letters,index) =>
+                  ( <Row style={{flexWrap:"nowrap"}}>
+                   
+                      {sn.map((numbers)=>(
+                      <Col key={numbers} >
                            <br/>
-                          {this.SeatCheck(seats.seat_code,seats.seat_status)}
+                          {console.log("Check: ", this.state)}
+                          {this.SeatCheck(letters+numbers,this.state.seats[index*30 + parseInt(numbers)-1].seat_status)}
+                          
                           <br/>
                          
                       </Col>
-                        
                       ))
+                    }
+                      </Row>
+                  ))
                    }
-                   </Row>
+                   
 
               </div>
               <hr size='30px' color="blue"/>
@@ -123,6 +139,10 @@ class SeatsPage extends Component{
               </>
 
           );
+            }
+            else{
+                return(<></>);
+            }
       }
     
 }
