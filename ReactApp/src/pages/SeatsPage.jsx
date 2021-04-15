@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { Card, Image, Container, Row, Col, Button} from "react-bootstrap";
+import Box from '@material-ui/core/Box';
+import { flexbox } from '@material-ui/system';
 import "../styles/SeatsPage.css";
 
 var BookedSeats = []
@@ -87,20 +89,19 @@ class SeatsPage extends Component{
           return(
               <>
               <br/>
-              <p className = "seattitle">Select Your Seats</p>
+              <p className = "seattitle">SELECT YOUR SEATS</p>
               
               <br/>
-              <div className="d-flex align-content-stretch flex-wrap">
+              <Box justifyContent="flex-start" flexWrap="wrap" flexDirection="row" display="flex">
                   {this.state.seats.map((seats) =>
                   (
-                      <div key={seats.seat_code} >
+                      <Box key={seats.seat_code} >
                           {this.SeatCheck(seats.seat_code,seats.seat_status)}
-                      </div>
+                      </Box>
                         
                       ))
                    }
-
-              </div>
+              </Box>
               <hr size='30px' color="blue"/>
               <p className = "screen">Screen here</p>
               <br/><br/>
