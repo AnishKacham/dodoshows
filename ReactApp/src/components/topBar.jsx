@@ -8,13 +8,7 @@ import React, {
 import { withRouter } from "react-router";
 import { useHistory, useLocation } from "react-router-dom";
 import UserContext from "../contexts/userContext";
-import {
-  Navbar,
-  NavDropdown,
-  Nav,
-  Form,
-  FormControl,
-} from "react-bootstrap";
+import { Navbar, NavDropdown, Nav, Form, FormControl } from "react-bootstrap";
 import {
   Avatar,
   Typography,
@@ -80,7 +74,9 @@ const ProfileRender = () => {
         {user.user.profile_url ? (
           <Avatar src={user.user.profile_url} ref={anchorRef}></Avatar>
         ) : (
-          <Avatar ref={anchorRef}>{user.user.username.charAt(0).toUpperCase()}</Avatar>
+          <Avatar ref={anchorRef}>
+            {user.user.username.charAt(0).toUpperCase()}
+          </Avatar>
         )}
         <Menu
           open={open}
@@ -89,9 +85,9 @@ const ProfileRender = () => {
           disablePortal
           transition
         >
-            <MenuList id="menu-list-grow">
-              <MenuItem onClick={()=>user.logoutUser()}>Logout</MenuItem>
-            </MenuList>
+          <MenuList id="menu-list-grow">
+            <MenuItem onClick={() => user.logoutUser()}>Logout</MenuItem>
+          </MenuList>
         </Menu>
         {/* <Button
           onClick={() => {

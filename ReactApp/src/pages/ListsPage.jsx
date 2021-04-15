@@ -1,14 +1,6 @@
-import React, { Component } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Form,
-  Button,
-  Table,
-  Modal,
-} from "react-bootstrap";
+import React, { Component, useEffect, useState, useContext } from "react";
+import { Container, Row, Col, Card, Form, Table, Modal } from "react-bootstrap";
+import { Button, ListItemText, ListItem, Avatar } from "@material-ui/core";
 import UserContext from "../contexts/userContext";
 import Movies from "../components/movies";
 import SideBar from "../components/sideBar";
@@ -16,10 +8,54 @@ import TopBar from "../components/topBar";
 import AddList, { ListDialogue } from "../components/addList";
 import RatingDialogue from "../components/ratingDialogue";
 import { EntryDialogue } from "../components/list";
-import { withRouter } from "react-router";
+import { withRouter, useHistory, useLocation, useParams } from "react-router";
 import Lists from "../components/lists";
 
+const ListOwner = () => {
+  let user = useContext(UserContext);
+  let [owner, setOwner] = useState({username: "", profile_url: ""})
+  let params = useParams();
+  useEffect(() => {
+    console.log(user.user);
+    console.log(params);
+    if(params.id!=user.user.user_id) fetchUser();
+    else setOwner(user.user);
+  }, [user]);
+
+  const fetchUser = () => {
+    fetch(`http://localhost:5000/api/users/${params.id}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        setOwner(json)
+      });
+  };
+if(owner.username!=undefined){
+  return <>{owner.profile_url ? (
+    <Avatar
+      src={owner.profile_url}
+      style={{ marginLeft: "20px" }}
+    ></Avatar>
+  ) : (
+    <Avatar style={{ marginLeft: "15px" }}>
+      {owner.username.charAt(0).toUpperCase()}
+    </Avatar>
+  )}
+  <ListItem>
+    <ListItemText primary={`${owner.username}'s lists`} />
+  </ListItem></>
+  }
+  return <></>
+};
+
 class ListsPage extends Component {
+  static contextType = UserContext;
+
   state = {
     showList: false,
     showEntry: false,
@@ -69,13 +105,16 @@ class ListsPage extends Component {
   };
 
   fetchLists = () => {
-    fetch(`http://localhost:5000/api/users/${this.props.match.params.id}/lists`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    })
+    fetch(
+      `http://localhost:5000/api/users/${this.props.match.params.id}/lists`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      }
+    )
       .then((response) => {
         console.log(response);
         if (response.status != 200) {
@@ -125,7 +164,9 @@ class ListsPage extends Component {
             </Col>
             <Col xs={10} id="page-content-wrapper">
               <Container>
+                <ListOwner/>
                 <Lists
+                  isOwner={this.context.user.user_id == this.props.match.params.id}
                   key={
                     this.state.lists.toString() +
                     " " +
@@ -140,7 +181,9 @@ class ListsPage extends Component {
                   changeSelected={(list) => {
                     this.setState({ selected_list: list });
                   }}
-                  setSelectedAll={(bool)=>this.setState({selected_all: bool})}
+                  setSelectedAll={(bool) =>
+                    this.setState({ selected_all: bool })
+                  }
                   selected_all={this.state.selected_all}
                   showListDialogue={this.showListDialogue}
                   showEntryDialogue={this.showEntryDialogue}

@@ -246,7 +246,7 @@ class Lists extends Component {
                 }
               />
             </Table>
-            <Button
+            {this.props.isOwner? <><Button
               style={{ display: this.props.selected_all ? "none" : "block" }}
               onClick={() =>
                 this.props.showEntryDialogue(this.props.selected_list)
@@ -261,7 +261,8 @@ class Lists extends Component {
               }
             >
               + Add movie
-            </Button>
+            </Button></>: <></>}
+            
           </Col>
           <Col>
             <div className="btn-group-justified btn-group-vertical">
@@ -302,7 +303,7 @@ class Lists extends Component {
               ))}
               <br></br>
               <br></br>
-              <AddList onClick={this.props.showListDialogue} />
+              {this.props.isOwner? <AddList onClick={this.props.showListDialogue} /> : <></>}
             </div>
           </Col>
         </Row>
