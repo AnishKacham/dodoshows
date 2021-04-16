@@ -11,6 +11,7 @@ import ListsPage from "./pages/ListsPage";
 import SignupPage from "./pages/SignupPage";
 import FriendsPage from "./pages/FriendsPage";
 import AdminConsole from "./pages/AdminConsole";
+import AdvancedSearch from "./pages/AdvancedSearch";
 
 import UserContext, { UserProvider } from "./contexts/userContext";
 import ProfilePage from "./pages/ProfilePage";
@@ -47,6 +48,13 @@ const Routing = () => {
             path="/shows/:id/book"
             render={() => (
               <BookingPage />
+            )}
+          />
+          <Route
+            exact
+            path="/advancedSearch"
+            render={() => (
+              <AdvancedSearch />
             )}
           />
           <Route
