@@ -99,7 +99,13 @@ class AdvancedSearch extends Component {
             </Col>
             <Col xs={10} id="page-content-wrapper">
               <Container>
-                <Typography variant="h5">Advanced Search</Typography>
+                <Typography variant="h5" style={{marginBottom: "30px"}}>Advanced Search</Typography>
+                <TextField
+                style={{display: "block", marginBottom: "30px"}}
+                  id="standard-basic"
+                  label="Title"
+                  onInput={this.setSearchTerm}
+                />
                 <SearchPeople
                   entryDialogue={true}
                   sendResult={this.addChip}
@@ -121,12 +127,8 @@ class AdvancedSearch extends Component {
                     );
                   })}
                 </Paper>
-                <TextField
-                  id="standard-basic"
-                  label="Search term"
-                  onInput={this.setSearchTerm}
-                />
-                <Button onClick={this.findMovies}>Search with filters</Button>
+                
+                <Button onClick={this.findMovies} style={{marginTop: "20px"}}>Search with filters</Button>
                 <Movies movies={this.state.movies} />
               </Container>
             </Col>

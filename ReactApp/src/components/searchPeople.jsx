@@ -106,7 +106,7 @@ class SearchPeople extends Component {
             <FormControl
               type="text"
               placeholder={
-                this.props.type ? this.props.type : "Filter results with cast members"
+                this.props.type ? this.props.type : "People"
               }
               className="mr-sm-3"
               onChange={this.changeName}
