@@ -7,10 +7,18 @@ import Movies from "../components/movies";
 import SideBar from "../components/sideBar";
 import SearchPeople from "../components/searchPeople";
 import TopBar from "../components/topBar";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  FormControl,
+} from "react-bootstrap";
 import { withRouter } from "react-router";
 
-import { Typography } from "@material-ui/core";
+import { Typography, TextField } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
 
@@ -18,8 +26,9 @@ class AdvancedSearch extends Component {
   static contextType = UserContext;
 
   state = {
-    people: [],
     chipData: [],
+    movies: [],
+    searchTerm: "",
   };
 
   constructor(props) {
@@ -27,6 +36,56 @@ class AdvancedSearch extends Component {
     console.log(this);
   }
 
+  handleDelete = (chipToDelete) => () => {
+    this.setState({
+      chipData: this.state.chipData.filter(
+        (chip) => chip.key !== chipToDelete.key
+      ),
+    });
+  };
+
+  addChip = (id, title) => {
+    let newChipData = this.state.chipData;
+    newChipData.push({
+      key: id,
+      label: title,
+      person_id: id,
+      person_title: title,
+    });
+    this.setState({ chipData: newChipData });
+    console.log(this.state.chipData);
+  };
+
+  setSearchTerm = (event) => {
+    this.setState({ searchTerm: event.target.value });
+    console.log(this.state);
+  };
+
+  findMovies = () => {
+
+    let listPeopleID=[];
+    this.state.chipData.map(el => (
+      listPeopleID.push(el.person_id)
+    ));
+    fetch("http://localhost:5000/api/search/movies", {
+      method: "POST",
+      body: JSON.stringify(
+        {
+          title: this.state.searchTerm,
+          people: listPeopleID,
+          genres: []
+        }
+      ),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({ movies: json });
+        console.log(this.state.movies);
+      });
+  };
 
   render() {
     return (
@@ -41,10 +100,34 @@ class AdvancedSearch extends Component {
             <Col xs={10} id="page-content-wrapper">
               <Container>
                 <Typography variant="h5">Advanced Search</Typography>
-                <SearchPeople>
-                  {" "}
-                  entryDialogue={true} sendResult={(person) => person}
-                </SearchPeople>
+                <SearchPeople
+                  entryDialogue={true}
+                  sendResult={this.addChip}
+                ></SearchPeople>
+                <Paper
+                  component="ul"
+                  key={
+                    this.state.chipData ? this.state.chipData.length : "empty69"
+                  }
+                >
+                  {this.state.chipData.map((data) => {
+                    return (
+                      <li key={data.key}>
+                        <Chip
+                          label={data.label}
+                          onDelete={this.handleDelete(data)}
+                        />
+                      </li>
+                    );
+                  })}
+                </Paper>
+                <TextField
+                  id="standard-basic"
+                  label="Search term"
+                  onInput={this.setSearchTerm}
+                />
+                <Button onClick={this.findMovies}>Search with filters</Button>
+                <Movies movies={this.state.movies} />
               </Container>
             </Col>
           </Row>

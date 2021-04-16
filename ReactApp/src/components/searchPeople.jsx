@@ -108,13 +108,13 @@ class SearchPeople extends Component {
               placeholder={
                 this.props.type ? this.props.type : "Filter results with cast members"
               }
-              className="mr-sm-2"
+              className="mr-sm-3"
               onChange={this.changeName}
             />
             <TitleSearchResults
               type={this.props.type}
               onClick={this.clickHandler}
-              entryDialogue={this.props.entryDialogue}
+              entryDialogue={true}
               dropdownClasses={this.state.dropdownClasses}
               results={this.state.results}
               clickedOutside={this.clickedOutside}
@@ -134,7 +134,7 @@ class SearchPeople extends Component {
             />
             <TitleSearchResults
               onClick={this.clickHandler}
-              entryDialogue={this.props.entryDialogue}
+              entryDialogue={true}
               dropdownClasses={this.state.dropdownClasses}
               results={this.state.results}
               clickedOutside={this.clickedOutside}
