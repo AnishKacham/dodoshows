@@ -3,7 +3,6 @@ import { Button } from "react-bootstrap";
 import { NavDropdown } from "react-bootstrap";
 import { withRouter } from "react-router";
 
-
 class TitleSearchResults extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +35,14 @@ class TitleSearchResults extends Component {
             key={result.id}
             onClick={() => {
               if (this.props.entryDialogue) {
-                this.props.onClick(result.id, result.name);
+                this.props.type == "user"
+                  ? this.props.onClickUser(
+                      result.id,
+                      result.name,
+                      result.pic,
+                      result.city
+                    )
+                  : this.props.onClick(result.id, result.name);
               } else {
                 this.props.history.push(`/movies/${result.id}`);
               }

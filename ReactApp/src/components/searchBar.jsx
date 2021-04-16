@@ -6,17 +6,16 @@ import {
   Nav,
   Button,
   Form,
-  FormControl
+  FormControl,
 } from "react-bootstrap";
-import {
-  TextField
-} from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import TitleSearchResults from "./titleSearchResults";
 import movie from "./movie";
 
 class SearchBar extends Component {
   state = {
     city: "",
+    user: "",
     movie: { title: "", genres: [], people: [] },
     results: [],
     typingTimout: 0,
@@ -33,6 +32,8 @@ class SearchBar extends Component {
     }
     if (this.props.type && this.props.type == "city") {
       this.setState({ city: event.target.value });
+    } else if (this.props.type && this.props.type == "user") {
+      this.setState({ user: event.target.value });
     } else {
       this.setState({
         movie: {
@@ -56,6 +57,34 @@ class SearchBar extends Component {
           json.map(
             (city, i) =>
               (results[i] = { id: city.city_id, name: city.city_name })
+          );
+          console.log(results);
+          this.setState({ results: results });
+          return json;
+        })
+        .then((results) => {
+          if (results.length) {
+            this.setState({
+              dropdownClasses: "show dropdown-menu",
+            });
+          } else
+            this.setState({
+              dropdownClasses: "dropdown-menu",
+            });
+        });
+    } else if (this.props.type == "user") {
+      this.searchUsers(this.state.user)
+        .then((response) => response.json())
+        .then((json) => {
+          let results = [];
+          json.map(
+            (user, i) =>
+              (results[i] = {
+                id: user.user_id,
+                name: user.username,
+                pic: user.profile_url,
+                city: user.city_name,
+              })
           );
           console.log(results);
           this.setState({ results: results });
@@ -119,6 +148,18 @@ class SearchBar extends Component {
     });
   };
 
+  searchUsers = (user) => {
+    return fetch("http://localhost:5000/api/search/users", {
+      method: "POST",
+      body: JSON.stringify({
+        user: user,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+  };
+
   submitHandler = (event) => {
     event.preventDefault();
     if (!this.props.entryDialogue) {
@@ -140,6 +181,10 @@ class SearchBar extends Component {
     this.clickedOutside(true);
     this.props.sendResult(movie_id, movie_title);
   };
+  clickHandlerUser = (id, name, pic, city) => {
+    this.clickedOutside(true);
+    this.props.sendResult(id, name, pic, city);
+  };
 
   render() {
     return (
@@ -149,19 +194,25 @@ class SearchBar extends Component {
             inline
             onSubmit={this.submitHandler}
             className="nav-item dropdown"
-            autocomplete="off"
+            autoComplete="off"
           >
             <TextField
-                  fullWidth
-                  label = {this.props.type ? this.props.type.charAt(0).toUpperCase() + this.props.type.slice(1) : "Search for a movie..."}
-                  name="username"
-                  size="small"
-                  variant="outlined"
-                  onChange={this.changeName}
-                />
+              fullWidth
+              label={
+                this.props.type
+                  ? this.props.type.charAt(0).toUpperCase() +
+                    this.props.type.slice(1)
+                  : "Search for a movie..."
+              }
+              name="username"
+              size="small"
+              variant="outlined"
+              onChange={this.changeName}
+            />
             <TitleSearchResults
               type={this.props.type}
               onClick={this.clickHandler}
+              onClickUser={this.clickHandlerUser}
               entryDialogue={this.props.entryDialogue}
               dropdownClasses={this.state.dropdownClasses}
               results={this.state.results}
