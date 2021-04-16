@@ -515,7 +515,7 @@ class MovieDetailed extends Component {
                   variant="top"
                   src={person.profile_url}
                   className="img-fluid"
-                  style={{ width: "auto", height: "150px" }}
+                  style={{ width: "auto", height: "150px", objectFit:"cover" }}
                 />
                 <Card.Body>
                   <Card.Title>{person.person_name}</Card.Title>
