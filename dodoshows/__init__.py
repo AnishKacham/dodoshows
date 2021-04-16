@@ -55,8 +55,8 @@ def create_app():
     app.register_blueprint(shows_blueprint)
     app.register_blueprint(seats_blueprint)
 
-    @app.route('/')
-    def serve():
+    @app.errorhandler(404)
+    def serve(e):
         return send_from_directory(app.static_folder, 'index.html')
 
     return app
