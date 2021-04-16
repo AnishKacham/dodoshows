@@ -6,7 +6,6 @@ import "../styles/SeatsPage.css";
 import { TableRow } from "@material-ui/core";
 
 var BookedSeats = []
-let sl = ['A','B','C','D','E','F','G'];
 var sn=[];
 var i;
 
@@ -49,12 +48,12 @@ class SeatsPage extends Component{
     SeatCheck=(code,status)=>{
         if(status==0){
             return(
-                <button  className="seat-btn"style ={{backgroundColor:"red", borderRadius:"13px"}} id = {code} >{code}</button>
+                <button  className="seat-btn"style ={{backgroundColor:"red", borderRadius:"13px", padding:"0px", width:"35px"}} id = {code} ><div style={{fontSize:"12px", textAlign:"centre"}}>{code}</div></button>
             );
         }
         else{
             return(
-                <button className="seat-btn" style ={{borderRadius:"13px"}} id = {code} onClick={()=>this.SeatSelect(code)}>{code}</button>
+                <button className="seat-btn" style ={{borderRadius:"13px", padding:"0px", width:"35px"}} id = {code} onClick={()=>this.SeatSelect(code)}><div style={{fontSize:"12px", textAlign:"centre"}}>{code}</div></button>
             );
         }
     }
@@ -120,7 +119,7 @@ class SeatsPage extends Component{
                   ( <Row style={{flexWrap:"nowrap", width:"900px", justifyContent:"space-around"}}>
                    
                       {this.state.code_numbers.map((numbers)=>(
-                      <Col key={numbers} style={{paddingRight:"0px"}}>
+                      <Col key={numbers} style={{paddingRight:"0px", paddingLeft:"10px"}}>
                           <br></br>
                           {console.log("Check: ", this.state)}
                           {this.SeatCheck(letters+numbers,this.state.seats[index*this.state.code_numbers.length + parseInt(numbers)-1].seat_status)}
