@@ -182,7 +182,7 @@ function FriendsPage() {
               <Col xs={3}>
               {" "}
               <div className="friend-serach-group">
-                <h6>Search for friends</h6>
+                <h6>Search for users</h6>
                 <UserSearchDisplay />
               </div>
               </Col>

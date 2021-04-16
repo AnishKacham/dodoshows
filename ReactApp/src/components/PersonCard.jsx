@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
+import { useHistory, withRouter } from "react-router";
 import {
   CheckCircleFill,
   CheckSquareFill,
@@ -10,6 +11,7 @@ import {
 } from "react-bootstrap-icons";
 import { Card, Alert, Button, Image } from "react-bootstrap";
 function PersonCard(props) {
+  let history = useHistory();
   const [friendStyles, setFriendStyles] = useState({
     border: "",
     text: "Add Friend",
@@ -134,7 +136,7 @@ function PersonCard(props) {
           />
           <br />
           <br />
-          <Card.Title>{props.name}</Card.Title>
+          <Card.Title onClick={()=>history.push(`/users/${props.personKey}/lists`)}>{props.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
             {props.city}
           </Card.Subtitle>
