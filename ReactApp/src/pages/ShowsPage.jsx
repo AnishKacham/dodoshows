@@ -86,7 +86,7 @@ class ShowsPage extends Component{
       }
       else{
         return(
-          <div className="NoShows" style={{position: "absolute",top:"30%",marginLeft:"20%",marginRight:"20%",height:"40%",fontSize:"100px"}}>
+          <div className="NoShows" style={{position: "absolute",top:"30%",marginLeft:"20%",marginRight:"20%",height:"40%",fontSize:"50px"}}>
             Sorry ! There are no shows for this movie currently! You may return to the home page:
             <br/><br/>
             <Button variant="warning" size = "lg" block style={{fontSize:"30px"}}onClick={() => {

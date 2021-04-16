@@ -15,6 +15,13 @@ class SideBar extends Component {
     } else this.props.history.push(`/users/${this.context.user.user_id}/lists`);
   };
 
+  goToFriendsPage = () => {
+    if (!Object.keys(this.context.user).length) {
+      localStorage.setItem("lastLoc", "/");
+      this.props.history.push("/login");
+    } else this.props.history.push("/friends");
+  };
+
   render() {
     return (
       <div className="side-bar-wrapper" style={{/* position:"fixed", */height:"500px", position:"sticky", top:"68px",width:"12vw"}}>
@@ -28,13 +35,13 @@ class SideBar extends Component {
             <Nav.Link onClick={this.goToListPage}>Lists</Nav.Link>
           </Nav.Item>
         <Nav.Item>
-            <Nav.Link href="/home">About Us</Nav.Link>
+            <Nav.Link disabled>About Us</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-            <Nav.Link href="/friends" eventKey="link-1">Friends</Nav.Link>
+            <Nav.Link onClick={this.goToFriendsPage} eventKey="link-1">Profile and friends </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-            <Nav.Link eventKey="link-2">Donate</Nav.Link>
+            <Nav.Link eventKey="link-2" disabled>Donate</Nav.Link>
         </Nav.Item>
         <Nav.Item>
             <Nav.Link eventKey="link-3" disabled>

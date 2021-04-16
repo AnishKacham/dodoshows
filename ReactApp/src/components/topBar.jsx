@@ -56,7 +56,7 @@ const ProfileRender = () => {
             history.push("/login");
           }}
         >
-          Log in
+          <div style={{ color: "white" }}>Log in</div>
         </Button>
       </div>
     );
@@ -105,7 +105,7 @@ const ProfileRender = () => {
 class TopBar extends Component {
   render() {
     return (
-      <Navbar bg="dark" variant="dark" expand='lg' sticky="top">
+      <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
         <Navbar.Brand>Dodo Shows</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -117,9 +117,13 @@ class TopBar extends Component {
             >
               Home
             </Nav.Link>
-            
+
             <SearchBar entryDialogue={false} />
-            <Nav.Link onClick={()=>this.props.history.push("/advancedSearch")}>Advanced search</Nav.Link>
+            <Nav.Link
+              onClick={() => this.props.history.push("/advancedSearch")}
+            >
+              Advanced search
+            </Nav.Link>
           </Nav>
           <ProfileRender />
         </Navbar.Collapse>
