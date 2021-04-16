@@ -1,10 +1,11 @@
 .person .card {
+  background-color: #E2E8F0;
   border: none;
   text-align: center;
 }
 
 .person .card-header {
-  background-color: white;
+  background-color: #E2E8F0;
   border-bottom: none;
 }
 

@@ -115,7 +115,7 @@ class List extends Component {
             <td onClick={() => this.clicked(item.movie_id)}>
               {item.movie_title}
             </td>
-            <td>{item.score ? item.score : "--"}</td>
+            <td>{item.score ? item.score/2 : "--"}</td>
             <td>{item.watch_status ? "Watched" : "Plan to watch"}</td>
           </tr>
         ))}

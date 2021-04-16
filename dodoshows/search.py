@@ -99,7 +99,7 @@ def searchUsers():
     user = "%" + request.json["user"] + "%"
     cur = mysql.connection.cursor()
     cur.execute(
-        """SELECT user_id, username, city.city_name
+        """SELECT user_id, username, city.city_name, user.profile_url
             FROM user
             INNER JOIN city ON user.city_id = city.city_id
             WHERE username LIKE %s""",

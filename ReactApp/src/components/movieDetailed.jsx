@@ -38,7 +38,7 @@ const FullRating = (props) => {
   });
   let [ratingExists, setRatingExists] = useState(false);
   let [lists, setLists] = useState([]);
-  let [editMode, setEditMode] = useState(true);
+  let [editMode, setEditMode] = useState(false);
   let history = useHistory();
 
   useEffect(() => {
@@ -166,6 +166,9 @@ const FullRating = (props) => {
             {props.showLists ? <PresentInLists lists={lists} /> : <></>}
           </Row>
         );
+      }
+      else if (!ratingExists) {
+        return <Button onClick={()=>setEditMode(true)}>Rate this movie</Button>
       }
     } else {
       return (

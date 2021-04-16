@@ -20,7 +20,7 @@ def checkLoggedIn():
         logged_in = True
         cur = mysql.connection.cursor()
         cur.execute(
-            "SELECT profile_url, user_role, user_id, username, city.city_id, city.city_name FROM user INNER JOIN city ON (user.city_id = city.city_id) WHERE user_id = %s",
+            "SELECT user_id, username, email, profile_url, city.city_id, city.city_name FROM user INNER JOIN city ON (user.city_id = city.city_id) WHERE user_id = %s",
             [user_id],
         )
         details = cur.fetchone()
@@ -47,7 +47,7 @@ def doSignup():
         return {"error": "email exists"}
 
     cur.execute(
-        "INSERT INTO user VALUES (DEFAULT, %s, %s, 1, %s, %s, 'USR')",
+        "INSERT INTO user VALUES (DEFAULT, %s, %s, 1, %s, %s, 'USR', NULL)",
         [username, email, password, city_id],
     )
     mysql.connection.commit()

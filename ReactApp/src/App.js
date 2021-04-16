@@ -9,9 +9,11 @@ import SeatsPage from "./pages/SeatsPage";
 import BookingPage from "./pages/BookingPage";
 import ListsPage from "./pages/ListsPage";
 import SignupPage from "./pages/SignupPage";
+import FriendsPage from "./pages/FriendsPage";
 import AdminConsole from "./pages/AdminConsole";
 
 import UserContext, { UserProvider } from "./contexts/userContext";
+import ProfilePage from "./pages/ProfilePage";
 
 const Routing = () => {
   return (
@@ -63,6 +65,8 @@ const Routing = () => {
           />
           <Route exact path="/login" render={() => <LoginPage />} />
           <Route exact path="/signup" render={() => <SignupPage />} />
+          <Route exact path="/friends" render={()=> <FriendsPage/>} />
+          <Route exact path="/profile" render={()=> <ProfilePage/>} />
         </Switch>
       </div>
     </Router>
@@ -105,6 +109,8 @@ class App extends Component {
               username: json.details.username,
               city_id: json.details.city_id,
               city: json.details.city_name,
+              profile_url: json.details.profile_url,
+              email: json.details.email,
             },
           });
           console.log(this.state.user);

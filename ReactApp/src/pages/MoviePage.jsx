@@ -18,15 +18,14 @@ class MoviePage extends Component {
   render() {
     return (
       <>
-        <Container fluid>
+        <Container fluid> 
           <TopBar />
-          <br></br>
           <Row>
             <Col xs={2} id="sidebar-wrapper">
               <SideBar />
             </Col>
             <Col xs={10}>
-              <MovieDetailed movie_id={this.state.movie_id} />
+              <MovieDetailed movie_id={this.state.movie_id}/>
             </Col>
           </Row>
         </Container>

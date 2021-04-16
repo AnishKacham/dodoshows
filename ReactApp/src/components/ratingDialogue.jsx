@@ -16,6 +16,7 @@ const RatingDialogue = (props) => {
   };
   const closeBox = () => {
     setMovie({});
+    setHasSelectedMovie(false);
     props.closeDialogue();
   };
 

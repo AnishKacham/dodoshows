@@ -25,6 +25,8 @@ import {
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import SearchBar from "./searchBar";
+import { Justify } from "react-bootstrap-icons";
+import { colors } from "@material-ui/core";
 
 const ProfileRender = () => {
   let user = useContext(UserContext);
@@ -103,7 +105,7 @@ const ProfileRender = () => {
 class TopBar extends Component {
   render() {
     return (
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="dark" variant="dark" expand='lg' sticky="top">
         <Navbar.Brand>Dodo Shows</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
