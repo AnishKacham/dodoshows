@@ -100,7 +100,7 @@ class SearchPeople extends Component {
         {this.props.entryDialogue ? (
           <Form
             inline
-            onSubmit={this.submitHandler}
+            onSubmit={(e)=>e.preventDefault()}
             className="nav-item dropdown"
           >
             <FormControl
