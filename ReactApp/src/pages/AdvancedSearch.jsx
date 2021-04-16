@@ -67,7 +67,7 @@ class AdvancedSearch extends Component {
     this.state.chipData.map(el => (
       listPeopleID.push(el.person_id)
     ));
-    fetch("http://localhost:5000/api/search/movies", {
+    fetch("/api/search/movies", {
       method: "POST",
       body: JSON.stringify(
         {

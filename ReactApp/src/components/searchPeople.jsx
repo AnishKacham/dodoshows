@@ -61,7 +61,7 @@ class SearchPeople extends Component {
 
 
   searchForPeople = () => {
-    return fetch("http://localhost:5000/api/search/people", {
+    return fetch("/api/search/people", {
       method: "POST",
       body: JSON.stringify({
         person: this.state.person,
