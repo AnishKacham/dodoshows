@@ -67,7 +67,7 @@ class Lists extends Component {
 
   fetchEntries = () => {
     return fetch(
-      `http://localhost:5000/api/users/${this.props.match.params.id}/entries`,
+      `/api/users/${this.props.match.params.id}/entries`,
       {
         method: "GET",
         headers: {
@@ -79,7 +79,7 @@ class Lists extends Component {
   };
   fetchRatings = () => {
     return fetch(
-      `http://localhost:5000/api/users/${this.props.match.params.id}/ratings`,
+      `/api/users/${this.props.match.params.id}/ratings`,
       {
         method: "GET",
         headers: {

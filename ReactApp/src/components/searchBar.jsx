@@ -127,7 +127,7 @@ class SearchBar extends Component {
   };
 
   searchMovie = (movie) => {
-    return fetch("http://localhost:5000/api/search/movies", {
+    return fetch("/api/search/movies", {
       method: "POST",
       body: JSON.stringify(movie),
       headers: {
@@ -137,7 +137,7 @@ class SearchBar extends Component {
   };
 
   searchCities = (city) => {
-    return fetch("http://localhost:5000/api/search/cities", {
+    return fetch("/api/search/cities", {
       method: "POST",
       body: JSON.stringify({
         city: city,
@@ -149,7 +149,7 @@ class SearchBar extends Component {
   };
 
   searchUsers = (user) => {
-    return fetch("http://localhost:5000/api/search/users", {
+    return fetch("/api/search/users", {
       method: "POST",
       body: JSON.stringify({
         user: user,

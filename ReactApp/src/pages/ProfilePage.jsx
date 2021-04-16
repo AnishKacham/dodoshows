@@ -35,7 +35,7 @@ function ProfilePage() {
 
     const postPicture = pic => {
         console.log(`injecting to DB ${pic}`);
-        fetch(`http://localhost:5000/api/users/${user.user.user_id}/update/profile`, {
+        fetch(`/api/users/${user.user.user_id}/update/profile`, {
             method: "PUT",
             body: JSON.stringify({profile_url:pic}),
             headers: {

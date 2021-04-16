@@ -63,7 +63,7 @@ const LoginPage = () => {
   };
 
   const doLogin = () => {
-    fetch("http://localhost:5000/api/login", {
+    fetch("/api/login", {
       method: "POST",
       body: JSON.stringify({
         username: username,

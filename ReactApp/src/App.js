@@ -74,7 +74,7 @@ const Routing = () => {
 };
 
 function getDetails() {
-  return fetch("http://localhost:5000/api/is-logged-in", {
+  return fetch("/api/is-logged-in", {
     method: "GET",
     headers: {
       "Content-type": "application/json; charset=UTF-8",

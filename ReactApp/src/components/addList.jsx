@@ -14,7 +14,7 @@ const ListDialogue = (props) => {
     console.log(name);
     console.log(isPrivate);
     console.log(localStorage.getItem("jwt"));
-    fetch("http://localhost:5000/api/lists/", {
+    fetch("/api/lists/", {
       method: "POST",
       body: JSON.stringify({
         list_name: name,

@@ -23,7 +23,7 @@ const ListOwner = () => {
   }, [user]);
 
   const fetchUser = () => {
-    fetch(`http://localhost:5000/api/users/${params.id}`, {
+    fetch(`/api/users/${params.id}`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -106,7 +106,7 @@ class ListsPage extends Component {
 
   fetchLists = () => {
     fetch(
-      `http://localhost:5000/api/users/${this.props.match.params.id}/lists`,
+      `/api/users/${this.props.match.params.id}/lists`,
       {
         method: "GET",
         headers: {

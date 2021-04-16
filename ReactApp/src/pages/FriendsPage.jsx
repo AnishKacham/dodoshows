@@ -122,7 +122,7 @@ function FriendsPage() {
   const postPicture = (pic) => {
     console.log(`injecting to DB ${pic}`);
     fetch(
-      `http://localhost:5000/api/users/${user.user.user_id}/update/profile`,
+      `/api/users/${user.user.user_id}/update/profile`,
       {
         method: "PUT",
         body: JSON.stringify({ profile_url: pic }),
@@ -135,7 +135,7 @@ function FriendsPage() {
   };
   //_Function to fetch all friends
   const fetchFriends = () => {
-    fetch(`http://localhost:5000/api/users/${user.user.user_id}/friends`, {
+    fetch(`/api/users/${user.user.user_id}/friends`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

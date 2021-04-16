@@ -34,7 +34,7 @@
 //     }
 //     AddShow=()=>{
 //         console.log("Entered");
-//         fetch(`http://localhost:5000/api/shows/`, {
+//         fetch(`/api/shows/`, {
 //             method: "POST",
 //             body: JSON.stringify({
 //                 movie_id: parseInt(this.state.MID),
@@ -228,7 +228,7 @@ const AdminConsole = () => {
     let dateTimeParts = dateTime.split('T');
     const newDateTime = dateTimeParts[0] + " " + dateTimeParts[1] + ":00";
     console.log(newDateTime);
-    fetch(`http://localhost:5000/api/shows/`, {
+    fetch(`/api/shows/`, {
       method: "POST",
       body: JSON.stringify({
         movie_id: movie.movie_id,

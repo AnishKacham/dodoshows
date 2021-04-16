@@ -53,7 +53,7 @@ const FullRating = (props) => {
     console.log(props);
     if (Object.keys(user.user).length)
       fetch(
-        `http://localhost:5000/api/users/${user.user.user_id}/${props.movie_id}`,
+        `/api/users/${user.user.user_id}/${props.movie_id}`,
         {
           method: "GET",
           headers: {
@@ -83,7 +83,7 @@ const FullRating = (props) => {
     console.log(props);
     if (Object.keys(user.user).length)
       fetch(
-        `http://localhost:5000/api/users/${user.user.user_id}/movies/${props.movie_id}/lists`,
+        `/api/users/${user.user.user_id}/movies/${props.movie_id}/lists`,
         {
           method: "GET",
           headers: {
@@ -103,7 +103,7 @@ const FullRating = (props) => {
 
   const submitRating = () => {
     console.log(newRating);
-    fetch(`http://localhost:5000/api/users/${user.user.user_id}`, {
+    fetch(`/api/users/${user.user.user_id}`, {
       method: ratingExists ? "PUT" : "POST",
       body: JSON.stringify(newRating),
       headers: {
@@ -318,7 +318,7 @@ const OthersRatings = (props) => {
 
   const fetchRatings = () => {
     console.log(props);
-    fetch(`http://localhost:5000/api/movies/${props.movie_id}/ratings`, {
+    fetch(`/api/movies/${props.movie_id}/ratings`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -427,7 +427,7 @@ class MovieDetailed extends Component {
   };
 
   fetchMovie(movie_id) {
-    fetch(`http://localhost:5000/api/movies/${movie_id}`, {
+    fetch(`/api/movies/${movie_id}`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

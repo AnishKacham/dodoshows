@@ -15,7 +15,7 @@ class BookingPage extends Component{
     }
 
     Book(seats,show_id){
-        fetch(`http://localhost:5000/api/shows/${show_id}/book`, {
+        fetch(`/api/shows/${show_id}/book`, {
       method: "POST",
       body: JSON.stringify({
             seats: seats,

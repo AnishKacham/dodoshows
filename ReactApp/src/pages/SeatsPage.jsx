@@ -71,7 +71,7 @@ class SeatsPage extends Component{
     }
 
     fetchSeats(show_id){
-        fetch(`http://localhost:5000/api/shows/${show_id}/seats`, {
+        fetch(`/api/shows/${show_id}/seats`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

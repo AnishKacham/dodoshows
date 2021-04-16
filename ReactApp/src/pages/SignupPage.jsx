@@ -112,7 +112,7 @@ const SignupPage = () => {
       setOpen(true);
       return;
     }
-    fetch("http://localhost:5000/api/signup", {
+    fetch("/api/signup", {
       method: "POST",
       body: JSON.stringify({
         username: username,

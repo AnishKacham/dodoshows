@@ -56,7 +56,7 @@ function PersonCard(props) {
   }, [friendStatus]);
   const accFriend = (id) => {
     console.log(`trying to accept req from ${id}`);
-    fetch(`http://localhost:5000/api/users/accept/${id}`, {
+    fetch(`/api/users/accept/${id}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -77,7 +77,7 @@ function PersonCard(props) {
             logo:<XCircleFill style={{verticalAlign:"text-bottom"}}/>
         });
         console.log("added as friend"); */
-    fetch(`http://localhost:5000/api/users/request/${id}`, {
+    fetch(`/api/users/request/${id}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -97,7 +97,7 @@ function PersonCard(props) {
             text:"Add Friend",
             logo:<PlusCircleFill style={{verticalAlign:"text-bottom"}}/>
         }); */
-    fetch(`http://localhost:5000/api/users/unfriend/${id}`, {
+    fetch(`/api/users/unfriend/${id}`, {
       method: "DELETE",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

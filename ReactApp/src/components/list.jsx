@@ -15,7 +15,7 @@ const EntryDialogue = (props) => {
     if (movies.length) {
       const movie_ids = movies.map((movie) => movie.movie_id);
       console.log(movie_ids);
-      fetch(`http://localhost:5000/api/lists/${props.list.list_id}`, {
+      fetch(`/api/lists/${props.list.list_id}`, {
         method: "POST",
         body: JSON.stringify({
           movie_ids,
