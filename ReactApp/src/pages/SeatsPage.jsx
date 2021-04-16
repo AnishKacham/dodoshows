@@ -49,12 +49,12 @@ class SeatsPage extends Component{
     SeatCheck=(code,status)=>{
         if(status==0){
             return(
-                <button style ={{width:"76px", height:"60px", backgroundColor:"red", borderRadius:"20px", boxShadow:"3px 4px"}} id = {code} >{code}</button>
+                <button  className="seat-btn"style ={{backgroundColor:"red", borderRadius:"13px"}} id = {code} >{code}</button>
             );
         }
         else{
             return(
-                <button style ={{width:"76px", height:"60px", borderRadius:"20px",boxShadow:"3px 4px"}} id = {code} onClick={()=>this.SeatSelect(code)}>{code}</button>
+                <button className="seat-btn" style ={{borderRadius:"13px"}} id = {code} onClick={()=>this.SeatSelect(code)}>{code}</button>
             );
         }
     }
@@ -109,22 +109,23 @@ class SeatsPage extends Component{
           if(this.state.seats.length && this.state.code_letters.length && this.state.code_numbers.length){
           return(
               <>
-              <br/>
-              <p className = "seattitle">SELECT YOUR SEATS</p>
+              <div className="page-container">
               
-              <br/>
-              <div class="container-fluid" style={{border:"10px solid black",backgroundColor:"grey"}}>
+              <div><p className = "seattitle">SELECT YOUR SEATS</p></div>
+              
+              
+              <div /* class="container-fluid" */ className="btns-container" /* style={{border:"10px solid black",backgroundColor:"grey", width:"fit-content"}} */>
               
                   {this.state.code_letters.map((letters,index) =>
-                  ( <Row style={{flexWrap:"nowrap"}}>
+                  ( <Row style={{flexWrap:"nowrap", width:"900px", justifyContent:"space-around"}}>
                    
                       {this.state.code_numbers.map((numbers)=>(
-                      <Col key={numbers} >
-                           <br/>
+                      <Col key={numbers} style={{paddingRight:"0px"}}>
+                          <br></br>
                           {console.log("Check: ", this.state)}
                           {this.SeatCheck(letters+numbers,this.state.seats[index*this.state.code_numbers.length + parseInt(numbers)-1].seat_status)}
                           
-                          <br/>
+                          
                          
                       </Col>
                       ))
@@ -135,7 +136,8 @@ class SeatsPage extends Component{
                    
 
               </div>
-              <hr size='30px' color="blue"/>
+              <hr/>
+              <div>
               <p className = "screen">SCREEN HERE</p>
               <br/><br/>
               <br/><br/>
@@ -145,7 +147,8 @@ class SeatsPage extends Component{
                 this.props.history.push({pathname:`/shows/${this.state.show_id}/book`, state:{SeatsBooked:BookedSeats,show_id:this.state.show_id}});
                 
               }}>Proceed to pay</Button>
-              
+              </div>
+              </div>
               </>
 
           );
