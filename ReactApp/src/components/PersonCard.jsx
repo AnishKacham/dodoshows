@@ -126,6 +126,7 @@ function PersonCard(props) {
       >
         <Card.Body>
           <Image
+            style={{minHeight:"146px",minWidth:"146px"}}
             src={props.pic}
             roundedCircle
             fluid

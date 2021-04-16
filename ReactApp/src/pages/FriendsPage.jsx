@@ -12,7 +12,7 @@ import {
   Container,
 } from "react-bootstrap";
 import UserContext from "../contexts/userContext";
-import { IconButton } from "@material-ui/core";
+import { IconButton,Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SearchBar from "../components/searchBar";
 import ProfielPage from "./ProfilePage";
@@ -174,32 +174,41 @@ function FriendsPage() {
                     <SideBar />
                 </Col> */}
             <Row
-              style={{ width: "95%", marginLeft: "40px", marginTop: "40px" }}
+              style={{ width: "100%", marginLeft: "40px", marginTop: "20px", height:"fit-content" }}
             >
-              <Col xs={6}>
+              <Col xs={6} style={{padding:"0",margin:"0",height:"fit-content"}}>
                 <ProfielPage />
               </Col>
-            </Row>
-            <Row
-              style={{
-                marginLeft: "40px",
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
+              <Col xs={3}>
               {" "}
-              <div className="friend-group">
+              <div className="friend-serach-group">
+                <h6>Search for friends</h6>
                 <UserSearchDisplay />
               </div>
+              </Col>
             </Row>
-            <Row
+            {/* <Row
               style={{
                 marginLeft: "40px",
                 display: "flex",
                 justifyContent: "flex-start",
               }}
             >
-              <div className="friend-group">
+              
+            </Row> */}
+            <Row
+              style={{
+                marginTop:"20px",
+                marginLeft: "20px",
+                display: "flex",
+                justifyContent: "flex-start",
+                flexWrap:"wrap",
+              }}
+            >
+              {friends.length > 0
+              ? <div className="friend-group">
+                <h6>Your Friends</h6>
+                <div className="horizontaliser">
                 {friends.map((friend) => {
                   return (
                     <Col key={friend.user_id} style={{ maxWidth: "20rem" }}>
@@ -213,13 +222,19 @@ function FriendsPage() {
                     </Col>
                   );
                 })}
+                </div>
               </div>
-              <div className="friend-group">
+              : <div/>}
+              {outgoing.length>0
+              ?<div className="friend-group">
+                <h6>Sent Requests</h6>
+                <div className="horizontaliser">
                 {outgoing.map((outgoingreq) => {
                   return (
                     <Col
+                      xs={3}
                       key={outgoingreq.user_id}
-                      style={{ maxWidth: "20rem" }}
+                      /* style={{ maxWidth: "20rem" }} */
                     >
                       <PersonCard
                         pic={outgoingreq.profile_url}
@@ -231,8 +246,13 @@ function FriendsPage() {
                     </Col>
                   );
                 })}
+                </div>
               </div>
-              <div className="friend-group">
+              :<div/>}
+              { incoming.length > 0 
+              ?<div className="friend-group">
+                <h6>Pending Requests</h6>
+                <div className="horizonatliser">
                 {incoming.map((incomingreq) => {
                   return (
                     <Col
@@ -249,8 +269,10 @@ function FriendsPage() {
                     </Col>
                   );
                 })}
+                </div>
               </div>
-              {/*     <Col>
+              : <div/>} 
+                  {/* <Col>
             <PersonCard name="Kevon" status="super rixch" friendStat={0} style={{maxWidth:"20rem"}}/>
             </Col>
             <Col style={{maxWidth:"20rem"}}>
@@ -270,7 +292,7 @@ function FriendsPage() {
             </Col>
             <Col>
             <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
-            </Col> */}
+            </Col> */} 
             </Row>
           </Row>
           {/* <Button variant="contained" color="primary">Material UI button?</Button> */}

@@ -57,7 +57,7 @@ function ProfilePage() {
                     <div className
                     ="nondecor">
                     <div className="avatar-wrapper">
-                    <Avatar alt={username} src={imgurl} style={{height:"150px",width:"150px"}}>A</Avatar>
+                    <Avatar alt={username} src={imgurl} style={{height:"100px",width:"100px"}}>A</Avatar>
                     </div>
                     </div>
                     <div className="editbutton" /* style={{width:"725.25px"}} */>
