@@ -6,13 +6,22 @@ import "../styles/SeatsPage.css";
 import { TableRow } from "@material-ui/core";
 
 var BookedSeats = []
+var sn=[];
+var i;
+
+for(i=1;i<31;i++)sn.push(i);
+
 class SeatsPage extends Component{
+    
     constructor(props){
+        
         super(props);
         this.state={
             show_id: this.props.location.state.show_id,
-            seats:[]
-        }
+            seats:[],
+            code_letters:[],
+            code_numbers:[]
+        };
         this.fetchSeats(this.state.show_id);
     }
     
@@ -39,17 +48,17 @@ class SeatsPage extends Component{
     SeatCheck=(code,status)=>{
         if(status==0){
             return(
-                <button style ={{width:"76px", height:"60px", backgroundColor:"red", borderRadius:"20px", boxShadow:"3px 4px"}} id = {code} >{code}</button>
+                <button  className="seat-btn"style ={{backgroundColor:"red", borderRadius:"13px", padding:"0px", width:"35px"}} id = {code} ><div style={{fontSize:"12px", textAlign:"centre"}}>{code}</div></button>
             );
         }
         else{
             return(
-                <button style ={{width:"76px", height:"60px", borderRadius:"20px",boxShadow:"3px 4px"}} id = {code} onClick={()=>this.SeatSelect(code)}>{code}</button>
+                <button className="seat-btn" style ={{borderRadius:"13px", padding:"0px", width:"35px"}} id = {code} onClick={()=>this.SeatSelect(code)}><div style={{fontSize:"12px", textAlign:"centre"}}>{code}</div></button>
             );
         }
     }
 
-    SortSeats=(a)=>{
+  SortSeats=(a)=>{
         let i;
         let j;
         for(i=0;i<a.length;i++){
@@ -80,36 +89,54 @@ class SeatsPage extends Component{
     })
       .then((response) => response.json())
       .then((json) => {
-       this.setState({seats: this.SortSeats(json)})
-       console.log("Sorted seats:",this.SortSeats(json));
+        json = this.SortSeats(json);
+        this.setState({seats: json});
+        var i;
+        var j;
+        let l = new Set();
+        let n = new Set();
+        for(i=0;i<json.length;i++){
+           l.add(json[i].seat_code.charAt(0));
+           n.add(json[i].seat_code.slice(1));
+        }
+        this.setState({code_letters: Array.from(l),code_numbers:Array.from(n)});
+        console.log("code_letters:",this.state.code_letters); // Gives proper sorted seats array
       });
     }
     
       render(){
+          if(this.state.seats.length && this.state.code_letters.length && this.state.code_numbers.length){
           return(
               <>
-              <br/>
-              <p className = "seattitle">SELECT YOUR SEATS</p>
+              <div className="page-container">
               
-              <br/>
-              <div class="container-xxl" style={{border:"10px solid black", marginLeft:"10px",marginRight:"10px",marginTop:"10px", backgroundColor:"grey"}}>
-
-                  <Row>
-                  {this.state.seats.map((seats) =>
-                  (
-                      <Col key={seats.seat_code} >
-                           <br/>
-                          {this.SeatCheck(seats.seat_code,seats.seat_status)}
-                          <br/>
+              <div><p className = "seattitle">SELECT YOUR SEATS</p></div>
+              
+              
+              <div /* class="container-fluid" */ className="btns-container" /* style={{border:"10px solid black",backgroundColor:"grey", width:"fit-content"}} */>
+              
+                  {this.state.code_letters.map((letters,index) =>
+                  ( <Row style={{flexWrap:"nowrap", width:"900px", justifyContent:"space-around"}}>
+                   
+                      {this.state.code_numbers.map((numbers)=>(
+                      <Col key={numbers} style={{paddingRight:"0px", paddingLeft:"10px"}}>
+                          <br></br>
+                          {console.log("Check: ", this.state)}
+                          {this.SeatCheck(letters+numbers,this.state.seats[index*this.state.code_numbers.length + parseInt(numbers)-1].seat_status)}
+                          
+                          
                          
                       </Col>
-                        
                       ))
+                    }
+                      </Row>
+                  ))
                    }
-                   </Row>
+                   
 
               </div>
-              <hr size='30px' color="blue"/>
+              <hr/>
+              <div>
               <p className = "screen">SCREEN HERE</p>
               <br/><br/>
               <br/><br/>
@@ -119,10 +146,15 @@ class SeatsPage extends Component{
                 this.props.history.push({pathname:`/shows/${this.state.show_id}/book`, state:{SeatsBooked:BookedSeats,show_id:this.state.show_id}});
                 
               }}>Proceed to pay</Button>
-              
+              </div>
+              </div>
               </>
 
           );
+            }
+            else{
+                return(<></>);
+            }
       }
     
 }
