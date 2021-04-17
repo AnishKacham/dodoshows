@@ -20,7 +20,7 @@ class SideBar extends Component {
       <div className="side-bar-wrapper" style={{/* position:"fixed", */height:"500px", position:"sticky", top:"68px",width:"12vw"}}>
         <Nav
           className="col-md-12 d-none d-md-block bg-dark sidebar"
-          style={{minHeight:"100vh"}}
+          style={{minHeight:"93vh"}}
           activeKey="/home"
           onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
         >

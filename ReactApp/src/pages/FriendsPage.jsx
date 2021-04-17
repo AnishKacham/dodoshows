@@ -12,7 +12,7 @@ import {
   Container,
 } from "react-bootstrap";
 import UserContext from "../contexts/userContext";
-import { IconButton,Button } from "@material-ui/core";
+import { IconButton, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SearchBar from "../components/searchBar";
 import ProfielPage from "./ProfilePage";
@@ -174,17 +174,17 @@ function FriendsPage() {
                     <SideBar />
                 </Col> */}
             <Row
-              style={{ width: "100%", marginLeft: "40px", marginTop: "20px", height:"fit-content" }}
+              style={{ width: "100%", marginLeft: "40px", marginTop: "20px", height: "fit-content" }}
             >
-              <Col xs={6} style={{padding:"0",margin:"0",height:"fit-content"}}>
+              <Col xs={6} style={{ padding: "0", margin: "0", height: "fit-content" }}>
                 <ProfielPage />
               </Col>
               <Col xs={3}>
-              {" "}
-              <div className="friend-serach-group">
-                <h6>Search for friends</h6>
-                <UserSearchDisplay />
-              </div>
+                {" "}
+                <div className="friend-serach-group">
+                  <h6>Search for friends</h6>
+                  <UserSearchDisplay />
+                </div>
               </Col>
             </Row>
             {/* <Row
@@ -198,81 +198,80 @@ function FriendsPage() {
             </Row> */}
             <Row
               style={{
-                marginTop:"20px",
+                marginTop: "60px",
                 marginLeft: "20px",
                 display: "flex",
                 justifyContent: "flex-start",
-                flexWrap:"wrap",
+                flexWrap: "wrap",
               }}
             >
               {friends.length > 0
-              ? <div className="friend-group">
-                <h6>Your Friends</h6>
-                <div className="horizontaliser">
-                {friends.map((friend) => {
-                  return (
-                    <Col key={friend.user_id} style={{ maxWidth: "20rem" }}>
-                      <PersonCard
-                        pic={friend.profile_url}
-                        personKey={friend.user_id}
-                        name={friend.username}
-                        city={friend.city_name}
-                        friendStat={2}
-                      />
-                    </Col>
-                  );
-                })}
+                ? <div className="friend-group">
+                  <h6>Your Friends</h6>
+                  <div className="horizontaliser">
+                    {friends.map((friend) => {
+                      return (
+                        <Col key={friend.user_id} style={{ maxWidth: "20rem" }}>
+                          <PersonCard
+                            pic={friend.profile_url}
+                            personKey={friend.user_id}
+                            name={friend.username}
+                            city={friend.city_name}
+                            friendStat={2}
+                          />
+                        </Col>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-              : <div/>}
-              {outgoing.length>0
-              ?<div className="friend-group">
-                <h6>Sent Requests</h6>
-                <div className="horizontaliser">
-                {outgoing.map((outgoingreq) => {
-                  return (
-                    <Col
-                      xs={3}
-                      key={outgoingreq.user_id}
-                      /* style={{ maxWidth: "20rem" }} */
-                    >
-                      <PersonCard
-                        pic={outgoingreq.profile_url}
-                        personKey={outgoingreq.user_id}
-                        name={outgoingreq.username}
-                        city={outgoingreq.city_name}
-                        friendStat={1}
-                      />
-                    </Col>
-                  );
-                })}
+                : <div />}
+              {outgoing.length > 0
+                ? <div className="friend-group">
+                  <h6>Sent Requests</h6>
+                  <div className="horizontaliser">
+                    {outgoing.map((outgoingreq) => {
+                      return (
+                        <Col
+                          key={outgoingreq.user_id}
+                          style={{ maxWidth: "20rem" }}
+                        >
+                          <PersonCard
+                            pic={outgoingreq.profile_url}
+                            personKey={outgoingreq.user_id}
+                            name={outgoingreq.username}
+                            city={outgoingreq.city_name}
+                            friendStat={1}
+                          />
+                        </Col>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-              :<div/>}
-              { incoming.length > 0 
-              ?<div className="friend-group">
-                <h6>Pending Requests</h6>
-                <div className="horizonatliser">
-                {incoming.map((incomingreq) => {
-                  return (
-                    <Col
-                      key={incomingreq.user_id}
-                      style={{ maxWidth: "20rem" }}
-                    >
-                      <PersonCard
-                        pic={incomingreq.profile_url}
-                        personKey={incomingreq.user_id}
-                        name={incomingreq.username}
-                        city={incomingreq.city_name}
-                        friendStat={3}
-                      />
-                    </Col>
-                  );
-                })}
+                : <div />}
+              {incoming.length > 0
+                ? <div className="friend-group">
+                  <h6>Pending Requests</h6>
+                  <div className="horizontaliser">
+                    {incoming.map((incomingreq) => {
+                      return (
+                        <Col
+                          key={incomingreq.user_id}
+                          style={{ maxWidth: "20rem" }}
+                        >
+                          <PersonCard
+                            pic={incomingreq.profile_url}
+                            personKey={incomingreq.user_id}
+                            name={incomingreq.username}
+                            city={incomingreq.city_name}
+                            friendStat={3}
+                          />
+                        </Col>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-              : <div/>} 
-                  {/* <Col>
+                : <div />}
+              {/* <Col>
             <PersonCard name="Kevon" status="super rixch" friendStat={0} style={{maxWidth:"20rem"}}/>
             </Col>
             <Col style={{maxWidth:"20rem"}}>
@@ -292,7 +291,7 @@ function FriendsPage() {
             </Col>
             <Col>
             <PersonCard name="Kevon" status="super rixch" friendStat={3} style={{maxWidth:"13rem"}}/>
-            </Col> */} 
+            </Col> */}
             </Row>
           </Row>
           {/* <Button variant="contained" color="primary">Material UI button?</Button> */}
