@@ -22,7 +22,6 @@ class SideBar extends Component {
           className="col-md-12 d-none d-md-block bg-dark sidebar"
           style={{minHeight:"93vh"}}
           activeKey="/home"
-          onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
         >
             <div className="sidebar-sticky"></div>
             <Nav.Item>
