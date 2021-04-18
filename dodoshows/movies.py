@@ -71,11 +71,11 @@ def getRatingsForMovie(movie_id):
         cur.execute(
             """SELECT user_id2
                 FROM friendship
-                WHERE user_id1=%s
+                WHERE user_id1=%s AND status=1
                 UNION
                 SELECT user_id1
                 FROM friendship
-                WHERE user_id2=%s""",
+                WHERE user_id2=%s AND status=1""",
             [user_id, user_id],
         )
         result["friends"] = cur.fetchall()
