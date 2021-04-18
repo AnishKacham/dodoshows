@@ -91,7 +91,7 @@ def addShow():
     for seat in seats:
         cur.execute(
             """INSERT INTO show_seat
-            VALUES (%s, %s, 0)""",
+            VALUES (%s, %s, 1)""",
             [show_id, seat["seat_code"]],
         )
     mysql.connection.commit()
